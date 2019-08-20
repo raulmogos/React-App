@@ -1,7 +1,6 @@
 import React from 'react';
 
-
-function Contacts() {
+function ContactsPage() {
   return (
     <div>
       <h1 className="ui center aligned header">
@@ -11,4 +10,4 @@ function Contacts() {
   );
 }
 
-export default Contacts;
+export default ContactsPage;
