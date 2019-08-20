@@ -1,12 +1,15 @@
+import faker from 'faker';
 import {
   generateUniqueID
 } from '../helpers/helper';
+
+const generateImage = faker.image.avatar;
 
 const data = [{
   id: generateUniqueID(),
   firstName: 'Alin',
   lastName: 'Ionescu',
-  image: 'images/profile-pics/pic1.jfif',
+  image: generateImage(),
   likes: 0,
   isChecked: false
 },
@@ -14,14 +17,14 @@ const data = [{
   id: generateUniqueID(),
   firstName: 'Leona',
   lastName: 'Sherman',
-  image: 'images/profile-pics/pic2.jfif',
+  image: generateImage(),
   likes: 0
 },
 {
   id: generateUniqueID(),
   firstName: 'Annette',
   lastName: 'Carlson',
-  image: 'images/profile-pics/pic3.jfif',
+  image: generateImage(),
   likes: 0,
   isChecked: false
 },
@@ -29,7 +32,7 @@ const data = [{
   id: generateUniqueID(),
   firstName: 'Ervin',
   lastName: 'Watkins',
-  image: 'images/profile-pics/pic4.jfif',
+  image: generateImage(),
   likes: 0,
   isChecked: false
 },
@@ -37,7 +40,7 @@ const data = [{
   id: generateUniqueID(),
   firstName: 'Philip',
   lastName: 'Pope',
-  image: 'images/profile-pics/pic5.jfif',
+  image: generateImage(),
   likes: 0,
   isChecked: false
 },
@@ -45,7 +48,7 @@ const data = [{
   id: generateUniqueID(),
   firstName: 'Viorel',
   lastName: 'Popescu',
-  image: 'images/profile-pics/pic6.jfif',
+  image: generateImage(),
   likes: 0,
   isChecked: false
 },
@@ -53,7 +56,7 @@ const data = [{
   id: generateUniqueID(),
   firstName: 'Elon',
   lastName: 'Musk',
-  image: 'images/profile-pics/pic7.jfif',
+  image: generateImage(),
   likes: 0,
   isChecked: false
 }];

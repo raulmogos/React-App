@@ -7,13 +7,14 @@ import Contact from './Contact';
 class List extends React.Component {
 
   get items() {
-    const { array } = this.props;
+    const { array, text } = this.props;
     if (!array.length) return null;
+    const isFavouriteList = text.toLowerCase().includes('favourites');
     return array.map(item => (
       <Contact
         key={item.id}
         contact={item}
-        isFavourite={true}
+        isFavourite={isFavouriteList}
       />
     ));
   }
@@ -23,7 +24,7 @@ class List extends React.Component {
     return (
       <div>
         <h1 className="ui header"> {text} </h1>
-        <div className="ui container">
+        <div className="ui segments">
           {this.items}
         </div>
       </div>

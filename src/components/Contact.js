@@ -1,8 +1,8 @@
-/* eslint-disable react/jsx-no-comment-textnodes */
 import React from 'react';
 import PropTypes from 'prop-types';
 import InLineSpinner from './InLineSpinner';
-
+import Avatar from './Avatar';
+import Button from './Button';
 
 class Contact extends React.Component {
   constructor(props) {
@@ -14,33 +14,52 @@ class Contact extends React.Component {
     const { contact } = this.props;
     this.setState({ contact });
   }
+
+  get composeFavourite() {
+    return (
+      <div>{this.isFavourite}</div>
+    );
+  }
+
+  get composeNormal() {
+    const { contact } = this.state;
+    return (
+      <div className="ui eight column stackable center aligned grid">
+        
+        <div className="column">
+          <Button customType="like" />
+        </div>
+
+        <div className="column">
+          <div className="ui olive large circular label">
+            {contact.likes}
+          </div>
+        </div>
+
+        <div className="column">
+          <Button customType="dislike" />
+        </div>
+
+        <div className="column">
+          <Avatar image={contact.image} />
+        </div>
+
+        <div className="column">
+          <div className="ui olive label "> {contact.firstName} </div>
+        </div>
+        <div className="column">
+          <div className="ui label "> {contact.lastName} </div>
+        </div>
+      </div>
+    );
+  }
   
   get desiredItems() {
     const { contact } = this.state;
-    console.log(contact);
+    const { isFavourite } = this.props;
     if (!contact) return <InLineSpinner />;
-    return (
-      <div>
-        
-        <button className="circular ui icon button" type="button">
-          <i className="icon thumbs up" />
-        </button>
-
-        <div className="ui olive large circular label">
-          {contact.likes}
-        </div>
-
-        <button className="circular ui icon button" type="button">
-          <i className="icon thumbs down" />
-        </button>
-
-        <img className="ui avatar image" alt="" />
-
-        <div className="ui olive label "> {contact.firstName} </div>
-        <div className="ui label "> {contact.lastName} </div>
-
-      </div>
-    );
+    if (isFavourite) return this.composeFavourite;
+    return this.composeNormal;
   }
 
   render() {
