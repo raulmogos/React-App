@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Avatar({ image }) {
-  return (
-    <img className="ui avatar image" src={image} alt="" />
-  );
+  return <img className="ui mini avatar image" src={image} alt="" />;
 }
 
 Avatar.propTypes = {

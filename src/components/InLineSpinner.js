@@ -1,12 +1,7 @@
 import React from 'react';
 
-
 function InLineSpinner() {
-  return (
-    <div>
-      <div className="ui active inline loader" />
-    </div>
-  );
+  return <div className="ui active inline center loader" />;
 }
 
 export default InLineSpinner;

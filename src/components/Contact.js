@@ -15,23 +15,24 @@ class Contact extends React.Component {
     this.setState({ contact });
   }
 
-  get composeFavourite() {
+  // eslint-disable-next-line class-methods-use-this
+  get getFavouriteContactFSX() {
     return (
-      <div>{this.isFavourite}</div>
+      <div>getFavouriteContactFSX</div>
     );
   }
 
-  get composeNormal() {
+  get getNormalContactJSX() {
     const { contact } = this.state;
     return (
-      <div className="ui eight column stackable center aligned grid">
+      <div className="ui eight column equal width center aligned grid">
         
         <div className="column">
           <Button customType="like" />
         </div>
 
         <div className="column">
-          <div className="ui olive large circular label">
+          <div className="ui olive big circular label">
             {contact.likes}
           </div>
         </div>
@@ -45,7 +46,7 @@ class Contact extends React.Component {
         </div>
 
         <div className="column">
-          <div className="ui olive label "> {contact.firstName} </div>
+          <div className="ui olive large label "> {contact.firstName} </div>
         </div>
         <div className="column">
           <div className="ui label "> {contact.lastName} </div>
@@ -54,34 +55,22 @@ class Contact extends React.Component {
     );
   }
   
-  get desiredItems() {
+  get getAppropriateJSX() {
     const { contact } = this.state;
     const { isFavourite } = this.props;
     if (!contact) return <InLineSpinner />;
-    if (isFavourite) return this.composeFavourite;
-    return this.composeNormal;
+    if (isFavourite) return this.getFavouriteContactFSX;
+    return this.getNormalContactJSX;
   }
 
   render() {
     return (
       <div className="ui olive segment">
-        {this.desiredItems}
+        {this.getAppropriateJSX}
       </div>
     );
   }
 }
-
-Contact.defaultProps = {
-  contact: {
-    id: 'no id',
-    firstName: 'no first name',
-    lastName: 'no last name',
-    image: 'no image',
-    likes: -1,
-    isChecked: false
-  },
-  isFavourite: false
-};
 
 Contact.propTypes = {
   contact: PropTypes.exact({
@@ -90,9 +79,9 @@ Contact.propTypes = {
     lastName: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     likes: PropTypes.number.isRequired,
-    isChecked: PropTypes.bool
-  }),
-  isFavourite: PropTypes.bool
+    isChecked: PropTypes.bool.isRequired
+  }).isRequired,
+  isFavourite: PropTypes.bool.isRequired
 };
 
 export default Contact;

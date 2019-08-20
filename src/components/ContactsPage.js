@@ -3,7 +3,6 @@ import data from '../data/data';
 import List from './List';
 import InLineSpinner from './InLineSpinner';
 
-
 class ContactsPage extends React.Component {
   constructor(props) {
     super(props);
@@ -19,16 +18,14 @@ class ContactsPage extends React.Component {
     if (!contacts.length) return <InLineSpinner />;
     return (
       <div>
-        <h1 className="ui center aligned header">
-          <div className="ui two column stackable center aligned grid">
-            <div className="column">
-              <List array={contacts} text="Contacts" />
-            </div>
-            <div className="column">
-              <List text="Favourites" />
-            </div>
+        <div className="ui two column stackable center aligned grid">
+          <div className="column">
+            <List array={contacts} text="Contacts" />
           </div>
-        </h1>
+          <div className="column">
+            <List text="Favourites" />
+          </div>
+        </div>
       </div>
     );
   }

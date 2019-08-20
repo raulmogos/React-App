@@ -1,12 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-
 import Home from './Home';
 import ContactcPage from './ContactsPage';
 import Header from './Header';
 import Menu from './Menu';
 import { NAV } from '../constants/constants';
-
 
 function App() {
   return (
