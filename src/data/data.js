@@ -9,7 +9,7 @@ const generateLastName = faker.name.lastName;
 
 const data = [];
 
-for (let i = 0; i < 17; i++) {
+for (let i = 0; i < 10; i++) {
   data.push({
     id: generateUniqueID(),
     firstName: generateFirstName(),

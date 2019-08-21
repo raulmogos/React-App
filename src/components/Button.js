@@ -17,7 +17,7 @@ class Button extends React.Component {
     this.setState({ style: configStyle.hover });
   }
 
-  onButtonFocus = () => {
+  onButtonLeave = () => {
     this.setState({ style: configStyle.standard });
   }
 
@@ -28,9 +28,10 @@ class Button extends React.Component {
       // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
       <button
         className={style}
+        style={{ margin: '0' }}
         type="button"
         onMouseOver={this.onButtonHover}
-        onMouseLeave={this.onButtonFocus}
+        onMouseLeave={this.onButtonLeave}
       >
         <i className={CUSTOM_TYPES_BUTTONS[customType]} />
       </button>
