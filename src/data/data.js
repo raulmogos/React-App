@@ -9,15 +9,19 @@ const generateLastName = faker.name.lastName;
 
 const data = [];
 
-for (let i = 0; i < 10; i++) {
-  data.push({
-    id: generateUniqueID(),
-    firstName: generateFirstName(),
-    lastName: generateLastName(),
-    image: generateImage(),
-    likes: 0,
-    isChecked: false
-  });
-}
+const ramdomData = (number) => {
+  for (let i = 0; i < number; i++) {
+    data.push({
+      id: generateUniqueID(),
+      firstName: generateFirstName(),
+      lastName: generateLastName(),
+      image: generateImage(),
+      likes: 0,
+      isChecked: false
+    });
+  }
+};
+
+ramdomData(10);
 
 export default data;

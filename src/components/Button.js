@@ -1,25 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CUSTOM_TYPES_BUTTONS } from '../constants/constants';
-
-const configStyle = {
-  standard: 'circular black ui icon button',
-  hover: 'circular olive ui icon button'
-};
+import './Button.css';
+import { CUSTOM_TYPES_BUTTONS, STYLE } from '../constants/constants';
 
 class Button extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { style: configStyle.standard };
+    this.state = { style: STYLE.BUTTON.standard };
   }
 
-  onButtonHover = () => {
-    this.setState({ style: configStyle.hover });
-  }
+  onButtonHover = () => this.setState({ style: STYLE.BUTTON.hover });
 
-  onButtonLeave = () => {
-    this.setState({ style: configStyle.standard });
-  }
+  onButtonLeave = () => this.setState({ style: STYLE.BUTTON.standard });
 
   render() {
     const { customType, onClickAction } = this.props;
@@ -27,8 +19,7 @@ class Button extends React.Component {
     return (
       // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
       <button
-        className={style}
-        style={{ margin: '0' }}
+        className={`${style} no-margin`}
         type="button"
         onMouseOver={this.onButtonHover}
         onMouseLeave={this.onButtonLeave}

@@ -1,13 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-const configStyle = {
-  true: 'check black circular icon',
-  false: 'circular icon'
-};
+import { STYLE } from '../constants/constants';
 
 function Checkbox({ isChecked, action }) {
-  return <i className={configStyle[isChecked]} onClick={action} />;
+  const style = isChecked ? STYLE.CHECKBOX.checked : STYLE.CHECKBOX.unchecked;
+  return <i className={style} onClick={action} />;
 }
 
 Checkbox.defaultProps = {

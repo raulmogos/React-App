@@ -16,9 +16,7 @@ class Contact extends React.Component {
 
   // eslint-disable-next-line class-methods-use-this
   get createFavouriteContactJSX() {
-    return (
-      <div>getFavouriteContactJSX</div>
-    );
+    return <div>getFavouriteContactJSX</div>;
   }
 
   get createNormalContactJSX() {

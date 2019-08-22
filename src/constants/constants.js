@@ -14,3 +14,14 @@ export const LIKES = {
   MAX: 15,
   MIN: 0
 };
+
+export const STYLE = {
+  BUTTON: {
+    standard: 'circular black ui icon button',
+    hover: 'circular olive ui icon button'
+  },
+  CHECKBOX: {
+    checked: 'check black circular icon',
+    unchecked: 'circular icon'
+  }
+};
