@@ -1,22 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class Checkbox extends React.Component {
+const configStyle = {
+  true: 'check black circular icon',
+  false: 'circular icon'
+};
 
-  get getAppropriateJSX() {
-    const { isChecked } = this.props;
-    if (!isChecked) return <i className="circle icon" style={{ margin: '0 auto', display: 'center' }} />;
-    return <i className="check icon" style={{ margin: '0 auto' }} />;
-  }
-
-  render() {
-    const { action } = this.props;
-    return (
-      <div className="ui olive circular label" onClick={action}>
-        {this.getAppropriateJSX}
-      </div>
-    );
-  }
+function Checkbox({ isChecked, action }) {
+  return <i className={configStyle[isChecked]} onClick={action} />;
 }
 
 Checkbox.defaultProps = {

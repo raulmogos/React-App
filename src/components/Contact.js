@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './Contact.css';
 import InLineSpinner from './InLineSpinner';
 import Avatar from './Avatar';
 import Button from './Button';
@@ -13,9 +14,9 @@ class Contact extends React.Component {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  get createFavouriteContactFSX() {
+  get createFavouriteContactJSX() {
     return (
-      <div>getFavouriteContactFSX</div>
+      <div>getFavouriteContactJSX</div>
     );
   }
 
@@ -23,7 +24,7 @@ class Contact extends React.Component {
     const { contact } = this.state;
     return (
       <div className="ui eight column equal width center aligned grid">
-        <div className="column" style={{ margin: 'auto' }}>
+        <div className="column align-middle">
           <Checkbox isChecked={contact.isChecked} action={() => this.changeIsCheckedStatus()} />
         </div>
         <div className="column"> <Button customType="like" /> </div>
@@ -32,8 +33,8 @@ class Contact extends React.Component {
         </div>
         <div className="column"> <Button customType="dislike" /> </div>
         <div className="column"> <Avatar image={contact.image} /> </div>
-        <div className="column" style={{ margin: 'auto' }}>{ contact.firstName }</div>
-        <div className="column" style={{ margin: 'auto' }}>{ contact.lastName }</div>
+        <div className="column align-middle"> { contact.firstName } </div>
+        <div className="column align-middle"> { contact.lastName } </div>
         <div className="column"> <Button customType="trash" /> </div>
       </div>
     );
@@ -43,12 +44,11 @@ class Contact extends React.Component {
     const { isFavourite } = this.props;
     const { contact } = this.state;
     if (!contact) return <InLineSpinner />;
-    if (isFavourite) return this.createFavouriteContactFSX;
+    if (isFavourite) return this.createFavouriteContactJSX;
     return this.createNormalContactJSX;
   }
 
   changeIsCheckedStatus() {
-    console.log('yas');
     this.setState((prevState) => {
       const contact = { ...prevState.contact };
       contact.isChecked = !contact.isChecked;
