@@ -9,3 +9,8 @@ export const CUSTOM_TYPES_BUTTONS = {
   trash: 'icon trash',
   standard: 'ui button'
 };
+
+export const LIKES = {
+  MAX: 15,
+  MIN: 0
+};

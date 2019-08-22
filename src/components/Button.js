@@ -22,7 +22,7 @@ class Button extends React.Component {
   }
 
   render() {
-    const { customType } = this.props;
+    const { customType, onClickAction } = this.props;
     const { style } = this.state;
     return (
       // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
@@ -32,6 +32,7 @@ class Button extends React.Component {
         type="button"
         onMouseOver={this.onButtonHover}
         onMouseLeave={this.onButtonLeave}
+        onClick={onClickAction}
       >
         <i className={CUSTOM_TYPES_BUTTONS[customType]} />
       </button>
@@ -40,11 +41,13 @@ class Button extends React.Component {
 }
 
 Button.defaultProps = {
-  customType: 'standard'
+  customType: 'standard',
+  onClickAction: null
 };
 
 Button.propTypes = {
-  customType: PropTypes.string
+  customType: PropTypes.string,
+  onClickAction: PropTypes.func
 };
 
 export default Button;

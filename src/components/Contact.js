@@ -4,6 +4,7 @@ import InLineSpinner from './InLineSpinner';
 import Avatar from './Avatar';
 import Button from './Button';
 import Checkbox from './Checkbox';
+import { LIKES } from '../constants/constants';
 
 class Contact extends React.Component {
   constructor(props) {
@@ -26,11 +27,21 @@ class Contact extends React.Component {
         <div className="column" style={{ margin: 'auto' }}>
           <Checkbox isChecked={contact.isChecked} action={() => this.changeIsCheckedStatus()} />
         </div>
-        <div className="column"> <Button customType="like" /> </div>
+        <div className="column">
+          <Button
+            customType="like"
+            onClickAction={() => this.increaseLikes()}
+          />
+        </div>
         <div className="column">
           <div className="ui olive big circular label"> {contact.likes} </div>
         </div>
-        <div className="column"> <Button customType="dislike" /> </div>
+        <div className="column">
+          <Button
+            customType="dislike"
+            onClickAction={() => this.decreaseLikes()}
+          />
+        </div>
         <div className="column"> <Avatar image={contact.image} /> </div>
         <div className="column" style={{ margin: 'auto' }}>{ contact.firstName }</div>
         <div className="column" style={{ margin: 'auto' }}>{ contact.lastName }</div>
@@ -48,10 +59,29 @@ class Contact extends React.Component {
   }
 
   changeIsCheckedStatus() {
-    console.log('yas');
     this.setState((prevState) => {
       const contact = { ...prevState.contact };
       contact.isChecked = !contact.isChecked;
+      return { contact };
+    });
+  }
+
+  increaseLikes() {
+    let { contact } = this.state;
+    if (contact.likes >= LIKES.MAX) return;
+    this.setState((prevState) => {
+      contact = { ...prevState.contact };
+      contact.likes += 1;
+      return { contact };
+    });
+  }
+
+  decreaseLikes() {
+    let { contact } = this.state;
+    if (contact.likes <= LIKES.MIN) return;
+    this.setState((prevState) => {
+      contact = { ...prevState.contact };
+      contact.likes -= 1;
       return { contact };
     });
   }
