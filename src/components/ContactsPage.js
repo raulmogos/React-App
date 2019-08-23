@@ -11,7 +11,17 @@ class ContactsPage extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ contacts: [...data] });
+    const oldData = localStorage.getItem('contacts'); 
+    if (!oldData) {
+      this.setState({ contacts: [...data] });
+    } else {
+      this.setState({ contacts: [...JSON.parse(oldData)] });
+    }
+  }
+
+  componentDidUpdate() {
+    const { contacts } = this.state;
+    localStorage.setItem('contacts', JSON.stringify(contacts));
   }
 
   get getAppropriateJSX() {
