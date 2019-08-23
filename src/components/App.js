@@ -8,7 +8,7 @@ import { NAV } from '../constants/constants';
 
 function App() {
   return (
-    <div className="ui container">
+    <div>
       <BrowserRouter>
         <div>
           <Header />
