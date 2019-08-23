@@ -2,6 +2,7 @@ import React from 'react';
 import List from './List';
 import data from '../data/data';
 import InLineSpinner from './InLineSpinner';
+import { getFavouritesList } from '../helpers/helper';
 
 class ContactsPage extends React.Component {
 
@@ -11,7 +12,7 @@ class ContactsPage extends React.Component {
   }
 
   componentDidMount() {
-    const oldData = localStorage.getItem('contacts'); 
+    const oldData = localStorage.getItem('contacts');
     if (!oldData) {
       this.setState({ contacts: [...data] });
     } else {
@@ -41,7 +42,7 @@ class ContactsPage extends React.Component {
           />
         </div>
         <div className="column">
-          <List text="Favourites" />
+          <List text="Favourites" array={getFavouritesList(contacts)} />
         </div>
       </div>
     );
@@ -55,7 +56,7 @@ class ContactsPage extends React.Component {
       return { contacts };
     });
   }
-  
+
   increaseLikes(id) {
     this.setState((prevState) => {
       const contacts = [...prevState.contacts];

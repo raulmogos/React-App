@@ -12,7 +12,17 @@ class Contact extends React.Component {
 
   // eslint-disable-next-line class-methods-use-this
   get createFavouriteContactJSX() {
-    return <div>getFavouriteContactJSX</div>;
+    const { contact } = this.props;
+    return (
+      <div className="ui eight column center aligned grid">
+        <div className="column">
+          <LikesLabel likes={contact.likes} />
+        </div>
+        <div className="column"> <Avatar image={contact.image} /> </div>
+        <div className="column align-middle"> { contact.firstName } </div>
+        <div className="column align-middle"> { contact.lastName } </div>
+      </div>
+    );
   }
 
   get createNormalContactJSX() {

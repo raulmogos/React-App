@@ -26,3 +26,5 @@ export const STYLE = {
     unchecked: 'circular icon'
   }
 };
+
+export const TOP = 3;
