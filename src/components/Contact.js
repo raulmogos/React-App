@@ -5,14 +5,10 @@ import InLineSpinner from './InLineSpinner';
 import Avatar from './Avatar';
 import Button from './Button';
 import Checkbox from './Checkbox';
+import LikesLabel from './LikesLabel';
 import { LIKES } from '../constants/constants';
 
 class Contact extends React.Component {
-  constructor(props) {
-    super(props);
-    const { contact } = this.props;
-    this.state = { contact };
-  }
 
   // eslint-disable-next-line class-methods-use-this
   get createFavouriteContactJSX() {
@@ -20,25 +16,27 @@ class Contact extends React.Component {
   }
 
   get createNormalContactJSX() {
-    const { contact } = this.state;
+    const { contact } = this.props;
     return (
       <div className="ui eight column equal width center aligned grid">
         <div className="column align-middle">
-          <Checkbox isChecked={contact.isChecked} action={() => this.changeIsCheckedStatus()} />
+          <Checkbox isChecked={contact.isChecked} action={this.changeIsCheckedStatus} />
         </div>
         <div className="column">
           <Button
             customType="like"
-            onClickAction={() => this.increaseLikes()}
+            onClickAction={this.increaseLikes}
+            isDisabled={this.isNumberLikesBiggerThanMax()}
           />
         </div>
         <div className="column">
-          <div className="ui olive big circular label"> {contact.likes} </div>
+          <LikesLabel likes={contact.likes} />
         </div>
         <div className="column">
           <Button
             customType="dislike"
-            onClickAction={() => this.decreaseLikes()}
+            onClickAction={this.decreaseLikes}
+            isDisabled={this.isNumberLikesLowerThanMin()}
           />
         </div>
         <div className="column"> <Avatar image={contact.image} /> </div>
@@ -50,39 +48,37 @@ class Contact extends React.Component {
   }
   
   get getAppropriateJSX() {
-    const { isFavourite } = this.props;
-    const { contact } = this.state;
+    const { isFavourite, contact } = this.props;
     if (!contact) return <InLineSpinner />;
     if (isFavourite) return this.createFavouriteContactJSX;
     return this.createNormalContactJSX;
   }
 
-  changeIsCheckedStatus() {
-    this.setState((prevState) => {
-      const contact = { ...prevState.contact };
-      contact.isChecked = !contact.isChecked;
-      return { contact };
-    });
+  changeIsCheckedStatus = () => {
+    const { methods, contact } = this.props;
+    methods.changeIsChecked(contact.id);
   }
 
-  increaseLikes() {
-    let { contact } = this.state;
-    if (contact.likes >= LIKES.MAX) return;
-    this.setState((prevState) => {
-      contact = { ...prevState.contact };
-      contact.likes += 1;
-      return { contact };
-    });
+  isNumberLikesBiggerThanMax = () => {
+    const { contact } = this.props;
+    return contact.likes >= LIKES.MAX;
   }
 
-  decreaseLikes() {
-    let { contact } = this.state;
-    if (contact.likes <= LIKES.MIN) return;
-    this.setState((prevState) => {
-      contact = { ...prevState.contact };
-      contact.likes -= 1;
-      return { contact };
-    });
+  increaseLikes = () => {
+    if (this.isNumberLikesBiggerThanMax()) return;
+    const { methods, contact } = this.props;
+    methods.increaseLikes(contact.id);
+  }
+
+  isNumberLikesLowerThanMin = () => {
+    const { contact } = this.props;
+    return contact.likes <= LIKES.MIN;
+  }
+
+  decreaseLikes = () => {
+    if (this.isNumberLikesLowerThanMin()) return;
+    const { methods, contact } = this.props;
+    methods.decreaseLikes(contact.id);
   }
 
   render() {
@@ -103,7 +99,12 @@ Contact.propTypes = {
     likes: PropTypes.number.isRequired,
     isChecked: PropTypes.bool.isRequired
   }).isRequired,
-  isFavourite: PropTypes.bool.isRequired
+  isFavourite: PropTypes.bool.isRequired,
+  methods: PropTypes.exact({
+    increaseLikes: PropTypes.func,
+    decreaseLikes: PropTypes.func,
+    changeIsChecked: PropTypes.func
+  }).isRequired
 };
 
 export default Contact;

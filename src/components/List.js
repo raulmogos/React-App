@@ -5,7 +5,7 @@ import Contact from './Contact';
 class List extends React.Component {
 
   get items() {
-    const { array, text } = this.props;
+    const { array, methods, text } = this.props;
     if (!array.length) return null;
     const isFavouriteList = text.toLowerCase().includes('favourites');
     return array.map(item => (
@@ -13,6 +13,7 @@ class List extends React.Component {
         key={item.id}
         contact={item}
         isFavourite={isFavouriteList}
+        methods={methods}
       />
     ));
   }
@@ -32,12 +33,25 @@ class List extends React.Component {
 
 List.defaultProps = {
   array: [],
-  text: ''
+  text: '',
+  methods: {}
 };
 
 List.propTypes = {
-  array: PropTypes.arrayOf(PropTypes.object),
-  text: PropTypes.string
+  array: PropTypes.arrayOf(PropTypes.exact({
+    id: PropTypes.string.isRequired,
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    likes: PropTypes.number.isRequired,
+    isChecked: PropTypes.bool.isRequired
+  })),
+  text: PropTypes.string,
+  methods: PropTypes.exact({
+    increaseLikes: PropTypes.func,
+    decreaseLikes: PropTypes.func,
+    changeIsChecked: PropTypes.func
+  })
 };
 
 export default List;

@@ -14,8 +14,9 @@ class Button extends React.Component {
   onButtonLeave = () => this.setState({ style: STYLE.BUTTON.standard });
 
   render() {
-    const { customType, onClickAction } = this.props;
-    const { style } = this.state;
+    const { customType, onClickAction, isDisabled } = this.props;
+    let { style } = this.state;
+    if (isDisabled) style = STYLE.BUTTON.disabled;
     return (
       // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
       <button
@@ -33,12 +34,14 @@ class Button extends React.Component {
 
 Button.defaultProps = {
   customType: 'standard',
-  onClickAction: null
+  onClickAction: null,
+  isDisabled: false
 };
 
 Button.propTypes = {
   customType: PropTypes.string,
-  onClickAction: PropTypes.func
+  onClickAction: PropTypes.func,
+  isDisabled: PropTypes.bool
 };
 
 export default Button;
