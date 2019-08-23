@@ -30,6 +30,7 @@ class Contact extends React.Component {
           <Button
             customType="like"
             onClickAction={() => this.increaseLikes()}
+            isDisabled={this.isNumberLikesBiggerThanMax()}
           />
         </div>
         <div className="column">
@@ -39,6 +40,7 @@ class Contact extends React.Component {
           <Button
             customType="dislike"
             onClickAction={() => this.decreaseLikes()}
+            isDisabled={this.isNumberLikesLowerThanMin()}
           />
         </div>
         <div className="column"> <Avatar image={contact.image} /> </div>
@@ -57,7 +59,7 @@ class Contact extends React.Component {
     return this.createNormalContactJSX;
   }
 
-  changeIsCheckedStatus() {
+  changeIsCheckedStatus = () => {
     this.setState((prevState) => {
       const contact = { ...prevState.contact };
       contact.isChecked = !contact.isChecked;
@@ -65,21 +67,29 @@ class Contact extends React.Component {
     });
   }
 
-  increaseLikes() {
-    let { contact } = this.state;
-    if (contact.likes >= LIKES.MAX) return;
+  isNumberLikesBiggerThanMax = () => {
+    const { contact } = this.state;
+    return contact.likes >= LIKES.MAX;
+  }
+
+  increaseLikes = () => {
+    if (this.isNumberLikesBiggerThanMax()) return;
     this.setState((prevState) => {
-      contact = { ...prevState.contact };
+      const contact = { ...prevState.contact };
       contact.likes += 1;
       return { contact };
     });
   }
 
-  decreaseLikes() {
-    let { contact } = this.state;
-    if (contact.likes <= LIKES.MIN) return;
+  isNumberLikesLowerThanMin = () => {
+    const { contact } = this.state;
+    return contact.likes <= LIKES.MIN;
+  }
+
+  decreaseLikes = () => {
+    if (this.isNumberLikesLowerThanMin()) return;
     this.setState((prevState) => {
-      contact = { ...prevState.contact };
+      const contact = { ...prevState.contact };
       contact.likes -= 1;
       return { contact };
     });

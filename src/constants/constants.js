@@ -18,6 +18,7 @@ export const LIKES = {
 export const STYLE = {
   BUTTON: {
     standard: 'circular black ui icon button',
+    disabled: 'circular black ui icon button disabled',
     hover: 'circular olive ui icon button'
   },
   CHECKBOX: {
