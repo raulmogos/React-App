@@ -20,13 +20,46 @@ class ContactsPage extends React.Component {
     return (
       <div className="ui two column stackable center aligned grid">
         <div className="column">
-          <List array={contacts} text="Contacts" />
+          <List
+            array={contacts}
+            text="Contacts"
+            methods={{
+              increaseLikes: id => this.increaseLikes(id),
+              decreaseLikes: id => this.decreaseLikes(id),
+              changeIsChecked: id => this.changeIsChecked(id)
+            }}
+          />
         </div>
         <div className="column">
           <List text="Favourites" />
         </div>
       </div>
     );
+  }
+
+  changeIsChecked(id) {
+    this.setState((prevState) => {
+      const contacts = [...prevState.contacts];
+      const contact = contacts.find(item => item.id === id);
+      contact.isChecked = !contact.isChecked;
+      return { contacts };
+    });
+  }
+  
+  increaseLikes(id) {
+    this.setState((prevState) => {
+      const contacts = [...prevState.contacts];
+      contacts.find(item => item.id === id).likes += 1;
+      return { contacts };
+    });
+  }
+
+  decreaseLikes(id) {
+    this.setState((prevState) => {
+      const contacts = [...prevState.contacts];
+      contacts.find(item => item.id === id).likes -= 1;
+      return { contacts };
+    });
   }
 
   render() {
