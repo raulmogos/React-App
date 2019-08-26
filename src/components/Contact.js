@@ -10,7 +10,6 @@ import { LIKES } from '../constants/constants';
 
 class Contact extends React.Component {
 
-  // eslint-disable-next-line class-methods-use-this
   get createFavouriteContactJSX() {
     const { contact } = this.props;
     return (

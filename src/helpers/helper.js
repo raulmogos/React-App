@@ -7,7 +7,6 @@ export const generateUniqueID = () => {
   return `${s4()}-${s4()}-${s4()}-${s4()}`;
 };
 
-// refactor here
 export const getFavouritesList = (array) => {
   const favourites = [...array];
   // sort by likes
@@ -21,24 +20,28 @@ export const getFavouritesList = (array) => {
     }
     favsMap[likes].push(item);
   });
-
-  let k = 1;
-  const ret = {};
+  
+  let rank = 1;
+  const auxMap = {};
   
   Object.keys(favsMap)
     .map(x => Number(x))
     .sort((a, b) => b - a)
     .forEach((item, index) => {
       if (index >= TOP) return;
-      ret[k] = favsMap[item];
-      // sort by name
-      k += 1;
+      auxMap[rank] = favsMap[item].sort((c1, c2) => {
+        const fullName1 = c1.firstName + c1.lastName;
+        const fullName2 = c2.firstName + c2.lastName;
+        if (fullName1 > fullName2) return 1;
+        return -1;
+      });
+      rank += 1;
     });
 
   let result = [];
   for (let i = 1; i <= TOP; i++) {
-    if (!Object.keys(ret).find(x => Number(x) === i)) break;
-    result = result.concat(ret[i]);
+    if (!Object.keys(auxMap).find(x => Number(x) === i)) break;
+    result = result.concat(auxMap[i]);
   }
 
   return result;
