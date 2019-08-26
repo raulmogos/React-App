@@ -1,7 +1,8 @@
 import React from 'react';
-import List from './List';
+import ContactsList from './ContactsList';
 import data from '../data/data';
 import InLineSpinner from './InLineSpinner';
+import { TITLE } from '../constants/constants';
 
 class ContactsPage extends React.Component {
 
@@ -14,56 +15,43 @@ class ContactsPage extends React.Component {
     this.setState({ contacts: [...data] });
   }
 
-  get getAppropriateJSX() {
+  changeIsChecked(id) {
+    const { contacts } = this.state;
+    const contact = contacts.find(item => item.id === id);
+    contact.isChecked = !contact.isChecked;
+    this.setState({ contacts });
+  }
+
+  updateLikes(id, step) {
+    const { contacts } = this.state;
+    contacts.find(item => item.id === id).likes += step;
+    this.setState({ contacts });
+  }
+
+  renderContactsPage() {
     const { contacts } = this.state;
     if (!contacts.length) return <InLineSpinner />;
     return (
       <div className="ui two column stackable center aligned grid">
         <div className="column">
-          <List
-            array={contacts}
-            text="Contacts"
-            methods={{
-              increaseLikes: id => this.increaseLikes(id),
-              decreaseLikes: id => this.decreaseLikes(id),
+          <ContactsList
+            contactsList={contacts}
+            title={TITLE.CONTACTS}
+            contactMethods={{
+              updateLikes: (id, step) => this.updateLikes(id, step),
               changeIsChecked: id => this.changeIsChecked(id)
             }}
           />
         </div>
         <div className="column">
-          <List text="Favourites" />
+          <ContactsList title={TITLE.FAVOURITES} />
         </div>
       </div>
     );
   }
 
-  changeIsChecked(id) {
-    this.setState((prevState) => {
-      const contacts = [...prevState.contacts];
-      const contact = contacts.find(item => item.id === id);
-      contact.isChecked = !contact.isChecked;
-      return { contacts };
-    });
-  }
-  
-  increaseLikes(id) {
-    this.setState((prevState) => {
-      const contacts = [...prevState.contacts];
-      contacts.find(item => item.id === id).likes += 1;
-      return { contacts };
-    });
-  }
-
-  decreaseLikes(id) {
-    this.setState((prevState) => {
-      const contacts = [...prevState.contacts];
-      contacts.find(item => item.id === id).likes -= 1;
-      return { contacts };
-    });
-  }
-
   render() {
-    return this.getAppropriateJSX;
+    return this.renderContactsPage();
   }
 }
 
