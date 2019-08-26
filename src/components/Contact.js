@@ -51,7 +51,12 @@ class Contact extends React.Component {
         <div className="column"> <Avatar image={contact.image} /> </div>
         <div className="column align-middle"> { contact.firstName } </div>
         <div className="column align-middle"> { contact.lastName } </div>
-        <div className="column"> <Button customType="trash" /> </div>
+        <div className="column">
+          <Button
+            customType="trash"
+            onClickAction={this.deleteContact}
+          />
+        </div>
       </div>
     );
   }
@@ -90,6 +95,11 @@ class Contact extends React.Component {
     methods.decreaseLikes(contact.id);
   }
 
+  deleteContact = () => {
+    const { methods, contact } = this.props;
+    methods.deleteContact(contact.id);
+  }
+
   render() {
     return (
       <div className="ui olive segment">
@@ -112,7 +122,8 @@ Contact.propTypes = {
   methods: PropTypes.exact({
     increaseLikes: PropTypes.func,
     decreaseLikes: PropTypes.func,
-    changeIsChecked: PropTypes.func
+    changeIsChecked: PropTypes.func,
+    deleteContact: PropTypes.func
   }).isRequired
 };
 

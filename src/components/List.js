@@ -50,7 +50,8 @@ List.propTypes = {
   methods: PropTypes.exact({
     increaseLikes: PropTypes.func,
     decreaseLikes: PropTypes.func,
-    changeIsChecked: PropTypes.func
+    changeIsChecked: PropTypes.func,
+    deleteContact: PropTypes.func
   })
 };
 

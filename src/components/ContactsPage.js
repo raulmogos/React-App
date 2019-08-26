@@ -22,6 +22,8 @@ class ContactsPage extends React.Component {
 
   componentDidUpdate() {
     const { contacts } = this.state;
+    localStorage.clear();
+    if (!contacts.length) return;
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }
 
@@ -37,7 +39,8 @@ class ContactsPage extends React.Component {
             methods={{
               increaseLikes: id => this.increaseLikes(id),
               decreaseLikes: id => this.decreaseLikes(id),
-              changeIsChecked: id => this.changeIsChecked(id)
+              changeIsChecked: id => this.changeIsChecked(id),
+              deleteContact: id => this.deleteContact(id)
             }}
           />
         </div>
@@ -69,6 +72,15 @@ class ContactsPage extends React.Component {
     this.setState((prevState) => {
       const contacts = [...prevState.contacts];
       contacts.find(item => item.id === id).likes -= 1;
+      return { contacts };
+    });
+  }
+
+  deleteContact(id) {
+    this.setState((prevState) => {
+      const contacts = [...prevState.contacts];
+      const index = contacts.findIndex(item => item.id === id);
+      contacts.splice(index, 1);
       return { contacts };
     });
   }
