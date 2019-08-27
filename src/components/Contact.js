@@ -5,26 +5,33 @@ import InLineSpinner from './InLineSpinner';
 import Avatar from './Avatar';
 import Button from './Button';
 import Checkbox from './Checkbox';
-import LikesLabel from './LikesLabel';
 import { LIKES } from '../constants/constants';
 
 class Contact extends React.Component {
-
-  get createFavouriteContactJSX() {
-    const { contact } = this.props;
-    return (
-      <div className="ui eight column center aligned grid">
-        <div className="column">
-          <LikesLabel likes={contact.likes} />
-        </div>
-        <div className="column"> <Avatar image={contact.image} /> </div>
-        <div className="column align-middle"> { contact.firstName } </div>
-        <div className="column align-middle"> { contact.lastName } </div>
-      </div>
-    );
+  
+  changeIsCheckedStatus = () => {
+    const { contactMethods, contact } = this.props;
+    contactMethods.changeIsChecked(contact.id);
+  }
+    
+  increaseLikes = () => {
+    const { contactMethods, contact } = this.props;
+    if (contact.likes >= LIKES.MAX) return;
+    contactMethods.updateLikes(contact.id, 1);
   }
 
-  get createNormalContactJSX() {
+  decreaseLikes = () => {
+    const { contactMethods, contact } = this.props;
+    if (contact.likes <= LIKES.MIN) return;
+    contactMethods.updateLikes(contact.id, -1);
+  }
+
+  deleteContact = () => {
+    const { contactMethods, contact } = this.props;
+    contactMethods.deleteContact(contact.id);
+  }
+
+  createNormalContact() {
     const { contact } = this.props;
     return (
       <div className="ui eight column equal width center aligned grid">
@@ -35,17 +42,17 @@ class Contact extends React.Component {
           <Button
             customType="like"
             onClickAction={this.increaseLikes}
-            isDisabled={this.isNumberLikesBiggerThanMax()}
+            isDisabled={contact.likes >= LIKES.MAX}
           />
         </div>
         <div className="column">
-          <LikesLabel likes={contact.likes} />
+          <div className="ui olive big circular label"> {contact.likes} </div>
         </div>
         <div className="column">
           <Button
             customType="dislike"
             onClickAction={this.decreaseLikes}
-            isDisabled={this.isNumberLikesLowerThanMin()}
+            isDisabled={contact.likes <= LIKES.MIN}
           />
         </div>
         <div className="column"> <Avatar image={contact.image} /> </div>
@@ -60,51 +67,33 @@ class Contact extends React.Component {
       </div>
     );
   }
-  
-  get getAppropriateJSX() {
-    const { isFavourite, contact } = this.props;
-    if (!contact) return <InLineSpinner />;
-    if (isFavourite) return this.createFavouriteContactJSX;
-    return this.createNormalContactJSX;
-  }
 
-  changeIsCheckedStatus = () => {
-    const { methods, contact } = this.props;
-    methods.changeIsChecked(contact.id);
-  }
-
-  isNumberLikesBiggerThanMax = () => {
+  createFavouriteContact() {
     const { contact } = this.props;
-    return contact.likes >= LIKES.MAX;
-  }
-
-  increaseLikes = () => {
-    if (this.isNumberLikesBiggerThanMax()) return;
-    const { methods, contact } = this.props;
-    methods.increaseLikes(contact.id);
-  }
-
-  isNumberLikesLowerThanMin = () => {
-    const { contact } = this.props;
-    return contact.likes <= LIKES.MIN;
-  }
-
-  decreaseLikes = () => {
-    if (this.isNumberLikesLowerThanMin()) return;
-    const { methods, contact } = this.props;
-    methods.decreaseLikes(contact.id);
-  }
-
-  deleteContact = () => {
-    const { methods, contact } = this.props;
-    methods.deleteContact(contact.id);
+    return (
+      <div className="ui eight column center aligned grid">
+        <div className="column">
+          <div className="ui olive big circular label"> {contact.likes} </div>
+        </div>
+        <div className="column"> <Avatar image={contact.image} /> </div>
+        <div className="column align-middle"> { contact.firstName } </div>
+        <div className="column align-middle"> { contact.lastName } </div>
+      </div>
+    );
   }
 
   render() {
+    const { isFavourite, contact } = this.props;
     return (
-      <div className="ui olive segment">
-        {this.getAppropriateJSX}
-      </div>
+      !contact
+        ? <InLineSpinner />
+        : (
+          <div>
+            {isFavourite
+              ? (<div className="item"> {this.createFavouriteContact()} </div>)
+              : (<div className="item"> {this.createNormalContact()} </div>)}
+          </div>
+        )
     );
   }
 }
@@ -119,11 +108,9 @@ Contact.propTypes = {
     isChecked: PropTypes.bool.isRequired
   }).isRequired,
   isFavourite: PropTypes.bool.isRequired,
-  methods: PropTypes.exact({
-    increaseLikes: PropTypes.func,
-    decreaseLikes: PropTypes.func,
-    changeIsChecked: PropTypes.func,
-    deleteContact: PropTypes.func
+  contactMethods: PropTypes.exact({
+    updateLikes: PropTypes.func,
+    changeIsChecked: PropTypes.func
   }).isRequired
 };
 
