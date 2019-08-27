@@ -51,7 +51,17 @@ class ContactsPage extends React.Component {
           </button>
         </div>
         <div className="column">
-          <List text="Favourites" array={getFavouritesList(contacts)} />
+          <List
+            text="Favourites"
+            array={getFavouritesList(contacts)}
+          />
+          <button
+            className="fluid ui button olive"
+            type="button"
+            onClick={this.clearAllContacts}
+            disabled={this.isContactWithLikes()}
+          >Clear All
+          </button>
         </div>
       </div>
     );
@@ -61,6 +71,18 @@ class ContactsPage extends React.Component {
     const { contacts } = this.state;
     const newContacts = contacts.filter(x => !x.isChecked);
     this.setState({ contacts: newContacts });
+  }
+
+  isContactWithLikes = () => {
+    const { contacts } = this.state;
+    return !contacts.some(item => item.likes);
+  };
+
+  clearAllContacts = () => {
+    const { contacts } = this.state;
+    // eslint-disable-next-line no-param-reassign
+    contacts.forEach((item) => { item.likes = 0; });
+    this.setState({ contacts });
   }
   
   numberSelecterdContacts() {
