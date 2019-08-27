@@ -47,6 +47,7 @@ class ContactsPage extends React.Component {
             className="fluid ui button olive"
             type="button"
             onClick={this.deleteSelectedContacts}
+            disabled={this.isContactSelected()}
           >Delete selected {this.numberSelecterdContacts() ? this.numberSelecterdContacts() : null}
           </button>
         </div>
@@ -55,6 +56,11 @@ class ContactsPage extends React.Component {
         </div>
       </div>
     );
+  }
+
+  isContactSelected = () => {
+    const { contacts } = this.state;
+    return !contacts.some(x => x.isChecked);
   }
 
   deleteSelectedContacts = () => {
