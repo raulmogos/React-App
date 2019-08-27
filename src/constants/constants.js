@@ -19,7 +19,7 @@ export const LIKES = {
 
 export const STYLE = {
   BUTTON: {
-    standard: '',
+    standard: 'black',
     disabled: 'disabled',
     hover: 'olive'
   },

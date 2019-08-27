@@ -23,7 +23,11 @@ class ContactsPage extends React.Component {
 
   componentDidUpdate() {
     const { contacts } = this.state;
-    localStorage.setItem('contacts', JSON.stringify(contacts));
+    if (contacts.length) {
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+    } else {
+      localStorage.clear();
+    }
   }
 
   changeIsChecked(id) {

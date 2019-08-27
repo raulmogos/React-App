@@ -19,12 +19,11 @@ class Button extends React.Component {
     return (
       // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
       <button
-        className={`circular black ui icon button ${!isDisabled && extraClass} no-margin`}
+        className={`circular ui icon button ${(isDisabled ? STYLE.BUTTON.disabled : extraClass)} no-margin`}
         type="button"
         onMouseOver={this.onButtonHover}
         onMouseLeave={this.onButtonLeave}
         onClick={onClickAction}
-        disabled={isDisabled}
       >
         <i className={CUSTOM_TYPES_BUTTONS[customType]} />
       </button>
