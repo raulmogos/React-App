@@ -10,16 +10,18 @@ export const CUSTOM_TYPES_BUTTONS = {
   standard: 'ui button'
 };
 
+export const DEFAULT_BUTTON_TYPE = 'standard';
+
 export const LIKES = {
-  MAX: 15,
+  MAX: 9,
   MIN: 0
 };
 
 export const STYLE = {
   BUTTON: {
-    standard: 'circular black ui icon button',
-    disabled: 'circular black ui icon button disabled',
-    hover: 'circular olive ui icon button'
+    standard: '',
+    disabled: 'disabled',
+    hover: 'olive'
   },
   CHECKBOX: {
     checked: 'check black circular icon',
@@ -28,3 +30,8 @@ export const STYLE = {
 };
 
 export const TOP = 3;
+
+export const TITLE = {
+  CONTACTS: 'Contacts',
+  FAVOURITES: 'Favourites',
+};
