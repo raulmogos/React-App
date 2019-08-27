@@ -43,12 +43,22 @@ class ContactsPage extends React.Component {
               deleteContact: id => this.deleteContact(id)
             }}
           />
+          <button
+            className="fluid ui button olive"
+            type="button"
+          >Delete selected {this.numberSelecterdContacts ? this.numberSelecterdContacts : null}
+          </button>
         </div>
         <div className="column">
           <List text="Favourites" array={getFavouritesList(contacts)} />
         </div>
       </div>
     );
+  }
+
+  get numberSelecterdContacts() {
+    const { contacts } = this.state;
+    return contacts.filter(x => x.isChecked).length;
   }
 
   changeIsChecked(id) {
