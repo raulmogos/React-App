@@ -46,7 +46,8 @@ class ContactsPage extends React.Component {
           <button
             className="fluid ui button olive"
             type="button"
-          >Delete selected {this.numberSelecterdContacts ? this.numberSelecterdContacts : null}
+            onClick={this.deleteSelectedContacts}
+          >Delete selected {this.numberSelecterdContacts() ? this.numberSelecterdContacts() : null}
           </button>
         </div>
         <div className="column">
@@ -56,7 +57,13 @@ class ContactsPage extends React.Component {
     );
   }
 
-  get numberSelecterdContacts() {
+  deleteSelectedContacts = () => {
+    const { contacts } = this.state;
+    const newContacts = contacts.filter(x => !x.isChecked);
+    this.setState({ contacts: newContacts });
+  }
+  
+  numberSelecterdContacts() {
     const { contacts } = this.state;
     return contacts.filter(x => x.isChecked).length;
   }
