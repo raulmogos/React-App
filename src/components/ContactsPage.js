@@ -27,31 +27,37 @@ class ContactsPage extends React.Component {
     contacts.find(item => item.id === id).likes += step;
     this.setState({ contacts });
   }
-
-  renderContactsPage() {
+  
+  renderContactsList = () => {
     const { contacts } = this.state;
-    if (!contacts.length) return <InLineSpinner />;
     return (
-      <div className="ui two column stackable center aligned grid">
-        <div className="column">
-          <ContactsList
-            contactsList={contacts}
-            title={TITLE.CONTACTS}
-            contactMethods={{
-              updateLikes: (id, step) => this.updateLikes(id, step),
-              changeIsChecked: id => this.changeIsChecked(id)
-            }}
-          />
-        </div>
-        <div className="column">
-          <ContactsList title={TITLE.FAVOURITES} />
-        </div>
-      </div>
+      <ContactsList
+        contactsList={contacts}
+        title={TITLE.CONTACTS}
+        contactMethods={{
+          updateLikes: (id, step) => this.updateLikes(id, step),
+          changeIsChecked: id => this.changeIsChecked(id)
+        }}
+      />
     );
   }
 
   render() {
-    return this.renderContactsPage();
+    const { contacts } = this.state;
+    return (
+      !contacts.length
+        ? <InLineSpinner />
+        : (
+          <div className="ui two column stackable center aligned grid">
+            <div className="column">
+              {this.renderContactsList()}
+            </div>
+            <div className="column">
+              <ContactsList title={TITLE.FAVOURITES} />
+            </div>
+          </div>
+        )
+    );
   }
 }
 

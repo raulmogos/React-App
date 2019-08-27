@@ -10,9 +10,7 @@ export const CUSTOM_TYPES_BUTTONS = {
   standard: 'ui button'
 };
 
-export const DEFAULT_TYPES = {
-  standard: 'standard'
-};
+export const DEFAULT_BUTTON_TYPE = 'standard';
 
 export const LIKES = {
   MAX: 9,

@@ -8,13 +8,25 @@ import Checkbox from './Checkbox';
 import { LIKES } from '../constants/constants';
 
 class Contact extends React.Component {
-
-  // eslint-disable-next-line class-methods-use-this
-  get createFavouriteContact() {
-    return <div>getFavouriteContactJSX</div>;
+  
+  changeIsCheckedStatus = () => {
+    const { contactMethods, contact } = this.props;
+    contactMethods.changeIsChecked(contact.id);
   }
 
-  get createNormalContact() {
+  increaseLikes = () => {
+    const { contactMethods, contact } = this.props;
+    if (contact.likes >= LIKES.MAX) return;
+    contactMethods.updateLikes(contact.id, 1);
+  }
+
+  decreaseLikes = () => {
+    const { contactMethods, contact } = this.props;
+    if (contact.likes <= LIKES.MIN) return;
+    contactMethods.updateLikes(contact.id, -1);
+  }
+
+  createNormalContact() {
     const { contact } = this.props;
     return (
       <div className="ui eight column equal width center aligned grid">
@@ -45,22 +57,10 @@ class Contact extends React.Component {
       </div>
     );
   }
-  
-  changeIsCheckedStatus = () => {
-    const { contactMethods, contact } = this.props;
-    contactMethods.changeIsChecked(contact.id);
-  }
 
-  increaseLikes = () => {
-    const { contactMethods, contact } = this.props;
-    if (contact.likes >= LIKES.MAX) return;
-    contactMethods.updateLikes(contact.id, 1);
-  }
-
-  decreaseLikes = () => {
-    const { contactMethods, contact } = this.props;
-    if (contact.likes <= LIKES.MIN) return;
-    contactMethods.updateLikes(contact.id, -1);
+  // eslint-disable-next-line class-methods-use-this
+  createFavouriteContact() {
+    return <div>getFavouriteContactJSX</div>;
   }
 
   render() {
@@ -71,8 +71,8 @@ class Contact extends React.Component {
         : (
           <div>
             {isFavourite
-              ? (<div className="item"> {this.createFavouriteContact} </div>)
-              : (<div className="item"> {this.createNormalContact} </div>)}
+              ? (<div className="item"> {this.createFavouriteContact()} </div>)
+              : (<div className="item"> {this.createNormalContact()} </div>)}
           </div>
         )
     );

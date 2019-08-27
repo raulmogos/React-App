@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Button.css';
-import { CUSTOM_TYPES_BUTTONS, STYLE, DEFAULT_TYPES } from '../constants/constants';
+import { CUSTOM_TYPES_BUTTONS, STYLE, DEFAULT_BUTTON_TYPE } from '../constants/constants';
 
 class Button extends React.Component {
   constructor(props) {
@@ -33,7 +33,7 @@ class Button extends React.Component {
 }
 
 Button.defaultProps = {
-  customType: DEFAULT_TYPES.standard,
+  customType: DEFAULT_BUTTON_TYPE,
   onClickAction: null,
   isDisabled: false
 };
