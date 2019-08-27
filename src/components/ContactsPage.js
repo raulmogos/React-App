@@ -43,22 +43,6 @@ class ContactsPage extends React.Component {
     this.setState({ contacts });
   }
 
-  increaseLikes(id) {
-    this.setState((prevState) => {
-      const contacts = [...prevState.contacts];
-      contacts.find(item => item.id === id).likes += 1;
-      return { contacts };
-    });
-  }
-
-  decreaseLikes(id) {
-    this.setState((prevState) => {
-      const contacts = [...prevState.contacts];
-      contacts.find(item => item.id === id).likes -= 1;
-      return { contacts };
-    });
-  }
-
   renderContactsList = () => {
     const { contacts } = this.state;
     return (

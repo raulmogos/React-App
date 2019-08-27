@@ -9,7 +9,6 @@ export const generateUniqueID = () => {
 
 export const getFavouritesList = (array) => {
   const favourites = [...array];
-  // sort by likes
   favourites.sort((c1, c2) => c2.likes - c1.likes);
   const favsMap = {};
   favourites.forEach((item) => {
@@ -20,10 +19,8 @@ export const getFavouritesList = (array) => {
     }
     favsMap[likes].push(item);
   });
-  
   let rank = 1;
   const auxMap = {};
-  
   Object.keys(favsMap)
     .map(x => Number(x))
     .sort((a, b) => b - a)
@@ -37,7 +34,6 @@ export const getFavouritesList = (array) => {
       });
       rank += 1;
     });
-
   let result = [];
   for (let i = 1; i <= TOP; i++) {
     if (!Object.keys(auxMap).find(x => Number(x) === i)) break;
