@@ -42,6 +42,13 @@ class ContactsPage extends React.Component {
     contacts.find(item => item.id === id).likes += step;
     this.setState({ contacts });
   }
+
+  deleteContact(id) {
+    const { contacts } = this.state;
+    const index = contacts.findIndex(item => item.id === id);
+    contacts.splice(index, 1);
+    this.setState({ contacts });
+  }
   
   renderContactsList = () => {
     const { contacts } = this.state;
@@ -51,19 +58,11 @@ class ContactsPage extends React.Component {
         title={TITLE.CONTACTS}
         contactMethods={{
           updateLikes: (id, step) => this.updateLikes(id, step),
-          changeIsChecked: id => this.changeIsChecked(id)
+          changeIsChecked: id => this.changeIsChecked(id),
+          deleteContact: id => this.deleteContact(id)
         }}
       />
     );
-  }
-
-  deleteContact(id) {
-    this.setState((prevState) => {
-      const contacts = [...prevState.contacts];
-      const index = contacts.findIndex(item => item.id === id);
-      contacts.splice(index, 1);
-      return { contacts };
-    });
   }
 
   render() {
