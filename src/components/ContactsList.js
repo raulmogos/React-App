@@ -49,7 +49,8 @@ ContactsList.propTypes = {
   title: PropTypes.string,
   contactMethods: PropTypes.exact({
     updateLikes: PropTypes.func,
-    changeIsChecked: PropTypes.func
+    changeIsChecked: PropTypes.func,
+    deleteContact: PropTypes.func
   })
 };
 
