@@ -1,9 +1,9 @@
 import faker from 'faker';
+import { generateId } from '../helpers/helper';
 
 const generateImage = faker.image.avatar;
 const generateFirstName = faker.name.firstName;
 const generateLastName = faker.name.lastName;
-const generateId = faker.random.uuid;
 
 const data = [];
 

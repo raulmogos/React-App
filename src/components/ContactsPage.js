@@ -1,7 +1,9 @@
 import React from 'react';
 import ContactsList from './ContactsList';
 import data from '../data/data';
+import { generateId } from '../helpers/helper';
 import InLineSpinner from './InLineSpinner';
+import AddContactForm from './AddContactForm';
 import { TITLE } from '../constants/constants';
 
 class ContactsPage extends React.Component {
@@ -27,6 +29,20 @@ class ContactsPage extends React.Component {
     } else {
       localStorage.clear();
     }
+  }
+  
+  addContact = (firstName, lastName, image) => {
+    const { contacts } = this.state;
+    const newContact = {
+      id: generateId(),
+      firstName,
+      lastName,
+      image,
+      likes: 0,
+      isChecked: false
+    };
+    contacts.unshift(newContact);
+    this.setState({ contacts });
   }
 
   changeIsChecked(id) {
@@ -62,12 +78,17 @@ class ContactsPage extends React.Component {
       !contacts.length
         ? <InLineSpinner />
         : (
-          <div className="ui two column stackable center aligned grid">
-            <div className="column">
-              {this.renderContactsList()}
+          <div>
+            <div className="ui two column stackable center aligned grid">
+              <div className="column">
+                {this.renderContactsList()}
+              </div>
+              <div className="column">
+                <ContactsList title={TITLE.FAVOURITES} />
+              </div>
             </div>
-            <div className="column">
-              <ContactsList title={TITLE.FAVOURITES} />
+            <div className="ui segment">
+              <AddContactForm onSubmitAction={this.addContact} />
             </div>
           </div>
         )
