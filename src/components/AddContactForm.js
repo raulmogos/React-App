@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { validateName, validateImageUrl } from '../helpers/validation';
+import './AddContactForm.css';
 
 class AddContactForm extends React.Component {
 
@@ -23,7 +24,7 @@ class AddContactForm extends React.Component {
     if (newFirstName) {
       this.setState({ firstNameError: !validateName(newFirstName) });
     } else {
-      this.setState({ lastNameError: false });
+      this.setState({ firstNameError: false });
     }
   }
 
@@ -45,13 +46,20 @@ class AddContactForm extends React.Component {
     if (newImageUrl) {
       this.setState({ imageUrlError: !validateImageUrl(newImageUrl) });
     } else {
-      this.setState({ lastNameError: false });
+      this.setState({ imageUrlError: false });
     }
   }
 
   isButtonDisabled = () => {
-    const { firstName, lastName, imageUrl } = this.state;
-    return !(firstName && lastName && imageUrl);
+    const {
+      firstName,
+      lastName,
+      imageUrl,
+      firstNameError,
+      lastNameError,
+      imageUrlError
+    } = this.state;
+    return !(firstName && lastName && imageUrl) || firstNameError || lastNameError || imageUrlError;
   }
 
   handleSubmit = () => {
@@ -72,13 +80,9 @@ class AddContactForm extends React.Component {
     } = this.state;
     return (
       <div className="ui three column grid">
-        
         <div className="thirteen wide column">
-
           <div className="ui equal width form">
-
             <div className="inline fields">
-
               <div className={`wide field ${firstNameError && 'error'}`}>
                 <label>Name</label>
                 <input
@@ -88,7 +92,6 @@ class AddContactForm extends React.Component {
                   onChange={this.onFirstNameInputChange}
                 />
               </div>
-
               <div className={`wide field ${lastNameError && 'error'}`}>
                 <input
                   type="text"
@@ -97,11 +100,8 @@ class AddContactForm extends React.Component {
                   onChange={this.onLastNameInputChange}
                 />
               </div>
-
             </div>
-
             <div className="inline fields">
-
               <div className={`wide field ${imageUrlError && 'error'}`}>
                 <label>Image</label>
                 <input
@@ -111,27 +111,19 @@ class AddContactForm extends React.Component {
                   onChange={this.onImageUrlInputChange}
                 />
               </div>
-            
             </div>
-
           </div>
-
         </div>
-
-        <div className="three wide column" style={{ textAlign: 'center' }}>
-
+        <div className="three wide column align-center">
           <button
-            className="ui submit massive button"
-            style={{ marginTop: '15px' }}
+            className="ui submit massive button margin-top"
             disabled={this.isButtonDisabled()}
             type="submit"
             onClick={this.handleSubmit}
           >
             Submit
           </button>
-
         </div>
-
       </div>
     );
   }
