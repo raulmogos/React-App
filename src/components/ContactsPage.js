@@ -2,6 +2,7 @@ import React from 'react';
 import ContactsList from './ContactsList';
 import data from '../data/data';
 import InLineSpinner from './InLineSpinner';
+import { getFavouritesList } from '../helpers/helper';
 import { TITLE } from '../constants/constants';
 
 class ContactsPage extends React.Component {
@@ -41,7 +42,7 @@ class ContactsPage extends React.Component {
     contacts.find(item => item.id === id).likes += step;
     this.setState({ contacts });
   }
-  
+
   renderContactsList = () => {
     const { contacts } = this.state;
     return (
@@ -67,7 +68,10 @@ class ContactsPage extends React.Component {
               {this.renderContactsList()}
             </div>
             <div className="column">
-              <ContactsList title={TITLE.FAVOURITES} />
+              <ContactsList
+                contactsList={getFavouritesList(contacts)}
+                title={TITLE.FAVOURITES}
+              />
             </div>
           </div>
         )
