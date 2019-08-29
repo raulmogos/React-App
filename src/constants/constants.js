@@ -33,3 +33,8 @@ export const TITLE = {
   CONTACTS: 'Contacts',
   FAVOURITES: 'Favourites',
 };
+
+export const REGEX = {
+  NAME: /^[A-Za-z0-9 ]+$/,
+  URL: /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/ // eslint-disable-line
+};

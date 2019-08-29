@@ -1,26 +1,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { validateName, validateImageUrl } from '../helpers/validation';
 
 class AddContactForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { firstName: '', lastName: '', imageUrl: '' };
+    this.state = {
+      firstName: '',
+      lastName: '',
+      imageUrl: '',
+      firstNameError: false,
+      lastNameError: false,
+      imageUrlError: false
+    };
   }
 
   onFirstNameInputChange = (event) => {
     const { target } = event;
-    this.setState({ firstName: target.value.trim() });
+    const newFirstName = target.value.trim();
+    this.setState({ firstName: newFirstName });
+    if (newFirstName) {
+      this.setState({ firstNameError: !validateName(newFirstName) });
+    } else {
+      this.setState({ lastNameError: false });
+    }
   }
 
   onLastNameInputChange = (event) => {
     const { target } = event;
-    this.setState({ lastName: target.value.trim() });
+    const newLastName = target.value.trim();
+    this.setState({ lastName: newLastName });
+    if (newLastName) {
+      this.setState({ lastNameError: !validateName(newLastName) });
+    } else {
+      this.setState({ lastNameError: false });
+    }
   }
 
   onImageUrlInputChange = (event) => {
     const { target } = event;
-    this.setState({ imageUrl: target.value.trim() });
+    const newImageUrl = target.value.trim();
+    this.setState({ imageUrl: newImageUrl });
+    if (newImageUrl) {
+      this.setState({ imageUrlError: !validateImageUrl(newImageUrl) });
+    } else {
+      this.setState({ lastNameError: false });
+    }
   }
 
   isButtonDisabled = () => {
@@ -28,16 +54,22 @@ class AddContactForm extends React.Component {
     return !(firstName && lastName && imageUrl);
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = () => {
     const { firstName, lastName, imageUrl } = this.state;
     const { onSubmitAction } = this.props;
-    event.preventDefault();
     onSubmitAction(firstName, lastName, imageUrl);
     this.setState({ firstName: '', lastName: '', imageUrl: '' });
   }
 
   render() {
-    const { firstName, lastName, imageUrl } = this.state;
+    const {
+      firstName,
+      lastName,
+      imageUrl,
+      firstNameError,
+      lastNameError,
+      imageUrlError
+    } = this.state;
     return (
       <div className="ui three column grid">
         
@@ -47,7 +79,7 @@ class AddContactForm extends React.Component {
 
             <div className="inline fields">
 
-              <div className="wide field">
+              <div className={`wide field ${firstNameError && 'error'}`}>
                 <label>Name</label>
                 <input
                   className="text"
@@ -57,7 +89,7 @@ class AddContactForm extends React.Component {
                 />
               </div>
 
-              <div className="wide field">
+              <div className={`wide field ${lastNameError && 'error'}`}>
                 <input
                   type="text"
                   placeholder="Last Name"
@@ -70,7 +102,7 @@ class AddContactForm extends React.Component {
 
             <div className="inline fields">
 
-              <div className="wide field">
+              <div className={`wide field ${imageUrlError && 'error'}`}>
                 <label>Image</label>
                 <input
                   className="text"
