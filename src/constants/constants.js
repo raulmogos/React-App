@@ -29,6 +29,8 @@ export const STYLE = {
   }
 };
 
+export const TOP = 3;
+
 export const TITLE = {
   CONTACTS: 'Contacts',
   FAVOURITES: 'Favourites',

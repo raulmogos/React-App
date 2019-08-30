@@ -1,9 +1,11 @@
 import React from 'react';
+import './ContactsPage.css';
 import ContactsList from './ContactsList';
 import data from '../data/data';
-import { generateId } from '../helpers/helper';
 import InLineSpinner from './InLineSpinner';
 import AddContactForm from './AddContactForm';
+import { getFavouritesList, generateId } from '../helpers/helper';
+import { validateName, validateImageUrl } from '../helpers/validation';
 import { TITLE } from '../constants/constants';
 
 class ContactsPage extends React.Component {
@@ -33,6 +35,9 @@ class ContactsPage extends React.Component {
   
   addContact = (firstName, lastName, image) => {
     const { contacts } = this.state;
+    if (!(validateName(firstName) && validateName(lastName) && validateImageUrl(image))) {
+      return;
+    }
     const newContact = {
       id: generateId(),
       firstName,
@@ -43,6 +48,22 @@ class ContactsPage extends React.Component {
     };
     contacts.unshift(newContact);
     this.setState({ contacts });
+  }
+
+  anyContactSelected = () => {
+    const { contacts } = this.state;
+    return contacts.some(x => x.isChecked);
+  }
+
+  deleteSelectedContacts = () => {
+    const { contacts } = this.state;
+    const updatedContacts = contacts.filter(x => !x.isChecked);
+    this.setState({ contacts: updatedContacts });
+  }
+  
+  numberOfSelectedContacts() {
+    const { contacts } = this.state;
+    return contacts.filter(x => x.isChecked).length || null;
   }
 
   changeIsChecked(id) {
@@ -57,6 +78,12 @@ class ContactsPage extends React.Component {
     contacts.find(item => item.id === id).likes += step;
     this.setState({ contacts });
   }
+
+  deleteContact(id) {
+    const { contacts } = this.state;
+    const updatedContacts = contacts.filter(c => c.id !== id);
+    this.setState({ contacts: updatedContacts });
+  }
   
   renderContactsList = () => {
     const { contacts } = this.state;
@@ -66,11 +93,24 @@ class ContactsPage extends React.Component {
         title={TITLE.CONTACTS}
         contactMethods={{
           updateLikes: (id, step) => this.updateLikes(id, step),
-          changeIsChecked: id => this.changeIsChecked(id)
+          changeIsChecked: id => this.changeIsChecked(id),
+          deleteContact: id => this.deleteContact(id)
         }}
       />
     );
   }
+
+  renderDeleteSelectedButton = () => (
+    <div className="ui segment">
+      <button
+        className="fluid ui button olive"
+        type="button"
+        onClick={this.deleteSelectedContacts}
+        disabled={!this.anyContactSelected()}
+      >Delete selected {this.numberOfSelectedContacts()}
+      </button>
+    </div>
+  );
 
   render() {
     const { contacts } = this.state;
@@ -81,16 +121,18 @@ class ContactsPage extends React.Component {
           <div>
             <div className="ui two column stackable center aligned grid">
               <div className="column">
-                {this.renderContactsList()}
+                { this.renderContactsList() }
+                { this.renderDeleteSelectedButton() }
               </div>
               <div className="column">
-                <ContactsList title={TITLE.FAVOURITES} />
+                <ContactsList
+                  title={TITLE.FAVOURITES}
+                  contactsList={getFavouritesList(contacts)}
+                />
               </div>
             </div>
-            <div className="ui container">
-              <div className="ui segment">
-                <AddContactForm onSubmitAction={this.addContact} />
-              </div>
+            <div className="ui container segment margin-bottom">
+              <AddContactForm onSubmitAction={this.addContact} />
             </div>
           </div>
         )
