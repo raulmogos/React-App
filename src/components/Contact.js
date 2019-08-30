@@ -26,6 +26,11 @@ class Contact extends React.Component {
     contactMethods.updateLikes(contact.id, -1);
   }
 
+  deleteContact = () => {
+    const { contactMethods, contact } = this.props;
+    contactMethods.deleteContact(contact.id);
+  }
+
   renderContact() {
     const { contact, isFavourite } = this.props;
     return (
@@ -60,7 +65,7 @@ class Contact extends React.Component {
         <div className="column align-middle"> { contact.firstName } </div>
         <div className="column align-middle"> { contact.lastName } </div>
         { !isFavourite && (
-          <div className="column"> <Button customType="trash" /> </div>
+          <div className="column"> <Button customType="trash" onClickAction={this.deleteContact} /> </div>
         )}
       </div>
     );
@@ -88,7 +93,8 @@ Contact.propTypes = {
   isFavourite: PropTypes.bool.isRequired,
   contactMethods: PropTypes.exact({
     updateLikes: PropTypes.func,
-    changeIsChecked: PropTypes.func
+    changeIsChecked: PropTypes.func,
+    deleteContact: PropTypes.func
   }).isRequired
 };
 
