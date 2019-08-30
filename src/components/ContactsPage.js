@@ -30,9 +30,9 @@ class ContactsPage extends React.Component {
     }
   }
 
-  isContactSelected = () => {
+  anyContactSelected = () => {
     const { contacts } = this.state;
-    return !contacts.some(x => x.isChecked);
+    return contacts.some(x => x.isChecked);
   }
 
   deleteSelectedContacts = () => {
@@ -41,9 +41,9 @@ class ContactsPage extends React.Component {
     this.setState({ contacts: updatedContacts });
   }
   
-  numberSelecterdContacts() {
+  numberSelectedContacts() {
     const { contacts } = this.state;
-    return contacts.filter(x => x.isChecked).length;
+    return contacts.filter(x => x.isChecked).length || null;
   }
 
   changeIsChecked(id) {
@@ -80,6 +80,18 @@ class ContactsPage extends React.Component {
     );
   }
 
+  renderDeleteSelectedButton = () => (
+    <div className="ui segment">
+      <button
+        className="fluid ui button olive"
+        type="button"
+        onClick={this.deleteSelectedContacts}
+        disabled={!this.anyContactSelected()}
+      >Delete selected {this.numberSelectedContacts()}
+      </button>
+    </div>
+  );
+
   render() {
     const { contacts } = this.state;
     return (
@@ -88,16 +100,8 @@ class ContactsPage extends React.Component {
         : (
           <div className="ui two column stackable center aligned grid">
             <div className="column">
-              {this.renderContactsList()}
-              <div className="ui segment">
-                <button
-                  className="fluid ui button olive"
-                  type="button"
-                  onClick={this.deleteSelectedContacts}
-                  disabled={this.isContactSelected()}
-                >Delete selected {this.numberSelecterdContacts() ? this.numberSelecterdContacts() : null}
-                </button>
-              </div>
+              { this.renderContactsList() }
+              { this.renderDeleteSelectedButton() }
             </div>
             <div className="column">
               <ContactsList
