@@ -79,9 +79,10 @@ class AddContactForm extends React.Component {
       imageUrlError
     } = this.state;
     return (
-      <div className="ui three column grid">
+      <div className="ui column grid">
         <div className="thirteen wide column">
           <div className="ui equal width form">
+            <h1 className="ui header center aligned">Add Contact</h1>
             <div className="inline fields">
               <div className={`wide field ${firstNameError && 'error'}`}>
                 <label>Name</label>
