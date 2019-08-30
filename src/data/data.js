@@ -1,18 +1,16 @@
 import faker from 'faker';
-import {
-  generateUniqueID
-} from '../helpers/helper';
 
 const generateImage = faker.image.avatar;
 const generateFirstName = faker.name.firstName;
 const generateLastName = faker.name.lastName;
+const generateId = faker.random.uuid;
 
 const data = [];
 
 const ramdomData = (number) => {
   for (let i = 0; i < number; i++) {
     data.push({
-      id: generateUniqueID(),
+      id: generateId(),
       firstName: generateFirstName(),
       lastName: generateLastName(),
       image: generateImage(),

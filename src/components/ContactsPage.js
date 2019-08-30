@@ -1,8 +1,10 @@
 import React from 'react';
-import List from './List';
+import './ContactsPage.css';
+import ContactsList from './ContactsList';
 import data from '../data/data';
 import InLineSpinner from './InLineSpinner';
 import { getFavouritesList } from '../helpers/helper';
+import { TITLE } from '../constants/constants';
 
 class ContactsPage extends React.Component {
 
@@ -22,110 +24,130 @@ class ContactsPage extends React.Component {
 
   componentDidUpdate() {
     const { contacts } = this.state;
-    localStorage.clear();
-    if (!contacts.length) return;
-    localStorage.setItem('contacts', JSON.stringify(contacts));
+    if (contacts.length) {
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+    } else {
+      localStorage.clear();
+    }
   }
 
-  get getAppropriateJSX() {
+  areContactsWithLikes = () => {
     const { contacts } = this.state;
-    if (!contacts.length) return <InLineSpinner />;
-    return (
-      <div className="ui two column stackable center aligned grid">
-        <div className="column">
-          <List
-            array={contacts}
-            text="Contacts"
-            methods={{
-              increaseLikes: id => this.increaseLikes(id),
-              decreaseLikes: id => this.decreaseLikes(id),
-              changeIsChecked: id => this.changeIsChecked(id),
-              deleteContact: id => this.deleteContact(id)
-            }}
-          />
-          <button
-            className="fluid ui button olive"
-            type="button"
-            onClick={this.deleteSelectedContacts}
-          >Delete selected {this.numberSelecterdContacts() ? this.numberSelecterdContacts() : null}
-          </button>
-        </div>
-        <div className="column">
-          <List
-            text="Favourites"
-            array={getFavouritesList(contacts)}
-          />
-          <button
-            className="fluid ui button olive"
-            type="button"
-            onClick={this.clearAllContacts}
-            disabled={this.isContactWithLikes()}
-          >Clear All
-          </button>
-        </div>
-      </div>
-    );
+    return contacts.some(item => item.likes);
+  };
+
+  clearAllContactsLikes = () => {
+    const { contacts } = this.state;
+    contacts.forEach((item) => {
+      if (item.likes) {
+        // eslint-disable-next-line no-param-reassign
+        item.likes = 0;
+      }
+    });
+    this.setState({ contacts });
+  }
+
+  anyContactSelected = () => {
+    const { contacts } = this.state;
+    return contacts.some(x => x.isChecked);
   }
 
   deleteSelectedContacts = () => {
     const { contacts } = this.state;
-    const newContacts = contacts.filter(x => !x.isChecked);
-    this.setState({ contacts: newContacts });
-  }
-
-  isContactWithLikes = () => {
-    const { contacts } = this.state;
-    return !contacts.some(item => item.likes);
-  };
-
-  clearAllContacts = () => {
-    const { contacts } = this.state;
-    // eslint-disable-next-line no-param-reassign
-    contacts.forEach((item) => { item.likes = 0; });
-    this.setState({ contacts });
+    const updatedContacts = contacts.filter(x => !x.isChecked);
+    this.setState({ contacts: updatedContacts });
   }
   
-  numberSelecterdContacts() {
+  numberOfSelectedContacts() {
     const { contacts } = this.state;
-    return contacts.filter(x => x.isChecked).length;
+    return contacts.filter(x => x.isChecked).length || null;
   }
 
   changeIsChecked(id) {
-    this.setState((prevState) => {
-      const contacts = [...prevState.contacts];
-      const contact = contacts.find(item => item.id === id);
-      contact.isChecked = !contact.isChecked;
-      return { contacts };
-    });
+    const { contacts } = this.state;
+    const contact = contacts.find(item => item.id === id);
+    contact.isChecked = !contact.isChecked;
+    this.setState({ contacts });
   }
 
-  increaseLikes(id) {
-    this.setState((prevState) => {
-      const contacts = [...prevState.contacts];
-      contacts.find(item => item.id === id).likes += 1;
-      return { contacts };
-    });
-  }
-
-  decreaseLikes(id) {
-    this.setState((prevState) => {
-      const contacts = [...prevState.contacts];
-      contacts.find(item => item.id === id).likes -= 1;
-      return { contacts };
-    });
+  updateLikes(id, step) {
+    const { contacts } = this.state;
+    contacts.find(item => item.id === id).likes += step;
+    this.setState({ contacts });
   }
 
   deleteContact(id) {
-    this.setState((prevState) => {
-      const contacts = [...prevState.contacts];
-      const index = contacts.findIndex(item => item.id === id);
-      contacts.splice(index, 1);
-      return { contacts };
-    });
+    const { contacts } = this.state;
+    const updatedContacts = contacts.filter(c => c.id !== id);
+    this.setState({ contacts: updatedContacts });
+  }
+  
+  renderContactsList = () => {
+    const { contacts } = this.state;
+    return (
+      <ContactsList
+        contactsList={contacts}
+        title={TITLE.CONTACTS}
+        contactMethods={{
+          updateLikes: (id, step) => this.updateLikes(id, step),
+          changeIsChecked: id => this.changeIsChecked(id),
+          deleteContact: id => this.deleteContact(id)
+        }}
+      />
+    );
   }
 
+  renderDeleteSelectedButton = () => (
+    <div className="ui segment">
+      <button
+        className="fluid ui button olive"
+        type="button"
+        onClick={this.deleteSelectedContacts}
+        disabled={!this.anyContactSelected()}
+      >Delete selected {this.numberOfSelectedContacts()}
+      </button>
+    </div>
+  );
+
+  renderClearAllButton = () => (
+    <div
+      className="ui segment"
+      style={{
+        width: '50%',
+        margin: 'auto',
+        marginTop: '1rem',
+      }}
+    >
+      <button
+        className="fluid ui button olive"
+        type="button"
+        onClick={this.clearAllContactsLikes}
+      >Clear All
+      </button>
+    </div>
+  )
+
   render() {
-    return this.getAppropriateJSX;
+    const { contacts } = this.state;
+    return (
+      !contacts.length
+        ? <InLineSpinner />
+        : (
+          <div className="ui two column stackable center aligned grid">
+            <div className="column">
+              { this.renderContactsList() }
+              { this.renderDeleteSelectedButton() }
+            </div>
+            <div className="column">
+              <ContactsList
+                title={TITLE.FAVOURITES}
+                contactsList={getFavouritesList(contacts)}
+              />
+              {this.areContactsWithLikes() && this.renderClearAllButton()}
+            </div>
+          </div>
+        )
+    );
   }
 }
 
