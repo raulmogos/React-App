@@ -37,8 +37,8 @@ class ContactsPage extends React.Component {
 
   deleteSelectedContacts = () => {
     const { contacts } = this.state;
-    const newContacts = contacts.filter(x => !x.isChecked);
-    this.setState({ contacts: newContacts });
+    const updatedContacts = contacts.filter(x => !x.isChecked);
+    this.setState({ contacts: updatedContacts });
   }
   
   numberSelecterdContacts() {
@@ -59,6 +59,12 @@ class ContactsPage extends React.Component {
     this.setState({ contacts });
   }
 
+  deleteContact(id) {
+    const { contacts } = this.state;
+    const updatedContacts = contacts.filter(c => c.id !== id);
+    this.setState({ contacts: updatedContacts });
+  }
+  
   renderContactsList = () => {
     const { contacts } = this.state;
     return (
@@ -72,15 +78,6 @@ class ContactsPage extends React.Component {
         }}
       />
     );
-  }
-
-  deleteContact(id) {
-    this.setState((prevState) => {
-      const contacts = [...prevState.contacts];
-      const index = contacts.findIndex(item => item.id === id);
-      contacts.splice(index, 1);
-      return { contacts };
-    });
   }
 
   render() {
@@ -104,8 +101,8 @@ class ContactsPage extends React.Component {
             </div>
             <div className="column">
               <ContactsList
-                contactsList={getFavouritesList(contacts)}
                 title={TITLE.FAVOURITES}
+                contactsList={getFavouritesList(contacts)}
               />
             </div>
           </div>
