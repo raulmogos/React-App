@@ -45,9 +45,8 @@ class ContactsPage extends React.Component {
 
   deleteContact(id) {
     const { contacts } = this.state;
-    const index = contacts.findIndex(item => item.id === id);
-    contacts.splice(index, 1);
-    this.setState({ contacts });
+    const updatedContacts = contacts.filter(c => c.id !== id);
+    this.setState({ contacts: updatedContacts });
   }
   
   renderContactsList = () => {
