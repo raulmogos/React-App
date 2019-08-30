@@ -41,7 +41,7 @@ class ContactsPage extends React.Component {
     this.setState({ contacts: updatedContacts });
   }
   
-  numberSelectedContacts() {
+  numberOfSelectedContacts() {
     const { contacts } = this.state;
     return contacts.filter(x => x.isChecked).length || null;
   }
@@ -87,7 +87,7 @@ class ContactsPage extends React.Component {
         type="button"
         onClick={this.deleteSelectedContacts}
         disabled={!this.anyContactSelected()}
-      >Delete selected {this.numberSelectedContacts()}
+      >Delete selected {this.numberOfSelectedContacts()}
       </button>
     </div>
   );
