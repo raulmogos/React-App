@@ -110,14 +110,7 @@ class ContactsPage extends React.Component {
   );
 
   renderClearAllButton = () => (
-    <div
-      className="ui segment"
-      style={{
-        width: '50%',
-        margin: 'auto',
-        marginTop: '1rem',
-      }}
-    >
+    <div className="ui segment half-button">
       <button
         className="fluid ui button olive"
         type="button"
