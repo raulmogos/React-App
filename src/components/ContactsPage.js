@@ -30,6 +30,22 @@ class ContactsPage extends React.Component {
     }
   }
 
+  anyContactSelected = () => {
+    const { contacts } = this.state;
+    return contacts.some(x => x.isChecked);
+  }
+
+  deleteSelectedContacts = () => {
+    const { contacts } = this.state;
+    const updatedContacts = contacts.filter(x => !x.isChecked);
+    this.setState({ contacts: updatedContacts });
+  }
+  
+  numberOfSelectedContacts() {
+    const { contacts } = this.state;
+    return contacts.filter(x => x.isChecked).length || null;
+  }
+
   changeIsChecked(id) {
     const { contacts } = this.state;
     const contact = contacts.find(item => item.id === id);
@@ -64,6 +80,18 @@ class ContactsPage extends React.Component {
     );
   }
 
+  renderDeleteSelectedButton = () => (
+    <div className="ui segment">
+      <button
+        className="fluid ui button olive"
+        type="button"
+        onClick={this.deleteSelectedContacts}
+        disabled={!this.anyContactSelected()}
+      >Delete selected {this.numberOfSelectedContacts()}
+      </button>
+    </div>
+  );
+
   render() {
     const { contacts } = this.state;
     return (
@@ -72,7 +100,8 @@ class ContactsPage extends React.Component {
         : (
           <div className="ui two column stackable center aligned grid">
             <div className="column">
-              {this.renderContactsList()}
+              { this.renderContactsList() }
+              { this.renderDeleteSelectedButton() }
             </div>
             <div className="column">
               <ContactsList
