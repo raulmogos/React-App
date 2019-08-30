@@ -87,8 +87,10 @@ class ContactsPage extends React.Component {
                 <ContactsList title={TITLE.FAVOURITES} />
               </div>
             </div>
-            <div className="ui segment">
-              <AddContactForm onSubmitAction={this.addContact} />
+            <div className="ui container">
+              <div className="ui segment">
+                <AddContactForm onSubmitAction={this.addContact} />
+              </div>
             </div>
           </div>
         )
