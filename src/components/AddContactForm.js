@@ -69,6 +69,27 @@ class AddContactForm extends React.Component {
     this.setState({ firstName: '', lastName: '', imageUrl: '' });
   }
 
+  renderErrorMessage() {
+    const {
+      firstNameError,
+      lastNameError,
+      imageUrlError
+    } = this.state;
+    if (firstNameError || lastNameError || imageUrlError) {
+      return (
+        <div className="ui error message">
+          <div className="header">We had some issues</div>
+          <ul className="list">
+            {firstNameError && <li>Your FIRST NAME has special characters.</li>}
+            {lastNameError && <li>Your LAST NAME has special characters.</li>}
+            {imageUrlError && <li>Your IMAGE is not an url.</li>}
+          </ul>
+        </div>
+      );
+    }
+    return null;
+  }
+
   render() {
     const {
       firstName,
@@ -81,7 +102,7 @@ class AddContactForm extends React.Component {
     return (
       <div className="ui column grid">
         <div className="thirteen wide column">
-          <div className="ui equal width form">
+          <div className="ui equal width error form">
             <h1 className="ui header center aligned">Add Contact</h1>
             <div className="inline fields">
               <div className={`wide field ${firstNameError && 'error'}`}>
@@ -113,6 +134,7 @@ class AddContactForm extends React.Component {
                 />
               </div>
             </div>
+            { this.renderErrorMessage() }
           </div>
         </div>
         <div className="three wide column align-center">
