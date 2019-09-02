@@ -36,7 +36,7 @@ class Contact extends React.Component {
     return (
       <div className="ui eight column center aligned grid">
         { !isFavourite && (
-          <div className="column align-middle">
+          <div className="left floated clomun align-middle">
             <Checkbox isChecked={contact.isChecked} action={this.changeIsCheckedStatus} />
           </div>
         )}

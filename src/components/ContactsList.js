@@ -21,10 +21,14 @@ class ContactsList extends React.Component {
   render() {
     const { title } = this.props;
     return (
-      <div>
-        <h1 className="ui header"> {title} </h1>
-        <div className="ui very relaxed list">
-          {this.getContacts()}
+      <div className="ui card" style={{ width: '100%' }}>
+        <div className="content">
+          <h1 className="ui header"> {title} </h1>
+        </div>
+        <div className="content">
+          <div className="ui very relaxed list">
+            {this.getContacts()}
+          </div>
         </div>
       </div>
     );
