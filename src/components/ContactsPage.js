@@ -38,13 +38,8 @@ class ContactsPage extends React.Component {
 
   clearAllContactsLikes = () => {
     const { contacts } = this.state;
-    contacts.forEach((item) => {
-      if (item.likes) {
-        // eslint-disable-next-line no-param-reassign
-        item.likes = 0;
-      }
-    });
-    this.setState({ contacts });
+    const updatedContacts = contacts.map(contact => ({ ...contact, likes: 0 }));
+    this.setState({ contacts: updatedContacts });
   }
 
   anyContactSelected = () => {
@@ -110,7 +105,7 @@ class ContactsPage extends React.Component {
   );
 
   renderClearAllButton = () => (
-    <div className="ui segment half-button">
+    <div className="half-button">
       <button
         className="fluid ui button olive"
         type="button"
