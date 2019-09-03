@@ -5,6 +5,7 @@ import data from '../data/data';
 import InLineSpinner from './InLineSpinner';
 import { getFavouritesList } from '../helpers/helper';
 import { TITLE } from '../constants/constants';
+import ModalPopUp from './ModalPopUp';
 
 class ContactsPage extends React.Component {
 
@@ -75,6 +76,12 @@ class ContactsPage extends React.Component {
     const { contacts } = this.state;
     const updatedContacts = contacts.filter(c => c.id !== id);
     this.setState({ contacts: updatedContacts });
+    this.renderModal();
+  }
+
+  renderModal() {
+    debugger;
+    return <ModalPopUp message="hehehe" />;
   }
   
   renderContactsList = () => {
@@ -132,6 +139,7 @@ class ContactsPage extends React.Component {
                 contactsList={getFavouritesList(contacts)}
               />
               {this.areContactsWithLikes() && this.renderClearAllButton()}
+              {/* {this.renderModal()} */}
             </div>
           </div>
         )
