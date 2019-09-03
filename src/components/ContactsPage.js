@@ -1,4 +1,5 @@
 import React from 'react';
+import './ContactsPage.css';
 import ContactsList from './ContactsList';
 import data from '../data/data';
 import InLineSpinner from './InLineSpinner';
@@ -28,6 +29,17 @@ class ContactsPage extends React.Component {
     } else {
       localStorage.clear();
     }
+  }
+
+  areContactsWithLikes = () => {
+    const { contacts } = this.state;
+    return contacts.some(item => item.likes);
+  };
+
+  clearAllContactsLikes = () => {
+    const { contacts } = this.state;
+    const updatedContacts = contacts.map(contact => ({ ...contact, likes: 0 }));
+    this.setState({ contacts: updatedContacts });
   }
 
   anyContactSelected = () => {
@@ -92,6 +104,17 @@ class ContactsPage extends React.Component {
     </div>
   );
 
+  renderClearAllButton = () => (
+    <div className="half-button">
+      <button
+        className="fluid ui button olive"
+        type="button"
+        onClick={this.clearAllContactsLikes}
+      >Clear All
+      </button>
+    </div>
+  )
+
   render() {
     const { contacts } = this.state;
     return (
@@ -108,6 +131,7 @@ class ContactsPage extends React.Component {
                 title={TITLE.FAVOURITES}
                 contactsList={getFavouritesList(contacts)}
               />
+              {this.areContactsWithLikes() && this.renderClearAllButton()}
             </div>
           </div>
         )
