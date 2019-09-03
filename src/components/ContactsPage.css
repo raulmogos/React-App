@@ -5,5 +5,8 @@
 .nice-margin {
   margin: 0 auto;
   margin-top: 2rem;
+}
+
+.margin-bottom {
   margin-bottom: 2rem;
 }

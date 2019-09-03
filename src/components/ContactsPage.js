@@ -4,7 +4,12 @@ import ContactsList from './ContactsList';
 import data from '../data/data';
 import InLineSpinner from './InLineSpinner';
 import AddContactForm from './AddContactForm';
-import { getFavouritesList, validateInput, generateId } from '../helpers/helper';
+import {
+  getFavouritesList,
+  validateInput,
+  generateId,
+  isContactUnique
+} from '../helpers/helper';
 import { TITLE, REGEX } from '../constants/constants';
 
 class ContactsPage extends React.Component {
@@ -47,6 +52,9 @@ class ContactsPage extends React.Component {
       likes: 0,
       isChecked: false
     };
+    if (!isContactUnique(contacts, newContact)) {
+      return;
+    }
     this.setState({ contacts: [newContact, ...contacts] });
   }
 
@@ -154,7 +162,7 @@ class ContactsPage extends React.Component {
                 {this.areContactsWithLikes() && this.renderClearAllButton()}
               </div>
             </div>
-            <div className="nice-margin">
+            <div className="nice-margin margin-bottom">
               <div className="ui container segment">
                 <AddContactForm onSubmitAction={this.addContact} />
               </div>
