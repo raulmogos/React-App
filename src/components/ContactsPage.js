@@ -4,9 +4,8 @@ import ContactsList from './ContactsList';
 import data from '../data/data';
 import InLineSpinner from './InLineSpinner';
 import AddContactForm from './AddContactForm';
-import { getFavouritesList, generateId } from '../helpers/helper';
-import { validateName, validateImageUrl } from '../helpers/validation';
-import { TITLE } from '../constants/constants';
+import { getFavouritesList, validateInput, generateId } from '../helpers/helper';
+import { TITLE, REGEX } from '../constants/constants';
 
 class ContactsPage extends React.Component {
 
@@ -35,7 +34,9 @@ class ContactsPage extends React.Component {
   
   addContact = (firstName, lastName, image) => {
     const { contacts } = this.state;
-    if (!(validateName(firstName) && validateName(lastName) && validateImageUrl(image))) {
+    if (!(validateInput(firstName, REGEX.NAME)
+      && validateInput(lastName, REGEX.NAME)
+      && validateInput(image, REGEX.URL))) {
       return;
     }
     const newContact = {
@@ -46,8 +47,7 @@ class ContactsPage extends React.Component {
       likes: 0,
       isChecked: false
     };
-    contacts.unshift(newContact);
-    this.setState({ contacts });
+    this.setState({ contacts: [newContact, ...contacts] });
   }
 
   anyContactSelected = () => {

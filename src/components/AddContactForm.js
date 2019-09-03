@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { validateName, validateImageUrl } from '../helpers/validation';
+import { REGEX } from '../constants/constants';
+import { validateInput } from '../helpers/helper';
 import './AddContactForm.css';
 
 class AddContactForm extends React.Component {
@@ -20,34 +21,28 @@ class AddContactForm extends React.Component {
   onFirstNameInputChange = (event) => {
     const { target } = event;
     const newFirstName = target.value.trim();
-    this.setState({ firstName: newFirstName });
-    if (newFirstName) {
-      this.setState({ firstNameError: !validateName(newFirstName) });
-    } else {
-      this.setState({ firstNameError: false });
-    }
+    this.setState({ firstName: newFirstName }, () => {
+      const { firstName } = this.state;
+      this.setState({ firstNameError: !validateInput(firstName, REGEX.NAME) });
+    });
   }
 
   onLastNameInputChange = (event) => {
     const { target } = event;
     const newLastName = target.value.trim();
-    this.setState({ lastName: newLastName });
-    if (newLastName) {
-      this.setState({ lastNameError: !validateName(newLastName) });
-    } else {
-      this.setState({ lastNameError: false });
-    }
+    this.setState({ lastName: newLastName }, () => {
+      const { lastName } = this.state;
+      this.setState({ lastNameError: !validateInput(lastName, REGEX.NAME) });
+    });
   }
 
   onImageUrlInputChange = (event) => {
     const { target } = event;
     const newImageUrl = target.value.trim();
-    this.setState({ imageUrl: newImageUrl });
-    if (newImageUrl) {
-      this.setState({ imageUrlError: !validateImageUrl(newImageUrl) });
-    } else {
-      this.setState({ imageUrlError: false });
-    }
+    this.setState({ imageUrl: newImageUrl }, () => {
+      const { imageUrl } = this.state;
+      this.setState({ imageUrlError: !validateInput(imageUrl, REGEX.URL) });
+    });
   }
 
   isButtonDisabled = () => {
@@ -106,7 +101,7 @@ class AddContactForm extends React.Component {
             <h1 className="ui header center aligned">Add Contact</h1>
             <div className="inline fields">
               <div className={`wide field ${firstNameError && 'error'}`}>
-                <label>Name</label>
+                <label>First Name</label>
                 <input
                   className="text"
                   placeholder="First Name"
@@ -115,6 +110,7 @@ class AddContactForm extends React.Component {
                 />
               </div>
               <div className={`wide field ${lastNameError && 'error'}`}>
+                <label>Last Name</label>
                 <input
                   type="text"
                   placeholder="Last Name"
@@ -137,15 +133,17 @@ class AddContactForm extends React.Component {
             { this.renderErrorMessage() }
           </div>
         </div>
-        <div className="three wide column align-center">
-          <button
-            className="ui submit massive button margin-top"
-            disabled={this.isButtonDisabled()}
-            type="submit"
-            onClick={this.handleSubmit}
-          >
-            Submit
-          </button>
+        <div className="align-center">
+          <div className="three wide column">
+            <button
+              className="ui submit massive button"
+              disabled={this.isButtonDisabled()}
+              type="submit"
+              onClick={this.handleSubmit}
+            >
+              Submit
+            </button>
+          </div>
         </div>
       </div>
     );

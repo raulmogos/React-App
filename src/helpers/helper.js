@@ -3,6 +3,8 @@ import { TOP } from '../constants/constants';
 
 export const generateId = faker.random.uuid;
 
+export const validateInput = (input, regex) => (input ? regex.test(input) : true);
+
 export const getFavouritesList = (contactsList) => {
   const favourites = [...contactsList];
   // sort by likes
