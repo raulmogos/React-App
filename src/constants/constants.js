@@ -34,9 +34,17 @@ export const TOP = 3;
 export const TITLE = {
   CONTACTS: 'Contacts',
   FAVOURITES: 'Favourites',
+  FORM: 'Add Contact'
 };
 
 export const REGEX = {
   NAME: /^[A-Za-z0-9 ]+$/,
   URL: /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/ // eslint-disable-line
+};
+
+export const MESSAGE_ERROS = {
+  title: 'We had some issues',
+  firstNameErrorMessage: 'Your FIRST NAME has special characters.',
+  lastNameErrorMessage: 'Your LAST NAME has special characters.',
+  imageUrlErrorMessage: 'Your IMAGE is not an url.'
 };

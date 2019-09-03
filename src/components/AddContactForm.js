@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { REGEX } from '../constants/constants';
+import { REGEX, MESSAGE_ERROS, TITLE } from '../constants/constants';
 import { validateInput } from '../helpers/helper';
 import './AddContactForm.css';
 
@@ -21,27 +21,27 @@ class AddContactForm extends React.Component {
   onFirstNameInputChange = (event) => {
     const { target } = event;
     const newFirstName = target.value.trim();
-    this.setState({ firstName: newFirstName }, () => {
-      const { firstName } = this.state;
-      this.setState({ firstNameError: !validateInput(firstName, REGEX.NAME) });
+    this.setState({
+      firstName: newFirstName,
+      firstNameError: !validateInput(newFirstName, REGEX.NAME)
     });
   }
 
   onLastNameInputChange = (event) => {
     const { target } = event;
     const newLastName = target.value.trim();
-    this.setState({ lastName: newLastName }, () => {
-      const { lastName } = this.state;
-      this.setState({ lastNameError: !validateInput(lastName, REGEX.NAME) });
+    this.setState({
+      lastName: newLastName,
+      lastNameError: !validateInput(newLastName, REGEX.NAME)
     });
   }
 
   onImageUrlInputChange = (event) => {
     const { target } = event;
     const newImageUrl = target.value.trim();
-    this.setState({ imageUrl: newImageUrl }, () => {
-      const { imageUrl } = this.state;
-      this.setState({ imageUrlError: !validateInput(imageUrl, REGEX.URL) });
+    this.setState({
+      imageUrl: newImageUrl,
+      imageUrlError: !validateInput(newImageUrl, REGEX.URL)
     });
   }
 
@@ -70,19 +70,19 @@ class AddContactForm extends React.Component {
       lastNameError,
       imageUrlError
     } = this.state;
-    if (firstNameError || lastNameError || imageUrlError) {
-      return (
-        <div className="ui error message">
-          <div className="header">We had some issues</div>
-          <ul className="list">
-            {firstNameError && <li>Your FIRST NAME has special characters.</li>}
-            {lastNameError && <li>Your LAST NAME has special characters.</li>}
-            {imageUrlError && <li>Your IMAGE is not an url.</li>}
-          </ul>
-        </div>
-      );
+    if (!(firstNameError || lastNameError || imageUrlError)) {
+      return null;
     }
-    return null;
+    return (
+      <div className="ui error message">
+        <div className="header">{MESSAGE_ERROS.title}</div>
+        <ul className="list">
+          {firstNameError && <li>{MESSAGE_ERROS.firstNameErrorMessage}</li>}
+          {lastNameError && <li>{MESSAGE_ERROS.lastNameErrorMessage}</li>}
+          {imageUrlError && <li>{MESSAGE_ERROS.imageUrlErrorMessage}</li>}
+        </ul>
+      </div>
+    );
   }
 
   render() {
@@ -95,15 +95,15 @@ class AddContactForm extends React.Component {
       imageUrlError
     } = this.state;
     return (
-      <div className="ui column grid">
-        <div className="thirteen wide column">
-          <div className="ui equal width error form">
-            <h1 className="ui header center aligned">Add Contact</h1>
+      <form className="ui equal width error form" onSubmit={this.handleSubmit}>
+        <div className="ui column grid">
+          <div className="thirteen wide column">
+            <h1 className="ui header center aligned">{TITLE.FORM}</h1>
             <div className="inline fields">
               <div className={`wide field ${firstNameError && 'error'}`}>
                 <label>First Name</label>
                 <input
-                  className="text"
+                  maxLength="40"
                   placeholder="First Name"
                   value={firstName}
                   onChange={this.onFirstNameInputChange}
@@ -112,7 +112,7 @@ class AddContactForm extends React.Component {
               <div className={`wide field ${lastNameError && 'error'}`}>
                 <label>Last Name</label>
                 <input
-                  type="text"
+                  maxLength="40"
                   placeholder="Last Name"
                   value={lastName}
                   onChange={this.onLastNameInputChange}
@@ -123,29 +123,27 @@ class AddContactForm extends React.Component {
               <div className={`wide field ${imageUrlError && 'error'}`}>
                 <label>Image</label>
                 <input
-                  className="text"
                   placeholder="url"
                   value={imageUrl}
                   onChange={this.onImageUrlInputChange}
                 />
               </div>
             </div>
-            { this.renderErrorMessage() }
+          </div>
+          <div className="align-center">
+            <div className="three wide column">
+              <button
+                className="ui submit massive button"
+                disabled={this.isButtonDisabled()}
+                type="submit"
+              >
+                Submit
+              </button>
+            </div>
           </div>
         </div>
-        <div className="align-center">
-          <div className="three wide column">
-            <button
-              className="ui submit massive button"
-              disabled={this.isButtonDisabled()}
-              type="submit"
-              onClick={this.handleSubmit}
-            >
-              Submit
-            </button>
-          </div>
-        </div>
-      </div>
+        {this.renderErrorMessage()}
+      </form>
     );
   }
 }
