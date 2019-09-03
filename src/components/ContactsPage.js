@@ -50,6 +50,17 @@ class ContactsPage extends React.Component {
     this.setState({ contacts: [newContact, ...contacts] });
   }
 
+  areContactsWithLikes = () => {
+    const { contacts } = this.state;
+    return contacts.some(item => item.likes);
+  };
+
+  clearAllContactsLikes = () => {
+    const { contacts } = this.state;
+    const updatedContacts = contacts.map(contact => ({ ...contact, likes: 0 }));
+    this.setState({ contacts: updatedContacts });
+  }
+
   anyContactSelected = () => {
     const { contacts } = this.state;
     return contacts.some(x => x.isChecked);
@@ -101,7 +112,7 @@ class ContactsPage extends React.Component {
   }
 
   renderDeleteSelectedButton = () => (
-    <div className="ui segment">
+    <div className="nice-margin">
       <button
         className="fluid ui button olive"
         type="button"
@@ -112,6 +123,17 @@ class ContactsPage extends React.Component {
     </div>
   );
 
+  renderClearAllButton = () => (
+    <div className="half-button nice-margin">
+      <button
+        className="fluid ui button olive"
+        type="button"
+        onClick={this.clearAllContactsLikes}
+      >Clear All
+      </button>
+    </div>
+  )
+
   render() {
     const { contacts } = this.state;
     return (
@@ -121,18 +143,21 @@ class ContactsPage extends React.Component {
           <div>
             <div className="ui two column stackable center aligned grid">
               <div className="column">
-                { this.renderContactsList() }
-                { this.renderDeleteSelectedButton() }
+                {this.renderContactsList()}
+                {this.renderDeleteSelectedButton()}
               </div>
               <div className="column">
                 <ContactsList
                   title={TITLE.FAVOURITES}
                   contactsList={getFavouritesList(contacts)}
                 />
+                {this.areContactsWithLikes() && this.renderClearAllButton()}
               </div>
             </div>
-            <div className="ui container segment margin-bottom">
-              <AddContactForm onSubmitAction={this.addContact} />
+            <div className="nice-margin">
+              <div className="ui container segment">
+                <AddContactForm onSubmitAction={this.addContact} />
+              </div>
             </div>
           </div>
         )
