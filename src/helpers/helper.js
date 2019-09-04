@@ -49,6 +49,7 @@ export const getFavouritesList = (contactsList) => {
   return result;
 };
 
-const areContactsEqual = (c1, c2) => c1.firstName + c1.lastName === c2.firstName + c2.lastName || c1.image === c2.image;
+const areContactsEqual = (c1, c2) => `${c1.firstName}${c1.lastName}` === `${c2.firstName}${c2.lastName}`
+  || c1.image === c2.image;
 
 export const isContactUnique = (contactsList, contact) => !contactsList.some(c => areContactsEqual(c, contact));

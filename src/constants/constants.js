@@ -42,9 +42,29 @@ export const REGEX = {
   URL: /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/ // eslint-disable-line
 };
 
+export const PLACEHOLDERS = {
+  FIRST_NAME: 'First Name',
+  LAST_NAME: 'Last Name',
+  URL: 'url'
+};
+
+export const LABELS = {
+  FIRST_NAME: 'First Name',
+  LAST_NAME: 'Last Name',
+  IMAGE: 'Image'
+};
+
 export const MESSAGE_ERROS = {
   title: 'We had some issues',
-  firstNameErrorMessage: 'Your FIRST NAME has special characters.',
-  lastNameErrorMessage: 'Your LAST NAME has special characters.',
-  imageUrlErrorMessage: 'Your IMAGE is not an url.'
+  firstNameErrorMessage: `Your ${LABELS.FIRST_NAME} has special characters`,
+  lastNameErrorMessage: `Your ${LABELS.LAST_NAME} has special characters.`,
+  imageUrlErrorMessage: `Your ${LABELS.IMAGE} is not an url.`
+};
+
+export const MAX_LENGTH_NAME = '40';
+
+export const GET_REGEX = {
+  firstName: REGEX.NAME,
+  lastName: REGEX.NAME,
+  imageUrl: REGEX.URL
 };

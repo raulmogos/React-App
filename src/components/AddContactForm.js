@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { REGEX, MESSAGE_ERROS, TITLE } from '../constants/constants';
+import {
+  MESSAGE_ERROS,
+  TITLE,
+  PLACEHOLDERS,
+  LABELS,
+  GET_REGEX,
+  MAX_LENGTH_NAME
+} from '../constants/constants';
 import { validateInput } from '../helpers/helper';
 import './AddContactForm.css';
 
@@ -18,30 +25,12 @@ class AddContactForm extends React.Component {
     };
   }
 
-  onFirstNameInputChange = (event) => {
+  onFormInputChange = (event, type) => {
     const { target } = event;
-    const newFirstName = target.value.trim();
+    const newInput = target.value.trim();
     this.setState({
-      firstName: newFirstName,
-      firstNameError: !validateInput(newFirstName, REGEX.NAME)
-    });
-  }
-
-  onLastNameInputChange = (event) => {
-    const { target } = event;
-    const newLastName = target.value.trim();
-    this.setState({
-      lastName: newLastName,
-      lastNameError: !validateInput(newLastName, REGEX.NAME)
-    });
-  }
-
-  onImageUrlInputChange = (event) => {
-    const { target } = event;
-    const newImageUrl = target.value.trim();
-    this.setState({
-      imageUrl: newImageUrl,
-      imageUrlError: !validateInput(newImageUrl, REGEX.URL)
+      [type]: newInput,
+      [`${type}Error`]: !validateInput(newInput, GET_REGEX[type])
     });
   }
 
@@ -101,31 +90,31 @@ class AddContactForm extends React.Component {
             <h1 className="ui header center aligned">{TITLE.FORM}</h1>
             <div className="inline fields">
               <div className={`wide field ${firstNameError && 'error'}`}>
-                <label>First Name</label>
+                <label>{LABELS.FIRST_NAME}</label>
                 <input
-                  maxLength="40"
-                  placeholder="First Name"
+                  maxLength={MAX_LENGTH_NAME}
+                  placeholder={PLACEHOLDERS.FIRST_NAME}
                   value={firstName}
-                  onChange={this.onFirstNameInputChange}
+                  onChange={e => this.onFormInputChange(e, 'firstName')}
                 />
               </div>
               <div className={`wide field ${lastNameError && 'error'}`}>
-                <label>Last Name</label>
+                <label>{LABELS.LAST_NAME}</label>
                 <input
-                  maxLength="40"
-                  placeholder="Last Name"
+                  maxLength={MAX_LENGTH_NAME}
+                  placeholder={PLACEHOLDERS.LAST_NAME}
                   value={lastName}
-                  onChange={this.onLastNameInputChange}
+                  onChange={e => this.onFormInputChange(e, 'lastName')}
                 />
               </div>
             </div>
             <div className="inline fields">
               <div className={`wide field ${imageUrlError && 'error'}`}>
-                <label>Image</label>
+                <label>{LABELS.IMAGE}</label>
                 <input
-                  placeholder="url"
+                  placeholder={PLACEHOLDERS.URL}
                   value={imageUrl}
-                  onChange={this.onImageUrlInputChange}
+                  onChange={e => this.onFormInputChange(e, 'imageUrl')}
                 />
               </div>
             </div>

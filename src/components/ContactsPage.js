@@ -120,7 +120,7 @@ class ContactsPage extends React.Component {
   }
 
   renderDeleteSelectedButton = () => (
-    <div className="nice-margin">
+    <div className="margin-top margin-bottom">
       <button
         className="fluid ui button olive"
         type="button"
@@ -132,7 +132,7 @@ class ContactsPage extends React.Component {
   );
 
   renderClearAllButton = () => (
-    <div className="half-button nice-margin">
+    <div className="margin-top margin-bottom">
       <button
         className="fluid ui button olive"
         type="button"
@@ -162,7 +162,7 @@ class ContactsPage extends React.Component {
                 {this.areContactsWithLikes() && this.renderClearAllButton()}
               </div>
             </div>
-            <div className="nice-margin margin-bottom">
+            <div className="margin-bottom">
               <div className="ui container segment">
                 <AddContactForm onSubmitAction={this.addContact} />
               </div>
