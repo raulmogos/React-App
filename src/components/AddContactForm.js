@@ -25,12 +25,13 @@ class AddContactForm extends React.Component {
     };
   }
 
-  onFormInputChange = (event, type) => {
+  onFormInputChange = (event) => {
     const { target } = event;
+    const { name } = target;
     const newInput = target.value.trim();
     this.setState({
-      [type]: newInput,
-      [`${type}Error`]: !validateInput(newInput, GET_REGEX[type])
+      [name]: newInput,
+      [`${name}Error`]: !validateInput(newInput, GET_REGEX[name])
     });
   }
 
@@ -95,7 +96,8 @@ class AddContactForm extends React.Component {
                   maxLength={MAX_LENGTH_NAME}
                   placeholder={PLACEHOLDERS.FIRST_NAME}
                   value={firstName}
-                  onChange={e => this.onFormInputChange(e, 'firstName')}
+                  name="firstName"
+                  onChange={this.onFormInputChange}
                 />
               </div>
               <div className={`wide field ${lastNameError && 'error'}`}>
@@ -104,7 +106,8 @@ class AddContactForm extends React.Component {
                   maxLength={MAX_LENGTH_NAME}
                   placeholder={PLACEHOLDERS.LAST_NAME}
                   value={lastName}
-                  onChange={e => this.onFormInputChange(e, 'lastName')}
+                  name="lastName"
+                  onChange={this.onFormInputChange}
                 />
               </div>
             </div>
@@ -114,7 +117,8 @@ class AddContactForm extends React.Component {
                 <input
                   placeholder={PLACEHOLDERS.URL}
                   value={imageUrl}
-                  onChange={e => this.onFormInputChange(e, 'imageUrl')}
+                  name="imageUrl"
+                  onChange={this.onFormInputChange}
                 />
               </div>
             </div>
