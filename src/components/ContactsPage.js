@@ -2,7 +2,6 @@ import React from 'react';
 import './ContactsPage.css';
 import ContactsList from './ContactsList';
 import data from '../data/data';
-import InLineSpinner from './InLineSpinner';
 import { getFavouritesList } from '../helpers/helper';
 import { TITLE } from '../constants/constants';
 
@@ -52,7 +51,7 @@ class ContactsPage extends React.Component {
     const updatedContacts = contacts.filter(x => !x.isChecked);
     this.setState({ contacts: updatedContacts });
   }
-  
+
   numberOfSelectedContacts() {
     const { contacts } = this.state;
     return contacts.filter(x => x.isChecked).length || null;
@@ -98,16 +97,15 @@ class ContactsPage extends React.Component {
         className="fluid ui button olive"
         type="button"
         onClick={this.deleteSelectedContacts}
-        disabled={!this.anyContactSelected()}
       >Delete selected {this.numberOfSelectedContacts()}
       </button>
     </div>
   );
 
   renderClearAllButton = () => (
-    <div className="half-button">
+    <div className="margin">
       <button
-        className="fluid ui button olive"
+        className="fluid ui button olive margin"
         type="button"
         onClick={this.clearAllContactsLikes}
       >Clear All
@@ -119,12 +117,17 @@ class ContactsPage extends React.Component {
     const { contacts } = this.state;
     return (
       !contacts.length
-        ? <InLineSpinner />
+        ? (
+          <div>
+            <h1 className="ui center aligned header">No Contacts.</h1>
+            <h3 className="ui center aligned header">Please refresh !</h3>
+          </div>
+        )
         : (
           <div className="ui two column stackable center aligned grid">
             <div className="column">
-              { this.renderContactsList() }
-              { this.renderDeleteSelectedButton() }
+              {this.renderContactsList()}
+              {this.anyContactSelected() && this.renderDeleteSelectedButton()}
             </div>
             <div className="column">
               <ContactsList
