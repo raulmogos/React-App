@@ -35,3 +35,12 @@ export const TITLE = {
   CONTACTS: 'Contacts',
   FAVOURITES: 'Favourites',
 };
+
+export const DEFAULT_IAMGE = 'https://icon-library.net/images/default-profile-icon/default-profile-icon-24.jpg';
+
+export const HEADERS = {
+  WAIT_A_SEC: 'Wait a sec ... ',
+  ARE_YOU_SURE: 'Are you sure it is not a mistake ?'
+};
+
+export const IMAGE_POPUP = 'https://i.kym-cdn.com/photos/images/newsfeed/000/320/060/c38.jpg';

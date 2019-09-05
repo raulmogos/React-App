@@ -4,12 +4,20 @@ import ContactsList from './ContactsList';
 import data from '../data/data';
 import { getFavouritesList } from '../helpers/helper';
 import { TITLE } from '../constants/constants';
+import Popup from './Popup';
 
 class ContactsPage extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { contacts: [] };
+    this.state = {
+      contacts: [],
+      popoup: {
+        showPopup: false,
+        message: '',
+        approve: null
+      }
+    };
   }
 
   componentDidMount() {
@@ -28,6 +36,10 @@ class ContactsPage extends React.Component {
     } else {
       localStorage.clear();
     }
+  }
+
+  doNotShowPopup = () => {
+    this.setState({ popoup: { showPopup: false } });
   }
 
   areContactsWithLikes = () => {
@@ -75,6 +87,19 @@ class ContactsPage extends React.Component {
     const updatedContacts = contacts.filter(c => c.id !== id);
     this.setState({ contacts: updatedContacts });
   }
+
+  deleteContactPopUp(id) {
+    this.setState({
+      popoup: {
+        showPopup: true,
+        message: 'Do you want to delete this contact ??',
+        approve: () => {
+          this.deleteContact(id);
+          this.doNotShowPopup(id);
+        }
+      }
+    });
+  }
   
   renderContactsList = () => {
     const { contacts } = this.state;
@@ -85,7 +110,7 @@ class ContactsPage extends React.Component {
         contactMethods={{
           updateLikes: (id, step) => this.updateLikes(id, step),
           changeIsChecked: id => this.changeIsChecked(id),
-          deleteContact: id => this.deleteContact(id)
+          deleteContact: id => this.deleteContactPopUp(id)
         }}
       />
     );
@@ -114,7 +139,12 @@ class ContactsPage extends React.Component {
   )
 
   render() {
-    const { contacts } = this.state;
+    const { contacts, popoup } = this.state;
+    const {
+      showPopup,
+      message,
+      approve
+    } = popoup;
     return (
       !contacts.length
         ? (
@@ -124,17 +154,25 @@ class ContactsPage extends React.Component {
           </div>
         )
         : (
-          <div className="ui two column stackable center aligned grid">
-            <div className="column">
-              {this.renderContactsList()}
-              {this.anyContactSelected() && this.renderDeleteSelectedButton()}
-            </div>
-            <div className="column">
-              <ContactsList
-                title={TITLE.FAVOURITES}
-                contactsList={getFavouritesList(contacts)}
-              />
-              {this.areContactsWithLikes() && this.renderClearAllButton()}
+          <div>
+            <Popup
+              isOpen={showPopup}
+              message={message}
+              reject={this.doNotShowPopup}
+              approve={approve}
+            />
+            <div className="ui two column stackable center aligned grid">
+              <div className="column">
+                {this.renderContactsList()}
+                {this.anyContactSelected() && this.renderDeleteSelectedButton()}
+              </div>
+              <div className="column">
+                <ContactsList
+                  title={TITLE.FAVOURITES}
+                  contactsList={getFavouritesList(contacts)}
+                />
+                {this.areContactsWithLikes() && this.renderClearAllButton()}
+              </div>
             </div>
           </div>
         )
