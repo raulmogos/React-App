@@ -2,7 +2,6 @@ import React from 'react';
 import './ContactsPage.css';
 import ContactsList from './ContactsList';
 import data from '../data/data';
-import InLineSpinner from './InLineSpinner';
 import AddContactForm from './AddContactForm';
 import Popup from './Popup';
 import {
