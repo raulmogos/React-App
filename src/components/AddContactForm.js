@@ -90,7 +90,7 @@ class AddContactForm extends React.Component {
         <div className="ui column grid">
           <div className="thirteen wide column">
             <h1 className="ui header center aligned">{TITLE.FORM}</h1>
-            <div className="inline fields">
+            <div className="fields">
               <div className={`wide field ${firstNameError && 'error'}`}>
                 <label>{LABELS.FIRST_NAME}</label>
                 <input
@@ -112,7 +112,7 @@ class AddContactForm extends React.Component {
                 />
               </div>
             </div>
-            <div className="inline fields">
+            <div className="fields">
               <div className={`wide field ${imageUrlError && 'error'}`}>
                 <label>{LABELS.IMAGE}</label>
                 <input
