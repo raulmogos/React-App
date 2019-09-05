@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './Avatar.css';
 
 function Avatar({ image }) {
-  return <img className="avatar" src={image} alt="" />;
+  return <img className="profile-pic" src={image} alt="" />;
 }
 
 Avatar.propTypes = {

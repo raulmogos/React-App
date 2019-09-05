@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Button.css';
 import { CUSTOM_TYPES_BUTTONS, STYLE, DEFAULT_BUTTON_TYPE } from '../constants/constants';
 
 class Button extends React.Component {
@@ -19,7 +18,7 @@ class Button extends React.Component {
     return (
       // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
       <button
-        className={`circular ui icon button ${(isDisabled ? STYLE.BUTTON.disabled : extraClass)} no-margin`}
+        className={`circular ui icon button ${(isDisabled ? STYLE.BUTTON.disabled : extraClass)}`}
         type="button"
         onMouseOver={this.onButtonHover}
         onMouseLeave={this.onButtonLeave}
