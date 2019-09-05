@@ -1,4 +1,9 @@
+import faker from 'faker';
 import { TOP } from '../constants/constants';
+
+export const generateId = faker.random.uuid;
+
+export const validateInput = (input, regex) => (input ? regex.test(input) : true);
 
 export const getFavouritesList = (contactsList) => {
   const favourites = [...contactsList];
@@ -43,3 +48,8 @@ export const getFavouritesList = (contactsList) => {
   }
   return result;
 };
+
+const areContactsEqual = (c1, c2) => `${c1.firstName}${c1.lastName}` === `${c2.firstName}${c2.lastName}`
+  || c1.image === c2.image;
+
+export const isContactUnique = (contactsList, contact) => !contactsList.some(c => areContactsEqual(c, contact));
