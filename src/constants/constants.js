@@ -69,7 +69,7 @@ export const GET_REGEX = {
   imageUrl: REGEX.URL
 };
 
-export const DEFAULT_IAMGE = 'https://icon-library.net/images/default-profile-icon/default-profile-icon-24.jpg';
+export const DEFAULT_IMAGE = 'https://icon-library.net/images/default-profile-icon/default-profile-icon-24.jpg';
 
 export const HEADERS = {
   WAIT_A_SEC: 'Wait a sec ... ',

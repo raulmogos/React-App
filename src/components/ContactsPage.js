@@ -26,7 +26,9 @@ class ContactsPage extends React.Component {
       popoup: {
         showPopup: false,
         message: '',
-        approveFlag: null
+        contactIdToDelete: 0,
+        popupType: null
+
       }
     };
   }
@@ -121,10 +123,8 @@ class ContactsPage extends React.Component {
       popoup: {
         showPopup: true,
         message: WARNING_MESSAGES.DELETE_ONE,
-        approveFlag: {
-          flag: APPROVE_FLAGS.DELETE_ONE,
-          contactId: id
-        }
+        popupType: APPROVE_FLAGS.DELETE_ONE,
+        contactIdToDelete: id
       }
     });
   }
@@ -134,9 +134,7 @@ class ContactsPage extends React.Component {
       popoup: {
         showPopup: true,
         message: WARNING_MESSAGES.DELETE_SELECTED,
-        approveFlag: {
-          flag: APPROVE_FLAGS.DELETE_SELECTED,
-        }
+        popupType: APPROVE_FLAGS.DELETE_SELECTED
       }
     });
   }
@@ -146,9 +144,7 @@ class ContactsPage extends React.Component {
       popoup: {
         showPopup: true,
         message: WARNING_MESSAGES.CLEAR_LIKES,
-        approveFlag: {
-          flag: APPROVE_FLAGS.CLEAR_LIKES,
-        }
+        popupType: APPROVE_FLAGS.CLEAR_LIKES
       }
     });
   }
@@ -157,8 +153,8 @@ class ContactsPage extends React.Component {
     this.setState({ popoup: { showPopup: false } });
   }
 
-  runFunctionByFlag = (approveFlag) => {
-    switch (approveFlag.flag) {
+  onPopupConfirmation = (popupType) => {
+    switch (popupType) {
       case APPROVE_FLAGS.CLEAR_LIKES:
         this.clearAllContactsLikes();
         break;
@@ -166,7 +162,8 @@ class ContactsPage extends React.Component {
         this.deleteSelectedContacts();
         break;
       case APPROVE_FLAGS.DELETE_ONE:
-        this.deleteContact(approveFlag.contactId);
+        const { popoup } = this.state;
+        this.deleteContact(popoup.contactIdToDelete);
         break;
       default:
         break;
@@ -216,7 +213,7 @@ class ContactsPage extends React.Component {
     const {
       showPopup,
       message,
-      approveFlag
+      popupType
     } = popoup;
     return (
       !contacts.length
@@ -232,7 +229,7 @@ class ContactsPage extends React.Component {
               isOpen={showPopup}
               message={message}
               reject={this.closePopUp}
-              approve={() => this.runFunctionByFlag(approveFlag)}
+              approve={() => this.onPopupConfirmation(popupType)}
             />
             <div className="ui two column stackable center aligned grid">
               <div className="column">
