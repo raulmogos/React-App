@@ -21,7 +21,7 @@ class ContactsList extends React.Component {
   render() {
     const { title } = this.props;
     return (
-      <div className="ui card" style={{ width: '100%' }}>
+      <div className="ui fluid card">
         <div className="content">
           <h1 className="ui header"> {title} </h1>
         </div>
