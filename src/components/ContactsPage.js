@@ -102,7 +102,6 @@ class ContactsPage extends React.Component {
     const { contacts } = this.state;
     const updatedContacts = contacts.filter(c => c.id !== id);
     this.setState({ contacts: updatedContacts });
-    this.renderModal();
   }
   
   renderContactsList = () => {
