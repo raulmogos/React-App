@@ -10,7 +10,12 @@ import {
   generateId,
   isContactUnique
 } from '../helpers/helper';
-import { TITLE, REGEX } from '../constants/constants';
+import {
+  TITLE,
+  REGEX,
+  WARNING_MESSAGES,
+  APPROVE_FLAGS
+} from '../constants/constants';
 
 class ContactsPage extends React.Component {
 
@@ -21,7 +26,7 @@ class ContactsPage extends React.Component {
       popoup: {
         showPopup: false,
         message: '',
-        approve: null
+        approveFlag: null
       }
     };
   }
@@ -65,10 +70,6 @@ class ContactsPage extends React.Component {
     this.setState({ contacts: [newContact, ...contacts] });
   }
 
-  doNotShowPopup = () => {
-    this.setState({ popoup: { showPopup: false } });
-  }
-
   areContactsWithLikes = () => {
     const { contacts } = this.state;
     return contacts.some(item => item.likes);
@@ -91,41 +92,86 @@ class ContactsPage extends React.Component {
     this.setState({ contacts: updatedContacts });
   }
 
-  numberOfSelectedContacts() {
+  numberOfSelectedContacts = () => {
     const { contacts } = this.state;
     return contacts.filter(x => x.isChecked).length || null;
   }
 
-  changeIsChecked(id) {
+  changeIsChecked = (id) => {
     const { contacts } = this.state;
     const contact = contacts.find(item => item.id === id);
     contact.isChecked = !contact.isChecked;
     this.setState({ contacts });
   }
 
-  updateLikes(id, step) {
+  updateLikes = (id, step) => {
     const { contacts } = this.state;
     contacts.find(item => item.id === id).likes += step;
     this.setState({ contacts });
   }
 
-  deleteContact(id) {
+  deleteContact = (id) => {
     const { contacts } = this.state;
     const updatedContacts = contacts.filter(c => c.id !== id);
     this.setState({ contacts: updatedContacts });
   }
 
-  deleteContactPopUp(id) {
+  deleteContactPopUp = (id) => {
     this.setState({
       popoup: {
         showPopup: true,
-        message: 'Do you want to delete this contact ??',
-        approve: () => {
-          this.deleteContact(id);
-          this.doNotShowPopup(id);
+        message: WARNING_MESSAGES.DELETE_ONE,
+        approveFlag: {
+          flag: APPROVE_FLAGS.DELETE_ONE,
+          contactId: id
         }
       }
     });
+  }
+
+  deleteSelectedContactsPopUp = () => {
+    this.setState({
+      popoup: {
+        showPopup: true,
+        message: WARNING_MESSAGES.DELETE_SELECTED,
+        approveFlag: {
+          flag: APPROVE_FLAGS.DELETE_SELECTED,
+        }
+      }
+    });
+  }
+
+  clearAllContactsLikesPopUp = () => {
+    this.setState({
+      popoup: {
+        showPopup: true,
+        message: WARNING_MESSAGES.CLEAR_LIKES,
+        approveFlag: {
+          flag: APPROVE_FLAGS.CLEAR_LIKES,
+        }
+      }
+    });
+  }
+  
+  closePopUp = () => {
+    this.setState({ popoup: { showPopup: false } });
+  }
+
+  runFunctionByFlag = (approveFlag) => {
+    switch (approveFlag.flag) {
+      case APPROVE_FLAGS.CLEAR_LIKES:
+        this.clearAllContactsLikes();
+        break;
+      case APPROVE_FLAGS.DELETE_SELECTED:
+        this.deleteSelectedContacts();
+        break;
+      case APPROVE_FLAGS.DELETE_ONE:
+        this.deleteContact(approveFlag.contactId);
+        break;
+      default:
+        break;
+    }
+    this.closePopUp();
   }
   
   renderContactsList = () => {
@@ -144,22 +190,22 @@ class ContactsPage extends React.Component {
   }
 
   renderDeleteSelectedButton = () => (
-    <div className="margin-top margin-bottom">
+    <div className="margin-top">
       <button
         className="fluid ui button olive"
         type="button"
-        onClick={this.deleteSelectedContacts}
+        onClick={this.deleteSelectedContactsPopUp}
       >Delete selected {this.numberOfSelectedContacts()}
       </button>
     </div>
   );
 
   renderClearAllButton = () => (
-    <div className="margin-top margin-bottom">
+    <div className="margin-top">
       <button
         className="fluid ui button olive margin"
         type="button"
-        onClick={this.clearAllContactsLikes}
+        onClick={this.clearAllContactsLikesPopUp}
       >Clear All
       </button>
     </div>
@@ -170,7 +216,7 @@ class ContactsPage extends React.Component {
     const {
       showPopup,
       message,
-      approve
+      approveFlag
     } = popoup;
     return (
       !contacts.length
@@ -185,8 +231,8 @@ class ContactsPage extends React.Component {
             <Popup
               isOpen={showPopup}
               message={message}
-              reject={this.doNotShowPopup}
-              approve={approve}
+              reject={this.closePopUp}
+              approve={() => this.runFunctionByFlag(approveFlag)}
             />
             <div className="ui two column stackable center aligned grid">
               <div className="column">
@@ -201,7 +247,7 @@ class ContactsPage extends React.Component {
                 {this.areContactsWithLikes() && this.renderClearAllButton()}
               </div>
             </div>
-            <div className="margin-bottom">
+            <div className="margin-bottom margin-top">
               <div className="ui container segment">
                 <AddContactForm onSubmitAction={this.addContact} />
               </div>

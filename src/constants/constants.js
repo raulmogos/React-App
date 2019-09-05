@@ -77,3 +77,15 @@ export const HEADERS = {
 };
 
 export const IMAGE_POPUP = 'https://i.kym-cdn.com/photos/images/newsfeed/000/320/060/c38.jpg';
+
+export const APPROVE_FLAGS = {
+  CLEAR_LIKES: 'clear likes',
+  DELETE_SELECTED: 'delete selected',
+  DELETE_ONE: 'delete one'
+};
+
+export const WARNING_MESSAGES = {
+  CLEAR_LIKES: 'Do you want to clear all these likes ?',
+  DELETE_SELECTED: 'Do you want to delete all these contacts ?',
+  DELETE_ONE: 'Do you want to delete this contact ?'
+};
