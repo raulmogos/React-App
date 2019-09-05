@@ -3,8 +3,14 @@ import './ContactsPage.css';
 import ContactsList from './ContactsList';
 import data from '../data/data';
 import InLineSpinner from './InLineSpinner';
-import { getFavouritesList } from '../helpers/helper';
-import { TITLE } from '../constants/constants';
+import AddContactForm from './AddContactForm';
+import {
+  getFavouritesList,
+  validateInput,
+  generateId,
+  isContactUnique
+} from '../helpers/helper';
+import { TITLE, REGEX } from '../constants/constants';
 
 class ContactsPage extends React.Component {
 
@@ -29,6 +35,27 @@ class ContactsPage extends React.Component {
     } else {
       localStorage.clear();
     }
+  }
+  
+  addContact = (firstName, lastName, image) => {
+    const { contacts } = this.state;
+    if (!(validateInput(firstName, REGEX.NAME)
+      && validateInput(lastName, REGEX.NAME)
+      && validateInput(image, REGEX.URL))) {
+      return;
+    }
+    const newContact = {
+      id: generateId(),
+      firstName,
+      lastName,
+      image,
+      likes: 0,
+      isChecked: false
+    };
+    if (!isContactUnique(contacts, newContact)) {
+      return;
+    }
+    this.setState({ contacts: [newContact, ...contacts] });
   }
 
   areContactsWithLikes = () => {
@@ -93,7 +120,7 @@ class ContactsPage extends React.Component {
   }
 
   renderDeleteSelectedButton = () => (
-    <div className="ui segment">
+    <div className="margin-top margin-bottom">
       <button
         className="fluid ui button olive"
         type="button"
@@ -105,7 +132,7 @@ class ContactsPage extends React.Component {
   );
 
   renderClearAllButton = () => (
-    <div className="half-button">
+    <div className="margin-top margin-bottom">
       <button
         className="fluid ui button olive"
         type="button"
@@ -121,17 +148,24 @@ class ContactsPage extends React.Component {
       !contacts.length
         ? <InLineSpinner />
         : (
-          <div className="ui two column stackable center aligned grid">
-            <div className="column">
-              { this.renderContactsList() }
-              { this.renderDeleteSelectedButton() }
+          <div>
+            <div className="ui two column stackable center aligned grid">
+              <div className="column">
+                {this.renderContactsList()}
+                {this.renderDeleteSelectedButton()}
+              </div>
+              <div className="column">
+                <ContactsList
+                  title={TITLE.FAVOURITES}
+                  contactsList={getFavouritesList(contacts)}
+                />
+                {this.areContactsWithLikes() && this.renderClearAllButton()}
+              </div>
             </div>
-            <div className="column">
-              <ContactsList
-                title={TITLE.FAVOURITES}
-                contactsList={getFavouritesList(contacts)}
-              />
-              {this.areContactsWithLikes() && this.renderClearAllButton()}
+            <div className="margin-bottom">
+              <div className="ui container segment">
+                <AddContactForm onSubmitAction={this.addContact} />
+              </div>
             </div>
           </div>
         )
