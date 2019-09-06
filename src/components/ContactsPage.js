@@ -26,7 +26,7 @@ class ContactsPage extends React.Component {
       popoup: {
         showPopup: false,
         message: '',
-        contactIdToDelete: 0,
+        contactIdToDelete: null,
         popupType: null
 
       }
@@ -118,7 +118,7 @@ class ContactsPage extends React.Component {
     this.setState({ contacts: updatedContacts });
   }
 
-  deleteContactPopUp = (id) => {
+  openDeleteContactPopUp = (id) => {
     this.setState({
       popoup: {
         showPopup: true,
@@ -129,7 +129,7 @@ class ContactsPage extends React.Component {
     });
   }
 
-  deleteSelectedContactsPopUp = () => {
+  openDeleteSelectedContactsPopUp = () => {
     this.setState({
       popoup: {
         showPopup: true,
@@ -139,7 +139,7 @@ class ContactsPage extends React.Component {
     });
   }
 
-  clearAllContactsLikesPopUp = () => {
+  openClearAllContactsLikesPopUp = () => {
     this.setState({
       popoup: {
         showPopup: true,
@@ -180,7 +180,7 @@ class ContactsPage extends React.Component {
         contactMethods={{
           updateLikes: (id, step) => this.updateLikes(id, step),
           changeIsChecked: id => this.changeIsChecked(id),
-          deleteContact: id => this.deleteContactPopUp(id)
+          deleteContact: id => this.openDeleteContactPopUp(id)
         }}
       />
     );
@@ -191,7 +191,7 @@ class ContactsPage extends React.Component {
       <button
         className="fluid ui button olive"
         type="button"
-        onClick={this.deleteSelectedContactsPopUp}
+        onClick={this.openDeleteSelectedContactsPopUp}
       >Delete selected {this.numberOfSelectedContacts()}
       </button>
     </div>
@@ -202,7 +202,7 @@ class ContactsPage extends React.Component {
       <button
         className="fluid ui button olive margin"
         type="button"
-        onClick={this.clearAllContactsLikesPopUp}
+        onClick={this.openClearAllContactsLikesPopUp}
       >Clear All
       </button>
     </div>
