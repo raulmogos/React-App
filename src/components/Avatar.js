@@ -6,7 +6,7 @@ import { DEFAULT_IMAGE } from '../constants/constants';
 function Avatar({ image }) {
   return (
     <img
-      className="avatar"
+      className="profile-pic"
       src={image}
       alt=""
       // eslint-disable-next-line no-param-reassign
