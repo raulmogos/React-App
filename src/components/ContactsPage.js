@@ -1,7 +1,7 @@
 import React from 'react';
 import './ContactsPage.css';
 import ContactsList from './ContactsList';
-import data from '../data/data';
+// import data from '../data/data';
 import AddContactForm from './AddContactForm';
 import Popup from './Popup';
 import {
@@ -34,12 +34,12 @@ class ContactsPage extends React.Component {
   }
 
   componentDidMount() {
-    const oldData = localStorage.getItem('contacts');
-    if (!oldData) {
-      this.setState({ contacts: [...data] });
-    } else {
-      this.setState({ contacts: [...JSON.parse(oldData)] });
-    }
+    // const oldData = localStorage.getItem('contacts');
+    // if (!oldData) {
+    //   this.setState({ contacts: [...data] });
+    // } else {
+    //   this.setState({ contacts: [...JSON.parse(oldData)] });
+    // }
   }
 
   componentDidUpdate() {
@@ -171,20 +171,16 @@ class ContactsPage extends React.Component {
     this.closePopUp();
   }
   
-  renderContactsList = () => {
-    const { contacts } = this.state;
-    return (
-      <ContactsList
-        contactsList={contacts}
-        title={TITLE.CONTACTS}
-        contactMethods={{
-          updateLikes: (id, step) => this.updateLikes(id, step),
-          changeIsChecked: id => this.changeIsChecked(id),
-          deleteContact: id => this.openDeleteContactPopUp(id)
-        }}
-      />
-    );
-  }
+  renderContactsList = () => (
+    <ContactsList
+      title={TITLE.CONTACTS}
+      contactMethods={{
+        updateLikes: (id, step) => this.updateLikes(id, step),
+        changeIsChecked: id => this.changeIsChecked(id),
+        deleteContact: id => this.openDeleteContactPopUp(id)
+      }}
+    />
+  );
 
   renderDeleteSelectedButton = () => (
     <div className="margin-top">
@@ -209,14 +205,14 @@ class ContactsPage extends React.Component {
   )
 
   render() {
-    const { contacts, popoup } = this.state;
+    const { popoup } = this.state;
     const {
       showPopup,
       message,
       popupType
     } = popoup;
     return (
-      !contacts.length
+      false
         ? (
           <div>
             <h1 className="ui center aligned header">No Contacts.</h1>
@@ -239,7 +235,7 @@ class ContactsPage extends React.Component {
               <div className="column">
                 <ContactsList
                   title={TITLE.FAVOURITES}
-                  contactsList={getFavouritesList(contacts)}
+                  areFavourites={true}
                 />
                 {this.areContactsWithLikes() && this.renderClearAllButton()}
               </div>

@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
+import contactsReducer from './contactsReducer';
 
 export default combineReducers({
-  replaceMe: () => 'to do'
+  contacts: contactsReducer
 });
