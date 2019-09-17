@@ -14,7 +14,7 @@ const ramdomData = (number) => {
       firstName: generateFirstName(),
       lastName: generateLastName(),
       image: generateImage(),
-      likes: 0,
+      likes: Math.floor(Math.random() * 10),
       isChecked: false
     });
   }

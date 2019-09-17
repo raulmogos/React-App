@@ -6,15 +6,17 @@ class ContactsList extends React.Component {
 
   componentDidMount() {
     // eslint-disable-next-line no-shadow
-    const { areFavourites, fetchContacts } = this.props;
-    if (areFavourites) {
+    const { areFavourites, fetchContacts, fetchFavourites } = this.props;
+    if (!areFavourites) {
       fetchContacts();
+    } else {
+      fetchFavourites();
     }
   }
 
   getContacts = () => {
-    const { contacts, areFavourites } = this.props;
-    const contactsList = !areFavourites ? Object.values(contacts) : [];
+    const { contacts, areFavourites, favourites } = this.props;
+    const contactsList = !areFavourites ? Object.values(contacts) : [...favourites];
     if (!contactsList.length) return null;
     return contactsList.map(item => (
       <Contact
@@ -44,6 +46,7 @@ class ContactsList extends React.Component {
 
 ContactsList.defaultProps = {
   contacts: {},
+  favourites: [],
   title: '',
   areFavourites: false
 };
@@ -57,9 +60,18 @@ ContactsList.propTypes = {
     likes: PropTypes.number.isRequired,
     isChecked: PropTypes.bool.isRequired
   })),
+  favourites: PropTypes.arrayOf(PropTypes.exact({
+    id: PropTypes.string.isRequired,
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    likes: PropTypes.number.isRequired,
+    isChecked: PropTypes.bool.isRequired
+  })),
   title: PropTypes.string,
   areFavourites: PropTypes.bool,
-  fetchContacts: PropTypes.func.isRequired
+  fetchContacts: PropTypes.func.isRequired,
+  fetchFavourites: PropTypes.func.isRequired
 };
 
 export default ContactsList;

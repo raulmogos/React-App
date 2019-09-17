@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
-import { fetchContacts } from '../../actions';
+import { fetchContacts, fetchFavourites } from '../../actions';
 import ContactsList from './ContactsList';
 
 function mapStateToProps(state) {
   return {
-    contacts: state.contacts
+    contacts: state.data.contacts,
+    favourites: state.data.favourites
   };
 }
 
-export default connect(mapStateToProps, { fetchContacts })(ContactsList);
+export default connect(mapStateToProps, { fetchContacts, fetchFavourites })(ContactsList);
