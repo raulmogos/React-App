@@ -53,3 +53,9 @@ const areContactsEqual = (c1, c2) => `${c1.firstName}${c1.lastName}` === `${c2.f
   || c1.image === c2.image;
 
 export const isContactUnique = (contactsList, contact) => !contactsList.some(c => areContactsEqual(c, contact));
+
+export const arrayToObject = (array, keyField = 'id') => array.reduce((obj, item) => {
+  // eslint-disable-next-line no-param-reassign
+  obj[item[keyField]] = item;
+  return obj;
+}, {});

@@ -5,7 +5,6 @@ import Contact from '../Contact';
 class ContactsList extends React.Component {
 
   componentDidMount() {
-    // eslint-disable-next-line no-shadow
     const { areFavourites, fetchContacts, fetchFavourites } = this.props;
     if (!areFavourites) {
       fetchContacts();
@@ -16,7 +15,7 @@ class ContactsList extends React.Component {
 
   getContacts = () => {
     const { contacts, areFavourites, favourites } = this.props;
-    const contactsList = !areFavourites ? Object.values(contacts) : [...favourites];
+    const contactsList = !areFavourites ? contacts : favourites;
     if (!contactsList.length) return null;
     return contactsList.map(item => (
       <Contact
@@ -52,7 +51,7 @@ ContactsList.defaultProps = {
 };
 
 ContactsList.propTypes = {
-  contacts: PropTypes.objectOf(PropTypes.exact({
+  contacts: PropTypes.arrayOf(PropTypes.exact({
     id: PropTypes.string.isRequired,
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,

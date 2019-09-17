@@ -1,16 +1,16 @@
-import _lodash from 'lodash';
 import { FETCH_CONTACTS, FETCH_FAVOURITES } from '../actions/types';
-import { getFavouritesList } from '../helpers/helper';
+import { arrayToObject, getFavouritesList } from '../helpers/helper';
+import randomContactsList from '../data/data';
 
-const INITIAL_STATE = {
+const initialState = {
   contacts: {},
   favourites: []
 };
 
-export default (state = INITIAL_STATE, action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_CONTACTS:
-      return { ...state, contacts: { ..._lodash.mapKeys(action.payload, 'id') } };
+      return { ...state, contacts: arrayToObject(randomContactsList) };
     case FETCH_FAVOURITES:
       return { ...state, favourites: [...getFavouritesList(Object.values(state.contacts))] };
     default:
