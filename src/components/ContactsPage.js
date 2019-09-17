@@ -2,7 +2,7 @@ import React from 'react';
 import './ContactsPage.css';
 import ContactsList from './contacts-list';
 // import data from '../data/data';
-import AddContactForm from './AddContactForm';
+import AddContactForm from './add-contact-form';
 import Popup from './Popup';
 import {
   validateInput,
@@ -79,25 +79,6 @@ class ContactsPage extends React.Component {
     return contacts.filter(x => x.isChecked).length || null;
   }
 
-  changeIsChecked = (id) => {
-    const { contacts } = this.state;
-    const contact = contacts.find(item => item.id === id);
-    contact.isChecked = !contact.isChecked;
-    this.setState({ contacts });
-  }
-
-  updateLikes = (id, step) => {
-    const { contacts } = this.state;
-    contacts.find(item => item.id === id).likes += step;
-    this.setState({ contacts });
-  }
-
-  deleteContact = (id) => {
-    const { contacts } = this.state;
-    const updatedContacts = contacts.filter(c => c.id !== id);
-    this.setState({ contacts: updatedContacts });
-  }
-
   openDeleteContactPopUp = (id) => {
     this.setState({
       popoup: {
@@ -140,10 +121,6 @@ class ContactsPage extends React.Component {
         break;
       case APPROVE_FLAGS.DELETE_SELECTED:
         this.deleteSelectedContacts();
-        break;
-      case APPROVE_FLAGS.DELETE_ONE:
-        const { popoup } = this.state;
-        this.deleteContact(popoup.contactIdToDelete);
         break;
       default:
         break;
@@ -210,7 +187,7 @@ class ContactsPage extends React.Component {
         </div>
         <div className="margin-bottom margin-top">
           <div className="ui container segment">
-            <AddContactForm onSubmitAction={this.addContact} />
+            <AddContactForm />
           </div>
         </div>
       </div>

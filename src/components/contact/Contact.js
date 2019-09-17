@@ -1,34 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Contact.css';
-import InLineSpinner from './InLineSpinner';
-import Avatar from './Avatar';
-import Button from './Button';
-import Checkbox from './Checkbox';
-import { LIKES } from '../constants/constants';
+import InLineSpinner from '../InLineSpinner';
+import Avatar from '../Avatar';
+import Button from '../Button';
+import Checkbox from '../Checkbox';
+import { LIKES } from '../../constants/constants';
 
 class Contact extends React.Component {
 
   changeIsCheckedStatus = () => {
-    const { contactMethods, contact } = this.props;
-    contactMethods.changeIsChecked(contact.id);
+    const { _changeIsChecked, contact } = this.props;
+    _changeIsChecked(contact.id);
   }
 
   increaseLikes = () => {
-    const { contactMethods, contact } = this.props;
+    const { _increaseLikes, contact } = this.props;
     if (contact.likes >= LIKES.MAX) return;
-    contactMethods.updateLikes(contact.id, 1);
+    _increaseLikes(contact.id);
   }
 
   decreaseLikes = () => {
-    const { contactMethods, contact } = this.props;
+    const { _decreaseLikes, contact } = this.props;
     if (contact.likes <= LIKES.MIN) return;
-    contactMethods.updateLikes(contact.id, -1);
+    _decreaseLikes(contact.id, -1);
   }
 
   deleteContact = () => {
-    const { contactMethods, contact } = this.props;
-    contactMethods.deleteContact(contact.id);
+    const { _deleteContact, contact } = this.props;
+    _deleteContact(contact.id);
   }
 
   renderContact() {
@@ -91,11 +91,10 @@ Contact.propTypes = {
     isChecked: PropTypes.bool.isRequired
   }).isRequired,
   isFavourite: PropTypes.bool.isRequired,
-  contactMethods: PropTypes.exact({
-    updateLikes: PropTypes.func,
-    changeIsChecked: PropTypes.func,
-    deleteContact: PropTypes.func
-  }).isRequired
+  _deleteContact: PropTypes.func.isRequired,
+  _changeIsChecked: PropTypes.func.isRequired,
+  _increaseLikes: PropTypes.func.isRequired,
+  _decreaseLikes: PropTypes.func.isRequired
 };
 
 export default Contact;

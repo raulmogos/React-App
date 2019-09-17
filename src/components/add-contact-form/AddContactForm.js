@@ -7,8 +7,8 @@ import {
   LABELS,
   GET_REGEX,
   MAX_LENGTH_NAME
-} from '../constants/constants';
-import { validateInput } from '../helpers/helper';
+} from '../../constants/constants';
+import { validateInput } from '../../helpers/helper';
 import './AddContactForm.css';
 
 class AddContactForm extends React.Component {
@@ -47,10 +47,11 @@ class AddContactForm extends React.Component {
     return !(firstName && lastName && imageUrl) || firstNameError || lastNameError || imageUrlError;
   }
 
-  handleSubmit = () => {
+  handleSubmit = (event) => {
+    event.preventDefault();
     const { firstName, lastName, imageUrl } = this.state;
-    const { onSubmitAction } = this.props;
-    onSubmitAction(firstName, lastName, imageUrl);
+    const { _addContact } = this.props;
+    _addContact({ firstName, lastName, imageUrl });
     this.setState({ firstName: '', lastName: '', imageUrl: '' });
   }
 
@@ -142,7 +143,7 @@ class AddContactForm extends React.Component {
 }
 
 AddContactForm.propTypes = {
-  onSubmitAction: PropTypes.func.isRequired
+  _addContact: PropTypes.func.isRequired
 };
 
 export default AddContactForm;
