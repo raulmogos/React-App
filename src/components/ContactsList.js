@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Contact from './Contact';
-import { TITLE } from '../constants/constants';
 import { fetchContacts } from '../actions';
 
 class ContactsList extends React.Component {
 
   componentDidMount() {
+    // eslint-disable-next-line no-shadow
     const { areFavourites, fetchContacts } = this.props;
     if (areFavourites) {
       fetchContacts();
@@ -15,7 +15,7 @@ class ContactsList extends React.Component {
   }
 
   getContacts = () => {
-    const { contacts, contactMethods, areFavourites } = this.props;
+    const { contacts, areFavourites } = this.props;
     const contactsList = !areFavourites ? Object.values(contacts) : [];
     if (!contactsList.length) return null;
     return contactsList.map(item => (
@@ -23,7 +23,6 @@ class ContactsList extends React.Component {
         key={item.id}
         contact={item}
         isFavourite={areFavourites}
-        contactMethods={contactMethods}
       />
     ));
   }
@@ -46,27 +45,24 @@ class ContactsList extends React.Component {
 }
 
 ContactsList.defaultProps = {
-  contactsList: [],
+  contacts: {},
   title: '',
-  contactMethods: {}
+  areFavourites: false
 };
 
-// ContactsList.propTypes = {
-//   contactsList: PropTypes.arrayOf(PropTypes.exact({
-//     id: PropTypes.string.isRequired,
-//     firstName: PropTypes.string.isRequired,
-//     lastName: PropTypes.string.isRequired,
-//     image: PropTypes.string.isRequired,
-//     likes: PropTypes.number.isRequired,
-//     isChecked: PropTypes.bool.isRequired
-//   })),
-//   title: PropTypes.string,
-//   contactMethods: PropTypes.exact({
-//     updateLikes: PropTypes.func,
-//     changeIsChecked: PropTypes.func,
-//     deleteContact: PropTypes.func
-//   })
-// };
+ContactsList.propTypes = {
+  contacts: PropTypes.objectOf(PropTypes.exact({
+    id: PropTypes.string.isRequired,
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    likes: PropTypes.number.isRequired,
+    isChecked: PropTypes.bool.isRequired
+  })),
+  title: PropTypes.string,
+  areFavourites: PropTypes.bool,
+  fetchContacts: PropTypes.func.isRequired
+};
 
 function mapStateToProps(state) {
   return {

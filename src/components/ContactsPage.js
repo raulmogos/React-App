@@ -5,7 +5,6 @@ import ContactsList from './ContactsList';
 import AddContactForm from './AddContactForm';
 import Popup from './Popup';
 import {
-  getFavouritesList,
   validateInput,
   generateId,
   isContactUnique
@@ -31,15 +30,6 @@ class ContactsPage extends React.Component {
 
       }
     };
-  }
-
-  componentDidMount() {
-    // const oldData = localStorage.getItem('contacts');
-    // if (!oldData) {
-    //   this.setState({ contacts: [...data] });
-    // } else {
-    //   this.setState({ contacts: [...JSON.parse(oldData)] });
-    // }
   }
 
   componentDidUpdate() {
@@ -174,6 +164,7 @@ class ContactsPage extends React.Component {
   renderContactsList = () => (
     <ContactsList
       title={TITLE.CONTACTS}
+      areFavourites={false}
       contactMethods={{
         updateLikes: (id, step) => this.updateLikes(id, step),
         changeIsChecked: id => this.changeIsChecked(id),
