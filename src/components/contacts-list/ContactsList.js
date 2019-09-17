@@ -5,16 +5,15 @@ import Contact from '../Contact';
 class ContactsList extends React.Component {
 
   componentDidMount() {
-    // eslint-disable-next-line no-shadow
     const { areFavourites, fetchContacts } = this.props;
-    if (areFavourites) {
+    if (!areFavourites) {
       fetchContacts();
     }
   }
 
   getContacts = () => {
     const { contacts, areFavourites } = this.props;
-    const contactsList = !areFavourites ? Object.values(contacts) : [];
+    const contactsList = !areFavourites ? contacts : [];
     if (!contactsList.length) return null;
     return contactsList.map(item => (
       <Contact
@@ -43,13 +42,13 @@ class ContactsList extends React.Component {
 }
 
 ContactsList.defaultProps = {
-  contacts: {},
+  contacts: [],
   title: '',
   areFavourites: false
 };
 
 ContactsList.propTypes = {
-  contacts: PropTypes.objectOf(PropTypes.exact({
+  contacts: PropTypes.arrayOf(PropTypes.exact({
     id: PropTypes.string.isRequired,
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
