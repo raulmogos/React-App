@@ -1,8 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Contact from './Contact';
-import { fetchContacts } from '../actions';
+import Contact from '../Contact';
 
 class ContactsList extends React.Component {
 
@@ -64,10 +62,4 @@ ContactsList.propTypes = {
   fetchContacts: PropTypes.func.isRequired
 };
 
-function mapStateToProps(state) {
-  return {
-    contacts: state.contacts
-  };
-}
-
-export default connect(mapStateToProps, { fetchContacts })(ContactsList);
+export default ContactsList;

@@ -1,6 +1,6 @@
 import React from 'react';
 import './ContactsPage.css';
-import ContactsList from './ContactsList';
+import ContactsList from './contacts-list';
 // import data from '../data/data';
 import AddContactForm from './AddContactForm';
 import Popup from './Popup';
