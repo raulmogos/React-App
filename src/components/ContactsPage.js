@@ -27,18 +27,8 @@ class ContactsPage extends React.Component {
         message: '',
         contactIdToDelete: null,
         popupType: null
-
       }
     };
-  }
-
-  componentDidUpdate() {
-    const { contacts } = this.state;
-    if (contacts.length) {
-      localStorage.setItem('contacts', JSON.stringify(contacts));
-    } else {
-      localStorage.clear();
-    }
   }
   
   addContact = (firstName, lastName, image) => {
@@ -165,11 +155,6 @@ class ContactsPage extends React.Component {
     <ContactsList
       title={TITLE.CONTACTS}
       areFavourites={false}
-      contactMethods={{
-        updateLikes: (id, step) => this.updateLikes(id, step),
-        changeIsChecked: id => this.changeIsChecked(id),
-        deleteContact: id => this.openDeleteContactPopUp(id)
-      }}
     />
   );
 
@@ -203,7 +188,7 @@ class ContactsPage extends React.Component {
       popupType
     } = popoup;
     return (
-      false
+      false // this will be replaced
         ? (
           <div>
             <h1 className="ui center aligned header">No Contacts.</h1>
