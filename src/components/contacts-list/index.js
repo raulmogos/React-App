@@ -1,3 +1,3 @@
-import ContactsList from './contacts-list-container';
+import ContactsList from './contacts-list.container';
 
 export default ContactsList;
