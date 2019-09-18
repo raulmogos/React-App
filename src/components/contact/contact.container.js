@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Contact from './Contact';
+import Contact from './contact.component';
 import {
   changeIsChecked,
   deleteContact,

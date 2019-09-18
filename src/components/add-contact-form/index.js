@@ -1,3 +1,3 @@
-import AddFormContact from './form-container';
+import AddFormContact from './add-contact-form.container';
 
 export default AddFormContact;

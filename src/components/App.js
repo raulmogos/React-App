@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Home from './Home';
-import ContactsPage from './ContactsPage';
+import ContactsPage from './contacts-page';
 import Header from './Header';
 import Menu from './Menu';
 import { NAV } from '../constants/constants';

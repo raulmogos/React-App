@@ -1,20 +1,13 @@
 import React from 'react';
-import './ContactsPage.css';
-import ContactsList from './contacts-list';
-// import data from '../data/data';
-import AddContactForm from './add-contact-form';
-import Popup from './Popup';
-import {
-  validateInput,
-  generateId,
-  isContactUnique
-} from '../helpers/helper';
+import './contacts-page.style.css';
+import ContactsList from '../contacts-list';
+import AddContactForm from '../add-contact-form';
+import Popup from '../Popup';
 import {
   TITLE,
-  REGEX,
   WARNING_MESSAGES,
   APPROVE_FLAGS
-} from '../constants/constants';
+} from '../../constants/constants';
 
 class ContactsPage extends React.Component {
 
@@ -29,27 +22,6 @@ class ContactsPage extends React.Component {
         popupType: null
       }
     };
-  }
-  
-  addContact = (firstName, lastName, image) => {
-    const { contacts } = this.state;
-    if (!(validateInput(firstName, REGEX.NAME)
-      && validateInput(lastName, REGEX.NAME)
-      && validateInput(image, REGEX.URL))) {
-      return;
-    }
-    const newContact = {
-      id: generateId(),
-      firstName,
-      lastName,
-      image,
-      likes: 0,
-      isChecked: false
-    };
-    if (!isContactUnique(contacts, newContact)) {
-      return;
-    }
-    this.setState({ contacts: [newContact, ...contacts] });
   }
 
   areContactsWithLikes = () => {

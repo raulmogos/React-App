@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Contact.css';
+import './contact.style.css';
 import InLineSpinner from '../InLineSpinner';
 import Avatar from '../Avatar';
 import Button from '../Button';
@@ -25,7 +25,7 @@ class Contact extends React.Component {
     if (contact.likes <= LIKES.MIN) return;
     _decreaseLikes(contact.id, -1);
   }
-
+  
   deleteContact = () => {
     const { _deleteContact, contact } = this.props;
     _deleteContact(contact.id);

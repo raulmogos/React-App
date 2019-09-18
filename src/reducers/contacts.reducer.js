@@ -5,10 +5,11 @@ import {
   DECREASE_LIKES,
   CHANGE_IS_CHECKED,
   DELETE_CONTACT,
-  ADD_CONTACT
+  ADD_CONTACT,
+  DELETE_SELECTED_CONTACTS
 } from '../actions/types';
 
-import { arrayToObject, getFavouritesList, generateId } from '../helpers/helper';
+import { arrayToObject, getFavouritesList } from '../helpers/helper';
 import randomContactsList from '../data/data';
 
 const initialState = {
@@ -40,14 +41,9 @@ export default (state = initialState, action) => {
       delete newContacts[action.payload];
       return { ...state, contacts: newContacts };
     case ADD_CONTACT:
-      const newId = generateId();
-      const newContact = {
-        ...action.payload,
-        likes: 0,
-        isChecked: false,
-        newId
-      };
-      return { ...state, contacts: { ...state.contacts, [newId]: newContact } };
+      return { ...state, contacts: { ...state.contacts, [action.payload.id]: action.payload } };
+    case DELETE_SELECTED_CONTACTS:
+      return { ...state, contacts: { ...arrayToObject(Object.values(state.contacts).filter(item => item.isChecked)) } };
     default:
       return state;
   }

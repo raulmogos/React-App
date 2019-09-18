@@ -9,7 +9,7 @@ import {
   MAX_LENGTH_NAME
 } from '../../constants/constants';
 import { validateInput } from '../../helpers/helper';
-import './AddContactForm.css';
+import './add-contact-form.style.css';
 
 class AddContactForm extends React.Component {
 
@@ -51,7 +51,7 @@ class AddContactForm extends React.Component {
     event.preventDefault();
     const { firstName, lastName, imageUrl } = this.state;
     const { _addContact } = this.props;
-    _addContact({ firstName, lastName, imageUrl });
+    _addContact({ firstName, lastName, image: imageUrl });
     this.setState({ firstName: '', lastName: '', imageUrl: '' });
   }
 
