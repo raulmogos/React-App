@@ -1,19 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Contact from './Contact';
-import { TITLE } from '../constants/constants';
+import Contact from '../Contact';
 
 class ContactsList extends React.Component {
 
+  componentDidMount() {
+    const { areFavourites, fetchContacts } = this.props;
+    if (!areFavourites) {
+      fetchContacts();
+    }
+  }
+
   getContacts = () => {
-    const { contactsList, contactMethods, title } = this.props;
+    const { contacts, areFavourites } = this.props;
+    const contactsList = !areFavourites ? contacts : [];
     if (!contactsList.length) return null;
     return contactsList.map(item => (
       <Contact
         key={item.id}
         contact={item}
-        isFavourite={title === TITLE.FAVOURITES}
-        contactMethods={contactMethods}
+        isFavourite={areFavourites}
       />
     ));
   }
@@ -36,13 +42,13 @@ class ContactsList extends React.Component {
 }
 
 ContactsList.defaultProps = {
-  contactsList: [],
+  contacts: [],
   title: '',
-  contactMethods: {}
+  areFavourites: false
 };
 
 ContactsList.propTypes = {
-  contactsList: PropTypes.arrayOf(PropTypes.exact({
+  contacts: PropTypes.arrayOf(PropTypes.exact({
     id: PropTypes.string.isRequired,
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
@@ -51,11 +57,8 @@ ContactsList.propTypes = {
     isChecked: PropTypes.bool.isRequired
   })),
   title: PropTypes.string,
-  contactMethods: PropTypes.exact({
-    updateLikes: PropTypes.func,
-    changeIsChecked: PropTypes.func,
-    deleteContact: PropTypes.func
-  })
+  areFavourites: PropTypes.bool,
+  fetchContacts: PropTypes.func.isRequired
 };
 
 export default ContactsList;

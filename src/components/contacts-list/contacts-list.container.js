@@ -1,0 +1,13 @@
+import { connect } from 'react-redux';
+import { fetchContacts } from '../../actions';
+import ContactsList from './contacts-list.component';
+
+const mapStateToProps = state => ({
+  contacts: state.data.contacts
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchContacts: () => dispatch(fetchContacts())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactsList);

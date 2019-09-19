@@ -1,11 +1,10 @@
 import React from 'react';
 import './ContactsPage.css';
-import ContactsList from './ContactsList';
-import data from '../data/data';
+import ContactsList from './contacts-list';
+// import data from '../data/data';
 import AddContactForm from './AddContactForm';
 import Popup from './Popup';
 import {
-  getFavouritesList,
   validateInput,
   generateId,
   isContactUnique
@@ -28,27 +27,8 @@ class ContactsPage extends React.Component {
         message: '',
         contactIdToDelete: null,
         popupType: null
-
       }
     };
-  }
-
-  componentDidMount() {
-    const oldData = localStorage.getItem('contacts');
-    if (!oldData) {
-      this.setState({ contacts: [...data] });
-    } else {
-      this.setState({ contacts: [...JSON.parse(oldData)] });
-    }
-  }
-
-  componentDidUpdate() {
-    const { contacts } = this.state;
-    if (contacts.length) {
-      localStorage.setItem('contacts', JSON.stringify(contacts));
-    } else {
-      localStorage.clear();
-    }
   }
   
   addContact = (firstName, lastName, image) => {
@@ -171,20 +151,12 @@ class ContactsPage extends React.Component {
     this.closePopUp();
   }
   
-  renderContactsList = () => {
-    const { contacts } = this.state;
-    return (
-      <ContactsList
-        contactsList={contacts}
-        title={TITLE.CONTACTS}
-        contactMethods={{
-          updateLikes: (id, step) => this.updateLikes(id, step),
-          changeIsChecked: id => this.changeIsChecked(id),
-          deleteContact: id => this.openDeleteContactPopUp(id)
-        }}
-      />
-    );
-  }
+  renderContactsList = () => (
+    <ContactsList
+      title={TITLE.CONTACTS}
+      areFavourites={false}
+    />
+  );
 
   renderDeleteSelectedButton = () => (
     <div className="margin-top">
@@ -209,14 +181,14 @@ class ContactsPage extends React.Component {
   )
 
   render() {
-    const { contacts, popoup } = this.state;
+    const { popoup } = this.state;
     const {
       showPopup,
       message,
       popupType
     } = popoup;
     return (
-      !contacts.length
+      false // this will be replaced
         ? (
           <div>
             <h1 className="ui center aligned header">No Contacts.</h1>
@@ -239,7 +211,7 @@ class ContactsPage extends React.Component {
               <div className="column">
                 <ContactsList
                   title={TITLE.FAVOURITES}
-                  contactsList={getFavouritesList(contacts)}
+                  areFavourites={true}
                 />
                 {this.areContactsWithLikes() && this.renderClearAllButton()}
               </div>
