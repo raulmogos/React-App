@@ -3,8 +3,8 @@ import { fetchContacts, fetchFavourites } from '../../actions';
 import ContactsList from './contacts-list.component';
 
 const mapStateToProps = state => ({
-  contacts: state.data.contacts,
-  favourites: state.data.favourites
+  contacts: state.contactsData.contacts,
+  favourites: state.contactsData.favourites
 });
 
 const mapDispatchToProps = dispatch => ({

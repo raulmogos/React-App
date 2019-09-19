@@ -3,7 +3,7 @@ import ContactsPage from './contacts-page.component';
 import { deleteSelectedContacts, fetchFavourites, clearContacts } from '../../actions';
 
 const mapStateToProps = state => ({
-  contacts: Object.values(state.data.contacts)
+  contacts: state.contactsData.contacts
 });
 
 const mapDispatchToProps = dispatch => ({

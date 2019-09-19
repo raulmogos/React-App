@@ -44,7 +44,7 @@ class ContactsList extends React.Component {
 }
 
 ContactsList.defaultProps = {
-  contacts: {},
+  contacts: [],
   favourites: [],
   title: '',
   areFavourites: false

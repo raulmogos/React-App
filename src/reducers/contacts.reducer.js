@@ -23,7 +23,7 @@ export default (state = initialState, action) => {
     case FETCH_CONTACTS:
       return { ...state, contacts: randomContactsList };
     case FETCH_FAVOURITES:
-      return { ...state, favourites: [...getFavouritesList(state.contacts)] };
+      return { ...state, favourites: getFavouritesList(state.contacts) };
     case INCREASE_LIKES:
       obj = { ...state.contacts[action.payload] };
       obj.likes += 1;
