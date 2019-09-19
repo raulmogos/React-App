@@ -9,12 +9,11 @@ import {
   DELETE_SELECTED_CONTACTS,
   CLEAR_CONTACTS
 } from '../actions/types';
-
-import { arrayToObject, getFavouritesList } from '../helpers/helper';
+import { getFavouritesList } from '../helpers/helper';
 import randomContactsList from '../data/data';
 
 const initialState = {
-  contacts: {},
+  contacts: [],
   favourites: []
 };
 
@@ -22,9 +21,9 @@ export default (state = initialState, action) => {
   let obj;
   switch (action.type) {
     case FETCH_CONTACTS:
-      return { ...state, contacts: arrayToObject(randomContactsList) };
+      return { ...state, contacts: randomContactsList };
     case FETCH_FAVOURITES:
-      return { ...state, favourites: [...getFavouritesList(Object.values(state.contacts))] };
+      return { ...state, favourites: [...getFavouritesList(state.contacts)] };
     case INCREASE_LIKES:
       obj = { ...state.contacts[action.payload] };
       obj.likes += 1;
@@ -47,17 +46,12 @@ export default (state = initialState, action) => {
     case DELETE_SELECTED_CONTACTS:
       return {
         ...state,
-        contacts: {
-          ...arrayToObject(Object.values(state.contacts).filter(item => !item.isChecked))
-        }
+        contacts: state.contacts.filter(item => !item.isChecked)
       };
     case CLEAR_CONTACTS:
-      const newArray = Object.values(state.contacts).map(item => ({ ...item, likes: 0 }));
       return {
         ...state,
-        contacts: {
-          ...arrayToObject(newArray)
-        }
+        contacts: state.contacts.map(item => ({ ...item, likes: 0 }))
       };
     default:
       return state;
