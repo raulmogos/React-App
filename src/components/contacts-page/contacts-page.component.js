@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './contacts-page.style.css';
 import ContactsList from '../contacts-list';
 import AddContactForm from '../add-contact-form';
@@ -14,7 +15,6 @@ class ContactsPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      contacts: [],
       popoup: {
         showPopup: false,
         message: '',
@@ -25,29 +25,27 @@ class ContactsPage extends React.Component {
   }
 
   areContactsWithLikes = () => {
-    const { contacts } = this.state;
+    const { contacts } = this.props;
     return contacts.some(item => item.likes);
   };
 
   clearAllContactsLikes = () => {
-    const { contacts } = this.state;
-    const updatedContacts = contacts.map(contact => ({ ...contact, likes: 0 }));
-    this.setState({ contacts: updatedContacts });
+    const { _clearContacts } = this.props;
+    _clearContacts();
   }
 
   anyContactSelected = () => {
-    const { contacts } = this.state;
+    const { contacts } = this.props;
     return contacts.some(x => x.isChecked);
   }
 
   deleteSelectedContacts = () => {
-    const { contacts } = this.state;
-    const updatedContacts = contacts.filter(x => !x.isChecked);
-    this.setState({ contacts: updatedContacts });
+    const { _deleteSelectedContacts } = this.props;
+    _deleteSelectedContacts();
   }
 
   numberOfSelectedContacts = () => {
-    const { contacts } = this.state;
+    const { contacts } = this.props;
     return contacts.filter(x => x.isChecked).length || null;
   }
 
@@ -166,5 +164,18 @@ class ContactsPage extends React.Component {
     );
   }
 }
+
+ContactsPage.propTypes = {
+  contacts: PropTypes.arrayOf(PropTypes.exact({
+    id: PropTypes.string.isRequired,
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    likes: PropTypes.number.isRequired,
+    isChecked: PropTypes.bool.isRequired
+  })).isRequired,
+  _deleteSelectedContacts: PropTypes.func.isRequired,
+  _clearContacts: PropTypes.func.isRequired
+};
 
 export default ContactsPage;

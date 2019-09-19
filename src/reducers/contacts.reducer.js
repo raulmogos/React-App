@@ -6,7 +6,8 @@ import {
   CHANGE_IS_CHECKED,
   DELETE_CONTACT,
   ADD_CONTACT,
-  DELETE_SELECTED_CONTACTS
+  DELETE_SELECTED_CONTACTS,
+  CLEAR_CONTACTS
 } from '../actions/types';
 
 import { arrayToObject, getFavouritesList } from '../helpers/helper';
@@ -42,8 +43,22 @@ export default (state = initialState, action) => {
       return { ...state, contacts: newContacts };
     case ADD_CONTACT:
       return { ...state, contacts: { ...state.contacts, [action.payload.id]: action.payload } };
+
     case DELETE_SELECTED_CONTACTS:
-      return { ...state, contacts: { ...arrayToObject(Object.values(state.contacts).filter(item => item.isChecked)) } };
+      return {
+        ...state,
+        contacts: {
+          ...arrayToObject(Object.values(state.contacts).filter(item => !item.isChecked))
+        }
+      };
+    case CLEAR_CONTACTS:
+      const newArray = Object.values(state.contacts).map(item => ({ ...item, likes: 0 }));
+      return {
+        ...state,
+        contacts: {
+          ...arrayToObject(newArray)
+        }
+      };
     default:
       return state;
   }

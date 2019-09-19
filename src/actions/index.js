@@ -6,7 +6,8 @@ import {
   DELETE_CONTACT,
   ADD_CONTACT,
   DECREASE_LIKES,
-  DELETE_SELECTED_CONTACTS
+  DELETE_SELECTED_CONTACTS,
+  CLEAR_CONTACTS
 } from './types';
 import { generateId } from '../helpers/helper';
 
@@ -50,4 +51,8 @@ export const addContact = formValues => ({
 
 export const deleteSelectedContacts = () => ({
   type: DELETE_SELECTED_CONTACTS
+});
+
+export const clearContacts = () => ({
+  type: CLEAR_CONTACTS
 });
