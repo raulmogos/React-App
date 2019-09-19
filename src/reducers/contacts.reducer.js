@@ -12,7 +12,7 @@ export default (state = initialState, action) => {
     case FETCH_CONTACTS:
       return { ...state, contacts: randomContactsList };
     case FETCH_FAVOURITES:
-      return { ...state, favourites: [...getFavouritesList(state.contacts)] };
+      return { ...state, favourites: getFavouritesList(state.contacts) };
     default:
       return state;
   }
