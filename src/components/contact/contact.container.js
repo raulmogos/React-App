@@ -8,6 +8,10 @@ import {
   fetchFavourites
 } from '../../actions';
 
+const mapStateToProps = (state, ownProps) => ({
+  contact: state.contactsData.contacts.find(x => x.id === ownProps.id)
+});
+
 const mapDispatchToProps = dispatch => ({
   _increaseLikes: (id) => {
     dispatch(increaseLikes(id));
@@ -24,4 +28,4 @@ const mapDispatchToProps = dispatch => ({
   _changeIsChecked: id => dispatch(changeIsChecked(id))
 });
 
-export default connect(null, mapDispatchToProps)(Contact);
+export default connect(mapStateToProps, mapDispatchToProps)(Contact);

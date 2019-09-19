@@ -20,7 +20,7 @@ class ContactsList extends React.Component {
     return contactsList.map(item => (
       <Contact
         key={item.id}
-        contact={item}
+        id={item.id}
         isFavourite={areFavourites}
       />
     ));

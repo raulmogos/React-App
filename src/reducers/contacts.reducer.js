@@ -18,30 +18,46 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  let obj;
   switch (action.type) {
     case FETCH_CONTACTS:
       return { ...state, contacts: randomContactsList };
     case FETCH_FAVOURITES:
       return { ...state, favourites: getFavouritesList(state.contacts) };
     case INCREASE_LIKES:
-      obj = { ...state.contacts[action.payload] };
-      obj.likes += 1;
-      return { ...state, contacts: { ...state.contacts, [action.payload]: obj } };
-    case DECREASE_LIKES:
-      obj = { ...state.contacts[action.payload] };
-      obj.likes -= 1;
-      return { ...state, contacts: { ...state.contacts, [action.payload]: obj } };
-    case CHANGE_IS_CHECKED:
-      obj = { ...state.contacts[action.payload] };
-      obj.isChecked = !obj.isChecked;
-      return { ...state, contacts: { ...state.contacts, [action.payload]: obj } };
-    case DELETE_CONTACT:
-      const newContacts = { ...state.contacts };
-      delete newContacts[action.payload];
+      const newContacts = state.contacts.map(item => ({ ...item }));
+      newContacts.find(item => item.id === action.payload).likes += 1;
       return { ...state, contacts: newContacts };
+    case DECREASE_LIKES:
+      return {
+        ...state,
+        contacts: state.contacts.map((item) => {
+          if (item.id === action.payload) {
+            // eslint-disable-next-line no-param-reassign
+            item.likes -= 1;
+            return { ...item };
+          }
+          return { ...item };
+        })
+      };
+    case CHANGE_IS_CHECKED:
+      return {
+        ...state,
+        contacts: state.contacts.map((item) => {
+          if (item.id === action.payload) {
+            // eslint-disable-next-line no-param-reassign
+            item.isChecked = !item.isChecked;
+            return { ...item };
+          }
+          return { ...item };
+        })
+      };
+    case DELETE_CONTACT:
+      return {
+        ...state,
+        contacts: state.contacts.filter(item => item.id !== action.payload)
+      };
     case ADD_CONTACT:
-      return { ...state, contacts: { ...state.contacts, [action.payload.id]: action.payload } };
+      return { ...state, contacts: [] };
 
     case DELETE_SELECTED_CONTACTS:
       return {
