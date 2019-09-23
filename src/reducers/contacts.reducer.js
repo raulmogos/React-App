@@ -9,7 +9,7 @@ import {
   DELETE_SELECTED_CONTACTS,
   CLEAR_CONTACTS
 } from '../actions/types';
-import { getFavouritesList, isContactUnique } from '../helpers/helper';
+import { getFavouritesList, isContactUnique, generateId } from '../helpers/helper';
 import randomContactsList from '../data/data';
 
 const initialState = {
@@ -44,8 +44,14 @@ export default (state = initialState, action) => {
       };
     case ADD_CONTACT:
       newContacts = state.contacts.map(item => ({ ...item }));
-      if (!isContactUnique(state.contacts, action.payload)) return state;
-      newContacts.unshift(action.payload);
+      const newContactToAdd = {
+        ...action.payload,
+        likes: 0,
+        id: generateId(),
+        isChecked: false
+      };
+      if (!isContactUnique(state.contacts, newContactToAdd)) return state;
+      newContacts.unshift(newContactToAdd);
       return { ...state, contacts: newContacts };
     case DELETE_SELECTED_CONTACTS:
       return {

@@ -9,7 +9,6 @@ import {
   DELETE_SELECTED_CONTACTS,
   CLEAR_CONTACTS
 } from './types';
-import { generateId } from '../helpers/helper';
 
 export const fetchContacts = () => ({
   type: FETCH_CONTACTS
@@ -41,12 +40,7 @@ export const deleteContact = id => ({
 
 export const addContact = formValues => ({
   type: ADD_CONTACT,
-  payload: {
-    ...formValues,
-    likes: 0,
-    id: generateId(),
-    isChecked: false
-  }
+  payload: { ...formValues }
 });
 
 export const deleteSelectedContacts = () => ({

@@ -28,19 +28,9 @@ class ContactsPage extends React.Component {
     return contacts.some(item => item.likes);
   };
 
-  clearAllContactsLikes = () => {
-    const { _clearContacts } = this.props;
-    _clearContacts();
-  }
-
   anyContactSelected = () => {
     const { contacts } = this.props;
     return contacts.some(x => x.isChecked);
-  }
-
-  deleteSelectedContacts = () => {
-    const { _deleteSelectedContacts } = this.props;
-    _deleteSelectedContacts();
   }
 
   numberOfSelectedContacts = () => {
@@ -73,12 +63,13 @@ class ContactsPage extends React.Component {
   }
 
   onPopupConfirmation = (popupType) => {
+    const { _clearContacts, _deleteSelectedContacts } = this.props;
     switch (popupType) {
       case APPROVE_FLAGS.CLEAR_LIKES:
-        this.clearAllContactsLikes();
+        _clearContacts();
         break;
       case APPROVE_FLAGS.DELETE_SELECTED:
-        this.deleteSelectedContacts();
+        _deleteSelectedContacts();
         break;
       default:
         break;
