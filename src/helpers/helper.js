@@ -6,7 +6,7 @@ export const generateId = faker.random.uuid;
 export const validateInput = (input, regex) => (input ? regex.test(input) : true);
 
 export const getFavouritesList = (contactsList) => {
-  const favourites = [...contactsList.filter(contact => contact.likes)];
+  const favourites = contactsList.filter(contact => contact.likes);
   // sort by likes
   favourites.sort((c1, c2) => c2.likes - c1.likes);
   const favsMap = {};
