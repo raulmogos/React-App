@@ -1,13 +1,15 @@
 import { connect } from 'react-redux';
-import { fetchContacts } from '../../actions';
+import { fetchContacts, fetchFavourites } from '../../actions';
 import ContactsList from './contacts-list.component';
 
 const mapStateToProps = state => ({
-  contacts: state.data.contacts
+  contacts: state.contactsData.contacts,
+  favourites: state.contactsData.favourites
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchContacts: () => dispatch(fetchContacts())
+  fetchContacts: () => dispatch(fetchContacts()),
+  fetchFavourites: () => dispatch(fetchFavourites())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactsList);

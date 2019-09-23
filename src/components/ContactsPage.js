@@ -188,41 +188,32 @@ class ContactsPage extends React.Component {
       popupType
     } = popoup;
     return (
-      false // this will be replaced
-        ? (
-          <div>
-            <h1 className="ui center aligned header">No Contacts.</h1>
-            <h3 className="ui center aligned header">Please refresh !</h3>
+      <div>
+        <Popup
+          isOpen={showPopup}
+          message={message}
+          reject={this.closePopUp}
+          approve={() => this.onPopupConfirmation(popupType)}
+        />
+        <div className="ui two column stackable center aligned grid">
+          <div className="column">
+            {this.renderContactsList()}
+            {this.anyContactSelected() && this.renderDeleteSelectedButton()}
           </div>
-        )
-        : (
-          <div>
-            <Popup
-              isOpen={showPopup}
-              message={message}
-              reject={this.closePopUp}
-              approve={() => this.onPopupConfirmation(popupType)}
+          <div className="column">
+            <ContactsList
+              title={TITLE.FAVOURITES}
+              areFavourites={true}
             />
-            <div className="ui two column stackable center aligned grid">
-              <div className="column">
-                {this.renderContactsList()}
-                {this.anyContactSelected() && this.renderDeleteSelectedButton()}
-              </div>
-              <div className="column">
-                <ContactsList
-                  title={TITLE.FAVOURITES}
-                  areFavourites={true}
-                />
-                {this.areContactsWithLikes() && this.renderClearAllButton()}
-              </div>
-            </div>
-            <div className="margin-bottom margin-top">
-              <div className="ui container segment">
-                <AddContactForm onSubmitAction={this.addContact} />
-              </div>
-            </div>
+            {this.areContactsWithLikes() && this.renderClearAllButton()}
           </div>
-        )
+        </div>
+        <div className="margin-bottom margin-top">
+          <div className="ui container segment">
+            <AddContactForm />
+          </div>
+        </div>
+      </div>
     );
   }
 }

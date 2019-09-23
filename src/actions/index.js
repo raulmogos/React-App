@@ -1,7 +1,9 @@
-import { FETCH_CONTACTS } from './types';
+import { FETCH_CONTACTS, FETCH_FAVOURITES } from './types';
 
-export function fetchContacts() {
-  return {
-    type: FETCH_CONTACTS
-  };
-}
+export const fetchContacts = () => ({
+  type: FETCH_CONTACTS
+});
+
+export const fetchFavourites = () => ({
+  type: FETCH_FAVOURITES
+});
