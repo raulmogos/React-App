@@ -210,7 +210,7 @@ class ContactsPage extends React.Component {
         </div>
         <div className="margin-bottom margin-top">
           <div className="ui container segment">
-            <AddContactForm onSubmitAction={this.addContact} />
+            <AddContactForm />
           </div>
         </div>
       </div>
