@@ -4,10 +4,16 @@ import './contact.style.css';
 import InLineSpinner from '../InLineSpinner';
 import Avatar from '../Avatar';
 import Button from '../Button';
+import Popup from '../Popup';
 import Checkbox from '../Checkbox';
-import { LIKES } from '../../constants/constants';
+import { LIKES, WARNING_MESSAGES } from '../../constants/constants';
 
 class Contact extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { showPopup: false };
+  }
 
   changeIsCheckedStatus = () => {
     const { _changeIsChecked, contact } = this.props;
@@ -29,12 +35,22 @@ class Contact extends React.Component {
   deleteContact = () => {
     const { _deleteContact, contact } = this.props;
     _deleteContact(contact.id);
+    this.closePopUp();
+  }
+
+  openDeleteContactPopUp = () => {
+    this.setState({ showPopup: true });
+  }
+
+  closePopUp = () => {
+    this.setState({ showPopup: false });
   }
 
   renderContact() {
     const { contact, isFavourite } = this.props;
     return (
       <div className="ui eight column center aligned grid">
+        {this.renderPoup()}
         { !isFavourite && (
           <div className="left floated clomun align-middle">
             <Checkbox isChecked={contact.isChecked} action={this.changeIsCheckedStatus} />
@@ -65,9 +81,21 @@ class Contact extends React.Component {
         <div className="column align-middle"> { contact.firstName } </div>
         <div className="column align-middle"> { contact.lastName } </div>
         { !isFavourite && (
-          <div className="column"> <Button customType="trash" onClickAction={this.deleteContact} /> </div>
+          <div className="column"> <Button customType="trash" onClickAction={this.openDeleteContactPopUp} /> </div>
         )}
       </div>
+    );
+  }
+
+  renderPoup() {
+    const { showPopup } = this.state;
+    return (
+      <Popup
+        isOpen={showPopup}
+        message={WARNING_MESSAGES.DELETE_ONE}
+        reject={this.closePopUp}
+        approve={this.deleteContact}
+      />
     );
   }
 

@@ -18,7 +18,6 @@ class ContactsPage extends React.Component {
       popoup: {
         showPopup: false,
         message: '',
-        contactIdToDelete: null,
         popupType: null
       }
     };
@@ -47,17 +46,6 @@ class ContactsPage extends React.Component {
   numberOfSelectedContacts = () => {
     const { contacts } = this.props;
     return contacts.filter(x => x.isChecked).length || null;
-  }
-
-  openDeleteContactPopUp = (id) => {
-    this.setState({
-      popoup: {
-        showPopup: true,
-        message: WARNING_MESSAGES.DELETE_ONE,
-        popupType: APPROVE_FLAGS.DELETE_ONE,
-        contactIdToDelete: id
-      }
-    });
   }
 
   openDeleteSelectedContactsPopUp = () => {
