@@ -50,3 +50,5 @@ const areContactsEqual = (c1, c2) => `${c1.firstName}${c1.lastName}` === `${c2.f
   || c1.image === c2.image;
 
 export const isContactUnique = (contactsList, contact) => !contactsList.some(c => areContactsEqual(c, contact));
+
+export const getRandomNumber = (min = 0, max = 10) => Math.floor(Math.random() * (max - min) + min);

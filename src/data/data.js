@@ -1,5 +1,6 @@
 import faker from 'faker';
 import { generateId } from '../helpers/helper';
+import { DEFAULT_NUMBER_OF_CONTACTS } from '../constants/constants';
 
 const generateImage = faker.image.avatar;
 const generateFirstName = faker.name.firstName;
@@ -20,6 +21,6 @@ const ramdomData = (number) => {
   }
 };
 
-ramdomData(10);
+ramdomData(DEFAULT_NUMBER_OF_CONTACTS);
 
 export default data;

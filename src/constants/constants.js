@@ -90,3 +90,5 @@ export const WARNING_MESSAGES = {
   DELETE_ONE: 'Do you want to delete this contact ?',
   DUPLICATE: 'This is a duplicate contact! Do not do this again!'
 };
+
+export const DEFAULT_NUMBER_OF_CONTACTS = 10;
