@@ -116,54 +116,48 @@ class AddContactForm extends React.Component {
       <form className="ui equal width error form" onSubmit={this.handleSubmit}>
         {this.renderErrorMessage()}
         {this.renderPopup()}
-        <div className="ui column grid">
-          <div className="thirteen wide column">
-            <h1 className="ui header center aligned">{TITLE.FORM}</h1>
-            <div className="fields">
-              <div className={`wide field ${firstNameError && 'error'}`}>
-                <label>{LABELS.FIRST_NAME}</label>
-                <input
-                  maxLength={MAX_LENGTH_NAME}
-                  placeholder={PLACEHOLDERS.FIRST_NAME}
-                  value={firstName}
-                  name="firstName"
-                  onChange={this.onFormInputChange}
-                />
-              </div>
-              <div className={`wide field ${lastNameError && 'error'}`}>
-                <label>{LABELS.LAST_NAME}</label>
-                <input
-                  maxLength={MAX_LENGTH_NAME}
-                  placeholder={PLACEHOLDERS.LAST_NAME}
-                  value={lastName}
-                  name="lastName"
-                  onChange={this.onFormInputChange}
-                />
-              </div>
-            </div>
-            <div className="fields">
-              <div className={`wide field ${imageUrlError && 'error'}`}>
-                <label>{LABELS.IMAGE}</label>
-                <input
-                  placeholder={PLACEHOLDERS.URL}
-                  value={imageUrl}
-                  name="imageUrl"
-                  onChange={this.onFormInputChange}
-                />
-              </div>
-            </div>
+        <h1 className="ui header center aligned">{TITLE.FORM}</h1>
+        <div className="fields">
+          <div className={`wide field ${firstNameError && 'error'}`}>
+            <label>{LABELS.FIRST_NAME}</label>
+            <input
+              maxLength={MAX_LENGTH_NAME}
+              placeholder={PLACEHOLDERS.FIRST_NAME}
+              value={firstName}
+              name="firstName"
+              onChange={this.onFormInputChange}
+            />
           </div>
-          <div className="align-center">
-            <div className="three wide column">
-              <button
-                className="ui submit massive button"
-                disabled={this.isButtonDisabled()}
-                type="submit"
-              >
-                Submit
-              </button>
-            </div>
+          <div className={`wide field ${lastNameError && 'error'}`}>
+            <label>{LABELS.LAST_NAME}</label>
+            <input
+              maxLength={MAX_LENGTH_NAME}
+              placeholder={PLACEHOLDERS.LAST_NAME}
+              value={lastName}
+              name="lastName"
+              onChange={this.onFormInputChange}
+            />
           </div>
+        </div>
+        <div className="fields">
+          <div className={`wide field ${imageUrlError && 'error'}`}>
+            <label>{LABELS.IMAGE}</label>
+            <input
+              placeholder={PLACEHOLDERS.URL}
+              value={imageUrl}
+              name="imageUrl"
+              onChange={this.onFormInputChange}
+            />
+          </div>
+        </div>
+        <div className="margin-top">
+          <button
+            className="ui submit fluid big button"
+            disabled={this.isButtonDisabled()}
+            type="submit"
+          >
+            Submit
+          </button>
         </div>
       </form>
     );
