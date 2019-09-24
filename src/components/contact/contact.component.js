@@ -22,14 +22,12 @@ class Contact extends React.Component {
 
   increaseLikes = () => {
     const { _increaseLikes, contact } = this.props;
-    if (contact.likes >= LIKES.MAX) return;
-    _increaseLikes(contact.id);
+    return contact.likes < LIKES.MAX && _increaseLikes(contact.id);
   }
 
   decreaseLikes = () => {
     const { _decreaseLikes, contact } = this.props;
-    if (contact.likes <= LIKES.MIN) return;
-    _decreaseLikes(contact.id, -1);
+    return contact.likes > LIKES.MIN && _decreaseLikes(contact.id);
   }
   
   deleteContact = () => {
