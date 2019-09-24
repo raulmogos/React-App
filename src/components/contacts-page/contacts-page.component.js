@@ -1,112 +1,41 @@
 import React from 'react';
-import './ContactsPage.css';
-import ContactsList from './contacts-list';
-// import data from '../data/data';
-import AddContactForm from './AddContactForm';
-import Popup from './Popup';
-import {
-  validateInput,
-  generateId,
-  isContactUnique
-} from '../helpers/helper';
+import PropTypes from 'prop-types';
+import './contacts-page.style.css';
+import ContactsList from '../contacts-list';
+import AddContactForm from '../add-contact-form';
+import Popup from '../Popup';
 import {
   TITLE,
-  REGEX,
   WARNING_MESSAGES,
   APPROVE_FLAGS
-} from '../constants/constants';
+} from '../../constants/constants';
 
 class ContactsPage extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      contacts: [],
       popoup: {
         showPopup: false,
         message: '',
-        contactIdToDelete: null,
         popupType: null
       }
     };
   }
-  
-  addContact = (firstName, lastName, image) => {
-    const { contacts } = this.state;
-    if (!(validateInput(firstName, REGEX.NAME)
-      && validateInput(lastName, REGEX.NAME)
-      && validateInput(image, REGEX.URL))) {
-      return;
-    }
-    const newContact = {
-      id: generateId(),
-      firstName,
-      lastName,
-      image,
-      likes: 0,
-      isChecked: false
-    };
-    if (!isContactUnique(contacts, newContact)) {
-      return;
-    }
-    this.setState({ contacts: [newContact, ...contacts] });
-  }
 
   areContactsWithLikes = () => {
-    const { contacts } = this.state;
+    const { contacts } = this.props;
     return contacts.some(item => item.likes);
   };
 
-  clearAllContactsLikes = () => {
-    const { contacts } = this.state;
-    const updatedContacts = contacts.map(contact => ({ ...contact, likes: 0 }));
-    this.setState({ contacts: updatedContacts });
-  }
-
   anyContactSelected = () => {
-    const { contacts } = this.state;
+    const { contacts } = this.props;
     return contacts.some(x => x.isChecked);
   }
 
-  deleteSelectedContacts = () => {
-    const { contacts } = this.state;
-    const updatedContacts = contacts.filter(x => !x.isChecked);
-    this.setState({ contacts: updatedContacts });
-  }
-
   numberOfSelectedContacts = () => {
-    const { contacts } = this.state;
+    const { contacts } = this.props;
     return contacts.filter(x => x.isChecked).length || null;
-  }
-
-  changeIsChecked = (id) => {
-    const { contacts } = this.state;
-    const contact = contacts.find(item => item.id === id);
-    contact.isChecked = !contact.isChecked;
-    this.setState({ contacts });
-  }
-
-  updateLikes = (id, step) => {
-    const { contacts } = this.state;
-    contacts.find(item => item.id === id).likes += step;
-    this.setState({ contacts });
-  }
-
-  deleteContact = (id) => {
-    const { contacts } = this.state;
-    const updatedContacts = contacts.filter(c => c.id !== id);
-    this.setState({ contacts: updatedContacts });
-  }
-
-  openDeleteContactPopUp = (id) => {
-    this.setState({
-      popoup: {
-        showPopup: true,
-        message: WARNING_MESSAGES.DELETE_ONE,
-        popupType: APPROVE_FLAGS.DELETE_ONE,
-        contactIdToDelete: id
-      }
-    });
   }
 
   openDeleteSelectedContactsPopUp = () => {
@@ -134,16 +63,13 @@ class ContactsPage extends React.Component {
   }
 
   onPopupConfirmation = (popupType) => {
+    const { _clearContacts, _deleteSelectedContacts } = this.props;
     switch (popupType) {
       case APPROVE_FLAGS.CLEAR_LIKES:
-        this.clearAllContactsLikes();
+        _clearContacts();
         break;
       case APPROVE_FLAGS.DELETE_SELECTED:
-        this.deleteSelectedContacts();
-        break;
-      case APPROVE_FLAGS.DELETE_ONE:
-        const { popoup } = this.state;
-        this.deleteContact(popoup.contactIdToDelete);
+        _deleteSelectedContacts();
         break;
       default:
         break;
@@ -217,5 +143,18 @@ class ContactsPage extends React.Component {
     );
   }
 }
+
+ContactsPage.propTypes = {
+  contacts: PropTypes.arrayOf(PropTypes.exact({
+    id: PropTypes.string.isRequired,
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    likes: PropTypes.number.isRequired,
+    isChecked: PropTypes.bool.isRequired
+  })).isRequired,
+  _deleteSelectedContacts: PropTypes.func.isRequired,
+  _clearContacts: PropTypes.func.isRequired
+};
 
 export default ContactsPage;

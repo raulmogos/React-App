@@ -15,8 +15,12 @@ function Avatar({ image }) {
   );
 }
 
+Avatar.defaultProps = {
+  image: ''
+};
+
 Avatar.propTypes = {
-  image: PropTypes.string.isRequired
+  image: PropTypes.string
 };
 
 export default Avatar;

@@ -87,5 +87,6 @@ export const APPROVE_FLAGS = {
 export const WARNING_MESSAGES = {
   CLEAR_LIKES: 'Do you want to clear all these likes ?',
   DELETE_SELECTED: 'Do you want to delete all these contacts ?',
-  DELETE_ONE: 'Do you want to delete this contact ?'
+  DELETE_ONE: 'Do you want to delete this contact ?',
+  DUPLICATE: 'This is a duplicate contact! Do not do this again!'
 };

@@ -1,40 +1,54 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Contact.css';
-import InLineSpinner from './InLineSpinner';
-import Avatar from './Avatar';
-import Button from './Button';
-import Checkbox from './Checkbox';
-import { LIKES } from '../constants/constants';
+import './contact.style.css';
+import InLineSpinner from '../InLineSpinner';
+import Avatar from '../Avatar';
+import Button from '../Button';
+import Popup from '../Popup';
+import Checkbox from '../Checkbox';
+import { LIKES, WARNING_MESSAGES } from '../../constants/constants';
 
 class Contact extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = { showPopup: false };
+  }
+
   changeIsCheckedStatus = () => {
-    const { contactMethods, contact } = this.props;
-    contactMethods.changeIsChecked(contact.id);
+    const { _changeIsChecked, contact } = this.props;
+    _changeIsChecked(contact.id);
   }
 
   increaseLikes = () => {
-    const { contactMethods, contact } = this.props;
-    if (contact.likes >= LIKES.MAX) return;
-    contactMethods.updateLikes(contact.id, 1);
+    const { _increaseLikes, contact } = this.props;
+    return contact.likes < LIKES.MAX && _increaseLikes(contact.id);
   }
 
   decreaseLikes = () => {
-    const { contactMethods, contact } = this.props;
-    if (contact.likes <= LIKES.MIN) return;
-    contactMethods.updateLikes(contact.id, -1);
+    const { _decreaseLikes, contact } = this.props;
+    return contact.likes > LIKES.MIN && _decreaseLikes(contact.id);
+  }
+  
+  deleteContact = () => {
+    const { _deleteContact, contact } = this.props;
+    _deleteContact(contact.id);
+    this.closePopUp();
   }
 
-  deleteContact = () => {
-    const { contactMethods, contact } = this.props;
-    contactMethods.deleteContact(contact.id);
+  openDeleteContactPopUp = () => {
+    this.setState({ showPopup: true });
+  }
+
+  closePopUp = () => {
+    this.setState({ showPopup: false });
   }
 
   renderContact() {
     const { contact, isFavourite } = this.props;
     return (
       <div className="ui eight column center aligned grid">
+        {this.renderPoup()}
         { !isFavourite && (
           <div className="left floated clomun align-middle">
             <Checkbox isChecked={contact.isChecked} action={this.changeIsCheckedStatus} />
@@ -65,9 +79,21 @@ class Contact extends React.Component {
         <div className="column align-middle"> { contact.firstName } </div>
         <div className="column align-middle"> { contact.lastName } </div>
         { !isFavourite && (
-          <div className="column"> <Button customType="trash" onClickAction={this.deleteContact} /> </div>
+          <div className="column"> <Button customType="trash" onClickAction={this.openDeleteContactPopUp} /> </div>
         )}
       </div>
+    );
+  }
+
+  renderPoup() {
+    const { showPopup } = this.state;
+    return (
+      <Popup
+        isOpen={showPopup}
+        message={WARNING_MESSAGES.DELETE_ONE}
+        reject={this.closePopUp}
+        approve={this.deleteContact}
+      />
     );
   }
 
@@ -91,11 +117,10 @@ Contact.propTypes = {
     isChecked: PropTypes.bool.isRequired
   }).isRequired,
   isFavourite: PropTypes.bool.isRequired,
-  contactMethods: PropTypes.exact({
-    updateLikes: PropTypes.func,
-    changeIsChecked: PropTypes.func,
-    deleteContact: PropTypes.func
-  }).isRequired
+  _deleteContact: PropTypes.func.isRequired,
+  _changeIsChecked: PropTypes.func.isRequired,
+  _increaseLikes: PropTypes.func.isRequired,
+  _decreaseLikes: PropTypes.func.isRequired
 };
 
 export default Contact;

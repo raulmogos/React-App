@@ -6,10 +6,12 @@ import {
   PLACEHOLDERS,
   LABELS,
   GET_REGEX,
-  MAX_LENGTH_NAME
-} from '../constants/constants';
-import { validateInput } from '../helpers/helper';
-import './AddContactForm.css';
+  MAX_LENGTH_NAME,
+  WARNING_MESSAGES
+} from '../../constants/constants';
+import Popup from '../Popup';
+import { validateInput, isContactUnique } from '../../helpers/helper';
+import './add-contact-form.style.css';
 
 class AddContactForm extends React.Component {
 
@@ -21,7 +23,8 @@ class AddContactForm extends React.Component {
       imageUrl: '',
       firstNameError: false,
       lastNameError: false,
-      imageUrlError: false
+      imageUrlError: false,
+      showPopup: false
     };
   }
 
@@ -47,11 +50,24 @@ class AddContactForm extends React.Component {
     return !(firstName && lastName && imageUrl) || firstNameError || lastNameError || imageUrlError;
   }
 
-  handleSubmit = () => {
+  handleSubmit = (event) => {
+    event.preventDefault();
     const { firstName, lastName, imageUrl } = this.state;
-    const { onSubmitAction } = this.props;
-    onSubmitAction(firstName, lastName, imageUrl);
+    const { _addContact, contacts } = this.props;
+    if (!isContactUnique(contacts, { firstName, lastName, image: imageUrl })) {
+      this.openDuplicateContactPopup();
+      return;
+    }
+    _addContact({ firstName, lastName, image: imageUrl });
     this.setState({ firstName: '', lastName: '', imageUrl: '' });
+  }
+
+  openDuplicateContactPopup = () => {
+    this.setState({ showPopup: true });
+  }
+
+  closePopUp = () => {
+    this.setState({ showPopup: false });
   }
 
   renderErrorMessage() {
@@ -75,6 +91,18 @@ class AddContactForm extends React.Component {
     );
   }
 
+  renderPopup() {
+    const { showPopup } = this.state;
+    return (
+      <Popup
+        isOpen={showPopup}
+        message={WARNING_MESSAGES.DUPLICATE}
+        reject={this.closePopUp}
+        approve={this.closePopUp}
+      />
+    );
+  }
+
   render() {
     const {
       firstName,
@@ -87,6 +115,7 @@ class AddContactForm extends React.Component {
     return (
       <form className="ui equal width error form" onSubmit={this.handleSubmit}>
         {this.renderErrorMessage()}
+        {this.renderPopup()}
         <div className="ui column grid">
           <div className="thirteen wide column">
             <h1 className="ui header center aligned">{TITLE.FORM}</h1>
@@ -142,7 +171,15 @@ class AddContactForm extends React.Component {
 }
 
 AddContactForm.propTypes = {
-  onSubmitAction: PropTypes.func.isRequired
+  _addContact: PropTypes.func.isRequired,
+  contacts: PropTypes.arrayOf(PropTypes.exact({
+    id: PropTypes.string.isRequired,
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    likes: PropTypes.number.isRequired,
+    isChecked: PropTypes.bool.isRequired
+  })).isRequired
 };
 
 export default AddContactForm;
