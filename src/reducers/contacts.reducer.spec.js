@@ -18,7 +18,7 @@ describe('contacts reducer with id param', () => {
     randomContact = state.contacts[randomContactIndex];
   });
 
-  it('increased likes', () => {
+  test('increased likes', () => {
     const newState = contactsReducer(state, actions.increaseLikes(randomContact.id));
     expect(newState.contacts[randomContactIndex].likes).toEqual(randomContact.likes + 1);
     expect(newState).toEqual({
@@ -32,7 +32,7 @@ describe('contacts reducer with id param', () => {
     });
   });
 
-  it('decreased likes', () => {
+  test('decreased likes', () => {
     const newState = contactsReducer(state, actions.decreaseLikes(randomContact.id));
     expect(newState.contacts[randomContactIndex].likes).toEqual(randomContact.likes - 1);
     expect(newState).toEqual({
@@ -46,7 +46,7 @@ describe('contacts reducer with id param', () => {
     });
   });
 
-  it('is checked', () => {
+  test('is checked', () => {
     const newState = contactsReducer(state, actions.changeIsChecked(randomContact.id));
     expect(newState.contacts[randomContactIndex].isChecked).toEqual(!randomContact.isChecked);
     expect(newState).toEqual({
@@ -60,7 +60,7 @@ describe('contacts reducer with id param', () => {
     });
   });
 
-  it('is deleted', () => {
+  test('is deleted', () => {
     const newState = contactsReducer(state, actions.deleteContact(randomContact.id));
     expect(newState.contacts.length).toEqual(state.contacts.length - 1);
     expect(newState.contacts.find(x => x.id === randomContact.id)).toEqual(undefined);
@@ -75,7 +75,7 @@ describe('contacts reducer with NO params', () => {
     favourites: []
   };
 
-  it('fetch contacts', () => {
+  test('fetch contacts', () => {
     const newState = contactsReducer({ contacts: [], favourites: [] }, actions.fetchContacts());
     expect(newState).toEqual({
       contacts: randomContactsList,
@@ -83,7 +83,7 @@ describe('contacts reducer with NO params', () => {
     });
   });
 
-  it('fetch favourites, no list contacts list', () => {
+  test('fetch favourites, no list contacts list', () => {
     const newState = contactsReducer({ contacts: [], favourites: [] }, actions.fetchFavourites());
     expect(newState).toEqual({
       contacts: [],
@@ -91,7 +91,7 @@ describe('contacts reducer with NO params', () => {
     });
   });
 
-  it('fetch favourites', () => {
+  test('fetch favourites', () => {
     const newState = contactsReducer(state, actions.fetchFavourites());
     expect(newState).toEqual({
       contacts: state.contacts,
@@ -99,7 +99,7 @@ describe('contacts reducer with NO params', () => {
     });
   });
 
-  it('delete selcted contacts', () => {
+  test('delete selcted contacts', () => {
     const newState = contactsReducer(state, actions.deleteSelectedContacts());
     expect(newState).toEqual({
       contacts: state.contacts.filter(item => !item.isChecked),
@@ -107,7 +107,7 @@ describe('contacts reducer with NO params', () => {
     });
   });
 
-  it('clear selcted contacts', () => {
+  test('clear selcted contacts', () => {
     const newState = contactsReducer(state, actions.clearContacts());
     expect(newState).toEqual({
       contacts: state.contacts.map(item => ({ ...item, likes: 0 })),
@@ -115,7 +115,7 @@ describe('contacts reducer with NO params', () => {
     });
   });
 
-  it('add contact', () => {
+  test('add contact', () => {
     const newContact = {
       firstName: 'Mogos',
       lastName: 'Raul',
@@ -126,7 +126,7 @@ describe('contacts reducer with NO params', () => {
     expect(newState.contacts.some(x => x.firstName === newContact.firstName)).toEqual(true);
   });
 
-  it('no good type', () => {
+  test('no good type', () => {
     const newState = contactsReducer(state, { type: 'some string' });
     expect(newState).toEqual({
       contacts: randomContactsList,
