@@ -6,9 +6,8 @@ const generateImage = faker.image.avatar;
 const generateFirstName = faker.name.firstName;
 const generateLastName = faker.name.lastName;
 
-const data = [];
-
 const ramdomData = (number) => {
+  const data = [];
   for (let i = 0; i < number; i++) {
     data.push({
       id: generateId(),
@@ -19,8 +18,7 @@ const ramdomData = (number) => {
       isChecked: Boolean(Math.floor(Math.random() * 10) % 2)
     });
   }
+  return data;
 };
 
-ramdomData(DEFAULT_NUMBER_OF_CONTACTS);
-
-export default data;
+export default ramdomData(DEFAULT_NUMBER_OF_CONTACTS);
