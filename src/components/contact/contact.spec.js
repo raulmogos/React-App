@@ -35,7 +35,7 @@ describe('contact component', () => {
     });
   });
   describe('increaseLikes', () => {
-    test('if it is called', () => {
+    test('should increse likes', () => {
       component.setProps({ ...props, contact: { ...props.contact, likes: 5 } });
       instance.increaseLikes();
       expect(props._increaseLikes.mock.calls.length).toBe(1);
@@ -48,7 +48,7 @@ describe('contact component', () => {
     });
   });
   describe('decreaseLikes', () => {
-    test('if it is called', () => {
+    test('should decrease likes', () => {
       component.setProps({ ...props, contact: { ...props.contact, likes: 5 } });
       instance.decreaseLikes();
       expect(props._decreaseLikes.mock.calls.length).toBe(1);
@@ -61,7 +61,7 @@ describe('contact component', () => {
     });
   });
   describe('deleteContact', () => {
-    test('if it is called', () => {
+    test('should call deleteContact function', () => {
       instance.closePopUp = jest.fn();
       instance.deleteContact();
       expect(props._deleteContact.mock.calls.length).toBe(1);

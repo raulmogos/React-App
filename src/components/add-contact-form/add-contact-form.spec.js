@@ -39,7 +39,7 @@ describe('add contact component', () => {
   });
 
   describe('onFormInputChange', () => {
-    test('firstName, no error', () => {
+    test('should change firstName, no error', () => {
       instance.onFormInputChange({
         target: {
           name: params.names.firstName,
@@ -49,7 +49,7 @@ describe('add contact component', () => {
       expect(instance.state.firstName).toEqual(params.values.firstName);
       expect(instance.state.firstNameError).toBeFalsy();
     });
-    test('firstName, with error', () => {
+    test('should change firstName, with error', () => {
       instance.onFormInputChange({
         target: {
           name: params.names.firstName,
@@ -59,7 +59,7 @@ describe('add contact component', () => {
       expect(instance.state.firstName).toEqual(params.valuesForErrors.firstName);
       expect(instance.state.firstNameError).toBeTruthy();
     });
-    test('iamgeUrl, no error', () => {
+    test('should change iamgeUrl, no error', () => {
       instance.onFormInputChange({
         target: {
           name: params.names.imageUrl,
@@ -69,7 +69,7 @@ describe('add contact component', () => {
       expect(instance.state.imageUrl).toEqual(params.values.imageUrl);
       expect(instance.state.imageUrlError).toBeFalsy();
     });
-    test('iamgeUrl, with error', () => {
+    test('should change iamgeUrl, with error', () => {
       instance.onFormInputChange({
         target: {
           name: params.names.imageUrl,
@@ -82,7 +82,7 @@ describe('add contact component', () => {
   });
 
   describe('isButtonDisabled', () => {
-    test('to be false', () => {
+    test('should change to false', () => {
       instance.onFormInputChange({
         target: {
           name: params.names.firstName,
@@ -103,7 +103,7 @@ describe('add contact component', () => {
       });
       expect(instance.isButtonDisabled()).toBeFalsy();
     });
-    test('to be true', () => {
+    test('should change to true', () => {
       instance.onFormInputChange({
         target: {
           name: params.names.lastName,
@@ -118,7 +118,7 @@ describe('add contact component', () => {
       });
       expect(instance.isButtonDisabled()).toBeTruthy();
     });
-    test('to be true, with error', () => {
+    test('should change to true, with error', () => {
       instance.onFormInputChange({
         target: {
           name: params.names.firstName,
@@ -149,7 +149,7 @@ describe('add contact component', () => {
       };
       instance.openDuplicateContactPopup = jest.fn();
     });
-    test('if contact is NOT unique', () => {
+    test('should call isContactUnique, preventDefault functions and not _addContact', () => {
       helpers.isContactUnique = jest.fn().mockImplementation(() => false);
       instance.handleSubmit(event);
       expect(event.preventDefault.mock.calls.length).toBe(1);
@@ -166,7 +166,7 @@ describe('add contact component', () => {
   });
 
   describe('openDuplicateContactPopup', () => {
-    test('if it behaves correctly', () => {
+    test('should be opened', () => {
       instance.openDuplicateContactPopup();
       expect(instance.state.showPopup).toBeTruthy();
       instance.setState = jest.fn();
@@ -176,7 +176,7 @@ describe('add contact component', () => {
   });
 
   describe('closePopUp', () => {
-    test('if it behaves correctly', () => {
+    test('should not be opened', () => {
       instance.closePopUp();
       expect(instance.state.showPopup).toBeFalsy();
       instance.setState = jest.fn();
