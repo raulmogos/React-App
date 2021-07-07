@@ -38,10 +38,7 @@ export default (state = initialState, action) => {
       contact.isChecked = !contact.isChecked;
       return { ...state, contacts: newContacts };
     case DELETE_CONTACT:
-      return {
-        ...state,
-        contacts: state.contacts.filter(item => item.id !== action.payload)
-      };
+      return { ...state, contacts: state.contacts.filter(item => item.id !== action.payload) };
     case ADD_CONTACT:
       newContacts = state.contacts.map(item => ({ ...item }));
       const newContactToAdd = {
@@ -54,15 +51,9 @@ export default (state = initialState, action) => {
       newContacts.unshift(newContactToAdd);
       return { ...state, contacts: newContacts };
     case DELETE_SELECTED_CONTACTS:
-      return {
-        ...state,
-        contacts: state.contacts.filter(item => !item.isChecked)
-      };
+      return { ...state, contacts: state.contacts.filter(item => !item.isChecked) };
     case CLEAR_CONTACTS:
-      return {
-        ...state,
-        contacts: state.contacts.map(item => ({ ...item, likes: 0 }))
-      };
+      return { ...state, contacts: state.contacts.map(item => ({ ...item, likes: 0 })) };
     default:
       return state;
   }
